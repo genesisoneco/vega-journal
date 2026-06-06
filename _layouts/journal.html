@@ -1,0 +1,23 @@
+---
+layout: default
+---
+<section class="wrap wrap--narrow section">
+  <header class="page-head">
+    <h1 class="page-head__title">{{ page.title | default: "Journal" }}</h1>
+    {%- if page.subtitle -%}<p class="page-head__subtitle">{{ page.subtitle }}</p>{%- endif -%}
+  </header>
+  {%- if content != "" -%}<div class="prose">{{ content }}</div>{%- endif -%}
+
+  <ol class="entry-list">
+    {%- for post in site.posts -%}
+      <li class="entry-list__item">
+        <a href="{{ post.url | relative_url }}">
+          <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
+          {%- if post.session -%}<span class="tag tag--session tag--{{ post.session }}">{{ post.session }}</span>{%- endif -%}
+          <span class="entry-list__title">{{ post.title }}</span>
+          {%- if post.mood -%}{% include mood-badge.html mood=post.mood intensity=post.mood_intensity %}{%- endif -%}
+        </a>
+      </li>
+    {%- endfor -%}
+  </ol>
+</section>

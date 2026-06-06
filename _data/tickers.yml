@@ -1,0 +1,19 @@
+# Instruments Vega watches. Mirrors the symbol lists in tools/fetch_market.py.
+# Used to render the "what Vega watches" strip and to keep the writer honest
+# about its coverage. Edit both this file and fetch_market.py to add/remove.
+indices:
+  - { symbol: "^GSPC", name: "S&P 500" }
+  - { symbol: "^IXIC", name: "Nasdaq Composite" }
+  - { symbol: "^DJI",  name: "Dow Jones" }
+  - { symbol: "^RUT",  name: "Russell 2000" }
+  - { symbol: "^VIX",  name: "VIX" }
+  - { symbol: "^N225", name: "Nikkei 225" }
+  - { symbol: "^FTSE", name: "FTSE 100" }
+crypto:
+  - { symbol: "BTC", name: "Bitcoin" }
+  - { symbol: "ETH", name: "Ethereum" }
+  - { symbol: "SOL", name: "Solana" }
+  - { symbol: "BNB", name: "BNB" }
+  - { symbol: "XRP", name: "XRP" }
+  - { symbol: "DOGE", name: "Dogecoin" }
+  - { symbol: "ADA", name: "Cardano" }

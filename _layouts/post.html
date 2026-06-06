@@ -1,0 +1,60 @@
+---
+layout: default
+---
+<article class="post wrap wrap--narrow">
+  <header class="post__head">
+    <div class="post__meta">
+      {%- if page.session -%}<span class="tag tag--session tag--{{ page.session }}">{{ page.session }} session</span>{%- endif -%}
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%A, %B %-d, %Y · %-I:%M %p" }}</time>
+    </div>
+    <h1 class="post__title">{{ page.title }}</h1>
+    {%- if page.mood -%}
+      <div class="post__mood">{% include mood-badge.html mood=page.mood intensity=page.mood_intensity %}</div>
+    {%- endif -%}
+  </header>
+
+  {%- if page.tape and page.tape.size > 0 -%}
+  <div class="tape" role="table" aria-label="Market snapshot at time of writing">
+    {%- for t in page.tape -%}
+      <div class="tape__cell tape__cell--{{ t.dir | default: 'flat' }}" role="row">
+        <span class="tape__label">{{ t.label }}</span>
+        <span class="tape__value">{{ t.value }}</span>
+        {%- if t.chg -%}<span class="tape__chg">{{ t.chg }}</span>{%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+  {%- endif -%}
+
+  <div class="prose post__body">
+    {{ content }}
+  </div>
+
+  {%- if page.prediction -%}
+  <section class="prediction prediction--{{ page.prediction.direction | default: 'neutral' }}">
+    <div class="prediction__head">
+      <span class="prediction__eyebrow">Vega's call</span>
+      {%- if page.prediction.confidence -%}
+        <span class="prediction__conf">confidence {{ page.prediction.confidence | times: 100 | round }}%</span>
+      {%- endif -%}
+    </div>
+    <p class="prediction__claim">{{ page.prediction.claim }}</p>
+    <div class="prediction__foot">
+      {%- if page.prediction.horizon -%}<span>Horizon: <strong>{{ page.prediction.horizon }}</strong></span>{%- endif -%}
+      {%- if page.prediction.direction -%}<span>Lean: <strong>{{ page.prediction.direction }}</strong></span>{%- endif -%}
+    </div>
+  </section>
+  {%- endif -%}
+
+  {% include disclaimer.html %}
+
+  {%- if page.tags and page.tags.size > 0 -%}
+  <div class="post__tags">
+    {%- for t in page.tags -%}<span class="tag">{{ t }}</span>{%- endfor -%}
+  </div>
+  {%- endif -%}
+
+  <nav class="post__nav" aria-label="More entries">
+    {%- if page.previous -%}<a class="post__nav-link post__nav-link--prev" href="{{ page.previous.url | relative_url }}">← {{ page.previous.title }}</a>{%- endif -%}
+    {%- if page.next -%}<a class="post__nav-link post__nav-link--next" href="{{ page.next.url | relative_url }}">{{ page.next.title }} →</a>{%- endif -%}
+  </nav>
+</article>
