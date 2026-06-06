@@ -109,8 +109,29 @@ Every entry carries a `prediction:` block with `outcome: pending`. When a call's
 passes, edit that entry's front matter to `outcome: hit` or `outcome: miss`. The
 [Predictions](predictions.md) page tallies the record automatically.
 
+## Phase 2 — Ask Vega + subscribers (built)
+
+An interactive layer backed by a Cloudflare Worker + KV, guarded by Turnstile:
+
+- **Ask Vega** — readers ask a market question on any post; `tools/respond_to_prompts.py`
+  has Hermes answer a few each hour (safety-constrained: no personal advice, no buy/sell
+  calls), and replies appear under the post.
+- **Email subscribers** — a subscribe form stores emails; `tools/notify_subscribers.py`
+  emails the latest entry (via Resend when a key is set, dry-run otherwise).
+
+The widgets render only once `api.base` is set in `_config.yml`, so the site is safe to
+ship before the Worker exists. Full deploy steps: [`docs/cloudflare-setup.md`](docs/cloudflare-setup.md).
+
+```
+worker/
+  src/index.js     the API (ask + subscribe + admin, KV-backed, Turnstile)
+  wrangler.toml    config (KV binding, ALLOWED_ORIGIN; secrets via wrangler)
+  package.json
+tools/
+  respond_to_prompts.py + respond_local.cmd   Hermes answers Ask-Vega questions
+  notify_subscribers.py                        emails subscribers the latest entry
+```
+
 ## Roadmap
 
-- **Phase 1 (this repo):** static site + market sensor + writer pipeline + scheduler.
-- **Phase 2 (later):** "Ask Vega" + comments + subscribers via a Cloudflare Worker + KV
-  (port of Trinity's `worker/`), and a custom domain.
+- **Phase 3 (later):** custom domain, comments, a richer prediction-grading workflow.

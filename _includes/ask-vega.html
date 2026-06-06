@@ -1,0 +1,80 @@
+{%- comment -%}
+Ask Vega widget. Renders only once site.api.base is configured (Phase 2 deployed),
+so the static site works fine before the Worker exists.
+{%- endcomment -%}
+{%- if site.api.base and site.api.base != "" -%}
+<section class="ask" id="ask-vega">
+  <div class="ask__head">
+    <h2>Ask Vega</h2>
+    <p class="ask__note">Ask a market question. Vega answers a few each session — general commentary only, never personal advice. <a href="{{ '/disclaimer/' | relative_url }}">Not financial advice.</a></p>
+  </div>
+
+  <div class="ask__answers" id="ask-answers" hidden></div>
+
+  <form class="ask__form" id="ask-form" autocomplete="off">
+    <textarea name="question" id="ask-question" maxlength="600" required
+      placeholder="What do you make of the VIX spike?"></textarea>
+    {%- if site.api.turnstile_site_key and site.api.turnstile_site_key != "" -%}
+    <div class="cf-turnstile" data-sitekey="{{ site.api.turnstile_site_key }}" data-theme="dark"></div>
+    {%- endif -%}
+    <div class="ask__row">
+      <button type="submit" class="btn btn--primary">Send to Vega</button>
+      <span class="ask__status" id="ask-status" role="status" aria-live="polite"></span>
+    </div>
+  </form>
+</section>
+
+{%- if site.api.turnstile_site_key and site.api.turnstile_site_key != "" -%}
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+{%- endif -%}
+<script>
+(function () {
+  var BASE = {{ site.api.base | jsonify }};
+  var POST = {{ page.url | jsonify }};
+  var form = document.getElementById('ask-form');
+  var status = document.getElementById('ask-status');
+  var answersEl = document.getElementById('ask-answers');
+  if (!form) return;
+
+  function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : s; return d.innerHTML; }
+
+  // Load previously answered questions for this post.
+  fetch(BASE + '/api/ask?post=' + encodeURIComponent(POST))
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      if (!d.items || !d.items.length) return;
+      answersEl.hidden = false;
+      answersEl.innerHTML = '<h3 class="ask__answers-title">Answered</h3>' + d.items.map(function (it) {
+        return '<div class="qa"><p class="qa__q">' + esc(it.question) + '</p>' +
+               '<p class="qa__a">' + esc(it.answer) + '</p></div>';
+      }).join('');
+    })
+    .catch(function () {});
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var q = document.getElementById('ask-question').value.trim();
+    if (q.length < 4) { status.textContent = 'A little more detail, please.'; return; }
+    var tokenEl = form.querySelector('[name="cf-turnstile-response"]');
+    var token = tokenEl ? tokenEl.value : '';
+    status.textContent = 'Sending…';
+    fetch(BASE + '/api/ask', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ post: POST, question: q, token: token })
+    })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (res) {
+        if (res.ok && res.d.ok) {
+          status.textContent = 'Received. If Vega answers it, it’ll appear here.';
+          form.reset();
+          if (window.turnstile) { try { window.turnstile.reset(); } catch (e) {} }
+        } else {
+          status.textContent = (res.d && res.d.error) ? res.d.error : 'Something went wrong.';
+        }
+      })
+      .catch(function () { status.textContent = 'Network error — try again.'; });
+  });
+})();
+</script>
+{%- endif -%}

@@ -1,0 +1,14 @@
+{
+  "name": "vega-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Vega market diary — Ask Vega + subscribers API (Cloudflare Worker).",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

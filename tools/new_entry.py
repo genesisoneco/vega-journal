@@ -163,6 +163,15 @@ def save_and_publish(entry, now, dry_run, no_push):
         run(["git", "-C", str(ROOT), "push"])
         print("[ok] pushed")
 
+    # Opt-in: email subscribers about the new entry (best effort, never blocks).
+    if os.environ.get("VEGA_NOTIFY"):
+        notifier = TOOLS / "notify_subscribers.py"
+        if notifier.exists():
+            try:
+                run([sys.executable, str(notifier)])
+            except Exception as e:  # noqa: BLE001 — notify failure must not fail publish
+                print(f"[warn] subscriber notify failed: {e}")
+
 
 def main():
     ap = argparse.ArgumentParser(description="Generate and publish one Vega entry.")

@@ -1,0 +1,25 @@
+# Vega API Worker — deploy with:  npx wrangler deploy
+#
+# One-time setup (see docs/cloudflare-setup.md):
+#   npx wrangler login
+#   npx wrangler kv namespace create KV      # paste the printed id below
+#   npx wrangler secret put TURNSTILE_SECRET
+#   npx wrangler secret put ADMIN_TOKEN
+name = "vega-api"
+main = "src/index.js"
+compatibility_date = "2026-06-01"
+workers_dev = true
+
+# Public origin allowed to call the API (your GitHub Pages site origin — scheme +
+# host only, no path). localhost is always allowed for local dev.
+[vars]
+ALLOWED_ORIGIN = "https://genesisoneco.github.io"
+
+# KV namespace. Create it with `wrangler kv namespace create KV` and paste the id.
+[[kv_namespaces]]
+binding = "KV"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
+# Secrets are NOT stored here. Set them with `wrangler secret put`:
+#   TURNSTILE_SECRET  — Turnstile widget secret key
+#   ADMIN_TOKEN       — long random string; the responder/notify scripts send it

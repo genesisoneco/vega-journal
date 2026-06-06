@@ -183,6 +183,27 @@ h1, h2, h3 { line-height: 1.2; letter-spacing: -0.01em; }
 .site-footer__disclaimer strong { color: var(--down); }
 .site-footer__meta { font-size: 12px; color: var(--ink-dim); margin: 0; }
 
+/* --- Ask Vega --- */
+.ask, .subscribe { margin: 40px 0 8px; padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-soft); }
+.ask__head h2, .subscribe__head h2 { margin: 0 0 6px; font-size: 22px; }
+.ask__note, .subscribe__note { color: var(--ink-soft); font-size: 14.5px; margin: 0 0 16px; }
+.ask__form textarea { width: 100%; min-height: 92px; resize: vertical; background: var(--bg); color: var(--ink);
+  border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font: inherit; font-size: 15px; }
+.ask__form textarea:focus, .subscribe__form input:focus { outline: none; border-color: var(--accent); }
+.ask__row, .subscribe__row { display: flex; align-items: center; gap: 14px; margin-top: 12px; flex-wrap: wrap; }
+.ask__status, .subscribe__status { font-size: 13.5px; color: var(--ink-soft); }
+.cf-turnstile { margin-top: 12px; }
+.ask__answers { margin-bottom: 20px; }
+.ask__answers-title { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-dim); margin: 0 0 12px; }
+.qa { border-left: 2px solid var(--line); padding: 4px 0 4px 14px; margin-bottom: 16px; }
+.qa__q { color: var(--ink-soft); font-style: italic; margin: 0 0 6px; }
+.qa__a { margin: 0; }
+
+/* --- Subscribe --- */
+.subscribe__form input { width: 100%; max-width: 360px; background: var(--bg); color: var(--ink);
+  border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font: inherit; font-size: 15px; }
+.subscribe__fine { font-size: 12px; color: var(--ink-dim); margin: 14px 0 0; }
+
 /* --- Responsive --- */
 @media (max-width: 640px) {
   body { font-size: 16px; }
