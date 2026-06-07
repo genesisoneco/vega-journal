@@ -9,15 +9,16 @@
   {%- if site.api.base and site.api.base != "" -%}
   <div class="ticker">
     <div class="ticker__track" id="ticker-track" aria-hidden="true"></div>
-    <a class="ticker__bell" id="next-bell" href="{{ '/journal/' | relative_url }}" title="Time to the next US market bell">
+    <a class="ticker__bell js-bell" id="next-bell" href="{{ '/journal/' | relative_url }}" title="Time to the next US market bell">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a1 1 0 00-1 1v.6A7 7 0 005 10v4l-1.6 2.4A1 1 0 004.2 18h15.6a1 1 0 00.8-1.6L19 14v-4a7 7 0 00-6-6.4V3a1 1 0 00-1-1zm0 20a2.5 2.5 0 002.45-2h-4.9A2.5 2.5 0 0012 22z"/></svg>
-      <span id="next-bell-text">next bell</span>
+      <span class="js-bell-text" id="next-bell-text">next bell</span>
     </a>
   </div>
   <script>window.VEGA_API = {{ site.api.base | jsonify }};</script>
   <script src="{{ '/assets/js/ticker.js' | relative_url }}" defer></script>
-  <script src="{{ '/assets/js/bell.js' | relative_url }}" defer></script>
   {%- endif -%}
+  {%- comment -%} bell.js is pure client-side clock math (no API), so it loads everywhere. {%- endcomment -%}
+  <script src="{{ '/assets/js/bell.js' | relative_url }}" defer></script>
   {% include header.html %}
   <main id="main" class="site-main">
     {{ content }}

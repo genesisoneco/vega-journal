@@ -20,7 +20,13 @@ layout: default
 
 <section class="wrap section">
   <div class="section__head">
-    <h2>Latest entries</h2>
+    <div class="section__head-main">
+      <h2>Latest entries</h2>
+      <a class="home-bell js-bell" href="{{ '/journal/' | relative_url }}" title="Time to the next US market bell">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a1 1 0 00-1 1v.6A7 7 0 005 10v4l-1.6 2.4A1 1 0 004.2 18h15.6a1 1 0 00.8-1.6L19 14v-4a7 7 0 00-6-6.4V3a1 1 0 00-1-1zm0 20a2.5 2.5 0 002.45-2h-4.9A2.5 2.5 0 0012 22z"/></svg>
+        <span class="js-bell-text">next bell</span>
+      </a>
+    </div>
     <a class="btn btn--sm" href="{{ '/journal/' | relative_url }}">All entries →</a>
   </div>
   <div class="card-grid">

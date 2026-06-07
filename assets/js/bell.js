@@ -2,9 +2,11 @@
    opening bell 9:30 ET, closing bell 16:00 ET, weekdays. During market hours it
    counts down to the close; otherwise to the next open. Holidays are ignored. */
 (function () {
-  var el = document.getElementById('next-bell-text');
-  var box = document.getElementById('next-bell');
-  if (!el) return;
+  // Drive every bell on the page (the ticker bell and the home "Latest entries"
+  // bell both opt in via .js-bell / .js-bell-text).
+  var texts = document.querySelectorAll('.js-bell-text');
+  var boxes = document.querySelectorAll('.js-bell');
+  if (!texts.length) return;
 
   var OPEN = 9 * 3600 + 30 * 60;   // 09:30 ET in seconds-of-day
   var CLOSE = 16 * 3600;           // 16:00 ET
@@ -41,8 +43,10 @@
 
   function tick() {
     var c = compute();
-    el.textContent = c.label + ' in ' + fmt(c.delta);
-    if (box) box.setAttribute('title', 'Next ' + c.label + ' in ' + fmt(c.delta) + ' (US market, ET)');
+    var msg = c.label + ' in ' + fmt(c.delta);
+    var title = 'Next ' + c.label + ' in ' + fmt(c.delta) + ' (US market, ET)';
+    for (var i = 0; i < texts.length; i++) texts[i].textContent = msg;
+    for (var j = 0; j < boxes.length; j++) boxes[j].setAttribute('title', title);
   }
   tick();
   setInterval(tick, 1000);
