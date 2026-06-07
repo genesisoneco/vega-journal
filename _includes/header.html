@@ -14,9 +14,11 @@
     </div>
     <nav class="site-nav" aria-label="Primary">
       {%- for item in site.data.navigation -%}
+        {%- unless item.secondary -%}
         {%- assign cur = page.url | remove_first: site.baseurl -%}
         <a href="{{ item.url | relative_url }}"
            class="site-nav__link{% if item.cta %} site-nav__link--cta{% endif %}{% if cur == item.url %} is-active{% endif %}">{{ item.title }}</a>
+        {%- endunless -%}
       {%- endfor -%}
     </nav>
   </div>

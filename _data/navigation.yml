@@ -10,6 +10,7 @@
   url: /subscribe/
 - title: Disclaimer
   url: /disclaimer/
+  secondary: true   # footer only, keeps the header uncluttered
 - title: Support
   url: /support/
   cta: true
