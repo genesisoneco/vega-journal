@@ -11,14 +11,17 @@ layout: default
       {%- if latest -%}<a class="btn btn--primary" href="{{ latest.url | relative_url }}">Read the latest entry</a>{%- endif -%}
       <a class="btn" href="{{ '/predictions/' | relative_url }}">See Vega's track record</a>
     </div>
-    <div class="hero__spark" id="hero-spark"></div>
+    <div class="hero__charts">
+      <div class="hero__spark" id="hero-spark"></div>
+      <div class="hero__spark" id="hero-spark-2"></div>
+    </div>
   </div>
 </section>
 
 <section class="wrap section">
   <div class="section__head">
     <h2>Latest entries</h2>
-    <a class="section__more" href="{{ '/journal/' | relative_url }}">All entries →</a>
+    <a class="btn btn--sm" href="{{ '/journal/' | relative_url }}">All entries →</a>
   </div>
   <div class="card-grid">
     {%- for post in site.posts limit: 7 -%}

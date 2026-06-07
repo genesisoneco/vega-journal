@@ -36,6 +36,7 @@ export default {
       const { pathname } = url;
       if (pathname === "/api/health") return json({ ok: true }, 200, cors);
       if (pathname === "/api/ticker" && request.method === "GET") return await ticker(env, cors);
+      if (pathname === "/api/spark" && request.method === "GET") return await spark(url, env, cors);
 
       if (pathname === "/api/ask") {
         if (request.method === "POST") return await submitAsk(request, env, cors);
@@ -125,6 +126,70 @@ function sanitize(s, max) {
   return String(s || "").replace(/\s+/g, " ").trim().slice(0, max);
 }
 
+/* --------------------------- spark (rotating) ---------------------------- */
+// Friendly key -> data source. Used by the second hero chart.
+const SPARK_ASSETS = {
+  ETH: { src: "bn", bn: "ETHUSDT", label: "ETH / USD" },
+  SOL: { src: "bn", bn: "SOLUSDT", label: "SOL / USD" },
+  BNB: { src: "bn", bn: "BNBUSDT", label: "BNB / USD" },
+  XRP: { src: "bn", bn: "XRPUSDT", label: "XRP / USD" },
+  DOGE: { src: "bn", bn: "DOGEUSDT", label: "DOGE / USD" },
+  GOLD: { src: "yf", sym: "GC=F", label: "GOLD / USD" },
+  SILVER: { src: "yf", sym: "SI=F", label: "SILVER / USD" },
+  SP500: { src: "yf", sym: "^GSPC", label: "S&P 500" },
+  NASDAQ: { src: "yf", sym: "^IXIC", label: "NASDAQ" },
+  SPY: { src: "yf", sym: "SPY", label: "SPY ETF" },
+  QQQ: { src: "yf", sym: "QQQ", label: "QQQ ETF" },
+  AAPL: { src: "yf", sym: "AAPL", label: "AAPL" },
+  NVDA: { src: "yf", sym: "NVDA", label: "NVDA" },
+  TSLA: { src: "yf", sym: "TSLA", label: "TSLA" },
+};
+
+function downsample(arr, target) {
+  const clean = arr.filter(function (v) { return v != null; });
+  if (clean.length <= target) return clean.map(function (v) { return Math.round(v * 100) / 100; });
+  const step = clean.length / target, out = [];
+  for (let i = 0; i < target; i++) out.push(Math.round(clean[Math.floor(i * step)] * 100) / 100);
+  return out;
+}
+
+async function spark(url, env, cors) {
+  const a = (url.searchParams.get("a") || "").toUpperCase();
+  const asset = SPARK_ASSETS[a];
+  if (!asset) return json({ error: "unknown asset" }, 404, cors);
+  const ck = `spark:${a}`;
+  const now = Date.now();
+  const cached = await env.KV.get(ck, "json");
+  if (cached && now - cached.ts < 60000) return json(cached.data, 200, cors);
+
+  const ua = { "User-Agent": "Mozilla/5.0 VegaSpark/1.0" };
+  const data = { label: asset.label, series: [], last: null, chg: null };
+  try {
+    if (asset.src === "bn") {
+      // Binance klines (CoinGecko blocks Cloudflare IPs; Binance does not).
+      const r = await fetch(`https://api.binance.com/api/v3/klines?symbol=${asset.bn}&interval=1h&limit=24`, { headers: ua });
+      const d = await r.json();
+      const closes = (Array.isArray(d) ? d : []).map(function (k) { return parseFloat(k[4]); });
+      data.series = downsample(closes, 40);
+      data.last = closes[closes.length - 1];
+      data.chg = closes.length ? ((closes[closes.length - 1] - closes[0]) / closes[0]) * 100 : null;
+    } else {
+      // Yahoo 30m/5d returns a usable close series (5m/1d does not for futures).
+      const r = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(asset.sym)}?interval=30m&range=5d`, { headers: ua });
+      const d = await r.json();
+      const res = d.chart.result[0];
+      const closes = (res.indicators.quote[0].close || []).filter(function (v) { return v != null; });
+      data.series = downsample(closes, 40);
+      data.last = closes[closes.length - 1];
+      const prev = res.meta.chartPreviousClose || res.meta.previousClose;
+      data.chg = prev ? ((data.last - prev) / prev) * 100
+        : (closes.length ? ((closes[closes.length - 1] - closes[0]) / closes[0]) * 100 : null);
+    }
+  } catch (e) { /* skip */ }
+  if (data.series.length) await env.KV.put(ck, JSON.stringify({ ts: now, data }), { expirationTtl: 180 });
+  return json(data, 200, cors);
+}
+
 /* ----------------------------- ticker ------------------------------------ */
 async function ticker(env, cors) {
   // 45s KV cache so traffic never hammers the upstreams.
@@ -141,18 +206,16 @@ async function ticker(env, cors) {
 async function buildTicker() {
   const items = [];
   const ua = { "User-Agent": "Mozilla/5.0 VegaTicker/1.0" };
-  // Crypto via CoinGecko
-  try {
-    const r = await fetch(
-      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&include_24hr_change=true",
-      { headers: ua });
-    const d = await r.json();
-    for (const [id, label] of [["bitcoin", "BTC"], ["ethereum", "ETH"], ["solana", "SOL"]]) {
-      if (d[id]) items.push({ label, price: d[id].usd, chg: d[id].usd_24h_change });
-    }
-  } catch (e) { /* skip */ }
+  // Crypto via Binance (CoinGecko blocks Cloudflare IPs).
+  for (const [bn, label] of [["BTCUSDT", "BTC"], ["ETHUSDT", "ETH"], ["SOLUSDT", "SOL"]]) {
+    try {
+      const r = await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbol=${bn}`, { headers: ua });
+      const d = await r.json();
+      items.push({ label, price: parseFloat(d.lastPrice), chg: parseFloat(d.priceChangePercent) });
+    } catch (e) { /* skip */ }
+  }
   // Indices via Yahoo
-  for (const [sym, label] of [["%5EGSPC", "S&P 500"], ["%5EIXIC", "NASDAQ"], ["%5EDJI", "DOW"], ["%5EVIX", "VIX"]]) {
+  for (const [sym, label] of [["%5EGSPC", "S&P 500"], ["%5EIXIC", "NASDAQ"], ["%5EDJI", "DOW"], ["%5EVIX", "VIX"], ["GC%3DF", "GOLD"], ["SI%3DF", "SILVER"]]) {
     try {
       const r = await fetch(
         `https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1d&range=1d`,

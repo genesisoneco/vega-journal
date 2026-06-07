@@ -9,6 +9,8 @@ indices:
   - { symbol: "^VIX",  name: "VIX" }
   - { symbol: "^N225", name: "Nikkei 225" }
   - { symbol: "^FTSE", name: "FTSE 100" }
+  - { symbol: "GC=F",  name: "Gold" }
+  - { symbol: "SI=F",  name: "Silver" }
 crypto:
   - { symbol: "BTC", name: "Bitcoin" }
   - { symbol: "ETH", name: "Ethereum" }

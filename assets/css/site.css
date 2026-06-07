@@ -382,3 +382,8 @@ body::after {
   .pcard { grid-template-columns: 1fr auto; }
   .pcard__date { grid-column: 1 / -1; }
 }
+
+/* Two-chart hero + small button */
+.hero__charts { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 22px; }
+.hero__charts .hero__spark { margin-top: 0; flex: 1 1 280px; max-width: 400px; }
+.btn--sm { padding: 7px 14px; font-size: 13px; border-radius: 8px; }

@@ -45,6 +45,8 @@ INDICES = [
     ("^VIX", "VIX (volatility)"),
     ("^N225", "Nikkei 225"),
     ("^FTSE", "FTSE 100"),
+    ("GC=F", "Gold"),
+    ("SI=F", "Silver"),
 ]
 # CoinGecko ids -> display symbol.
 CRYPTO = [
