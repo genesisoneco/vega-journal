@@ -387,3 +387,37 @@ body::after {
 .hero__charts { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 22px; }
 .hero__charts .hero__spark { margin-top: 0; flex: 1 1 280px; max-width: 400px; }
 .btn--sm { padding: 7px 14px; font-size: 13px; border-radius: 8px; }
+
+/* Brand logo */
+.brand__logo { width: 34px; height: 34px; border-radius: 9px; display: block; box-shadow: var(--glow-accent); }
+
+/* ============================ MOBILE POLISH ============================ */
+html, body { overflow-x: hidden; }
+img, svg { max-width: 100%; }
+
+/* Nav: single swipeable row on narrow screens instead of a tall wrap */
+@media (max-width: 760px) {
+  .site-nav { flex-wrap: nowrap; overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 2px; }
+  .site-nav::-webkit-scrollbar { display: none; }
+  .site-nav__link { white-space: nowrap; }
+}
+
+@media (max-width: 640px) {
+  .wrap { padding: 0 16px; }
+  .section { padding: 36px 0; }
+  .hero__inner { padding: 40px 16px 36px; }
+  .hero__cta { gap: 10px; }
+  .hero__cta .btn { flex: 1 1 auto; justify-content: center; }
+  .hero__charts { gap: 16px; }
+  .hero__charts .hero__spark { max-width: 100%; }
+  .post { padding-top: 28px; }
+  .post__meta { flex-wrap: wrap; gap: 8px; }
+  .tape { grid-template-columns: repeat(auto-fit, minmax(108px, 1fr)); }
+  .prediction__foot { gap: 12px; }
+  .post__nav { flex-direction: column; gap: 10px; }
+  .post__nav-link, .post__nav-link--next { max-width: 100%; text-align: left; margin-left: 0; }
+  .section__head { flex-wrap: wrap; }
+  .entry-list__item a { gap: 8px; }
+  .ticker { height: 32px; }
+  .tk { font-size: 12px; }
+}
