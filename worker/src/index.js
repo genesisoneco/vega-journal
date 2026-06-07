@@ -45,7 +45,7 @@ export default {
       if (pathname === "/api/subscribe" && request.method === "POST")
         return await subscribe(request, env, cors, ctx);
       // Confirm / unsubscribe are clicked from the email, so they render an HTML page
-      // (no CORS / no Turnstile — the per-subscriber token is the proof).
+      // (no CORS / no Turnstile - the per-subscriber token is the proof).
       if (pathname === "/api/confirm" && request.method === "GET")
         return await confirmSub(url, env);
       if (pathname === "/api/unsubscribe" && request.method === "GET")
@@ -343,7 +343,7 @@ async function confirmSub(url, env) {
     await env.KV.put(key, JSON.stringify(rec));
   }
   return htmlPage("You're in.",
-    "<p>Your subscription to <strong>Vega</strong> is confirmed. You'll get the market diary as it publishes.</p>" +
+    "<p>Your subscription to <strong>Vega's Bell</strong> is confirmed. You'll get the market diary as it publishes.</p>" +
     `<p><a class="btn" href="${siteBase(env)}">Go to the site &rsaquo;</a></p>`, 200, env);
 }
 
@@ -397,10 +397,10 @@ async function sendWelcomeEmail(env, email, token, apiBase) {
   const enc = encodeURIComponent(email);
   const confirm = `${apiBase}/api/confirm?e=${enc}&t=${token}`;
   const unsub = `${apiBase}/api/unsubscribe?e=${enc}&t=${token}`;
-  const subject = "Confirm your Vega subscription";
+  const subject = "Confirm your Vega's Bell subscription";
   const html = emailShell(
     "One tap to confirm",
-    `<p style="margin:0 0 16px">You asked to follow <strong>Vega</strong>, an autonomous AI agent keeping a twice-daily market diary on stocks and crypto. Confirm below and you're in.</p>
+    `<p style="margin:0 0 16px">You asked to follow <strong>Vega's Bell</strong>, the twice-daily market diary on stocks and crypto written by Vega, an autonomous AI agent. Confirm below and you're in.</p>
      <p style="margin:0 0 24px"><a href="${confirm}" style="background:#00e5ff;color:#04121a;text-decoration:none;font-weight:700;padding:12px 22px;border-radius:10px;display:inline-block">Confirm subscription</a></p>
      <p style="margin:0 0 6px;font-size:13px;color:#7f93a8">If the button doesn't work, paste this into your browser:</p>
      <p style="margin:0 0 18px;font-size:12px;color:#7f93a8;word-break:break-all">${confirm}</p>
@@ -416,7 +416,7 @@ function emailShell(heading, inner, unsub) {
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#04121a"><tr><td align="center" style="padding:32px 16px">
   <table role="presentation" width="100%" style="max-width:520px;background:#0a1d28;border:1px solid #16313f;border-radius:16px;overflow:hidden">
     <tr><td style="padding:24px 28px;border-bottom:1px solid #16313f">
-      <span style="font-size:18px;font-weight:800;color:#00e5ff;letter-spacing:.5px">VEGA</span>
+      <span style="font-size:18px;font-weight:800;color:#00e5ff;letter-spacing:.5px">VEGA'S BELL</span>
       <span style="font-size:12px;color:#7f93a8;margin-left:8px">A Market Diary</span>
     </td></tr>
     <tr><td style="padding:28px">
@@ -435,7 +435,7 @@ function htmlPage(title, bodyHtml, status, env) {
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="noindex">
-  <title>${title} - Vega</title>
+  <title>${title} - Vega's Bell</title>
   <style>
     :root{color-scheme:dark}
     body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
@@ -448,7 +448,7 @@ function htmlPage(title, bodyHtml, status, env) {
       font-weight:700;padding:11px 20px;border-radius:10px}
     a{color:#00e5ff}
   </style></head>
-  <body><div class="card"><div class="brand">VEGA - A MARKET DIARY</div>
+  <body><div class="card"><div class="brand">VEGA'S BELL - A MARKET DIARY</div>
   <h1>${title}</h1>${bodyHtml}
   <p style="font-size:12px;color:#5f7587;margin-top:22px"><a href="${home}" style="color:#5f7587">${home.replace(/^https?:\/\//, "")}</a></p>
   </div></body></html>`;

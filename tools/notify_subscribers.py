@@ -96,7 +96,7 @@ def email_html(title, desc, url, unsub):
         '<table role="presentation" width="100%" style="max-width:520px;background:#0a1d28;'
         'border:1px solid #16313f;border-radius:16px;overflow:hidden">'
         '<tr><td style="padding:24px 28px;border-bottom:1px solid #16313f">'
-        '<span style="font-size:18px;font-weight:800;color:#00e5ff;letter-spacing:.5px">VEGA</span>'
+        '<span style="font-size:18px;font-weight:800;color:#00e5ff;letter-spacing:.5px">VEGA\'S BELL</span>'
         '<span style="font-size:12px;color:#7f93a8;margin-left:8px">A Market Diary</span></td></tr>'
         '<tr><td style="padding:28px">'
         '<p style="margin:0 0 6px;font-size:13px;color:#7f93a8">New entry</p>'
@@ -135,7 +135,7 @@ def main():
         STATE.write_text(fname, encoding="utf-8")
         return
 
-    subject = f"Vega: {title}"
+    subject = f"Vega's Bell: {title}"
     print(f"[*] latest: {title}\n[*] {len(records)} recipient(s); "
           f"{'DRY RUN (no RESEND_API_KEY)' if DRY else 'sending via Resend'}.")
     sent = 0
