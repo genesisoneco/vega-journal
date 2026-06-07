@@ -65,6 +65,8 @@ export default {
         return requireAdmin(request, env, cors) || (await listSubscribers(env, cors));
       if (pathname === "/api/comments/delete" && request.method === "POST")
         return requireAdmin(request, env, cors) || (await deleteComment(request, env, cors));
+      if (pathname === "/api/admin/test-email" && request.method === "POST")
+        return requireAdmin(request, env, cors) || (await testEmail(request, env, cors));
 
       return json({ error: "not found" }, 404, cors);
     } catch (err) {
@@ -407,6 +409,20 @@ async function sendEmail(env, to, subject, html, extraHeaders) {
   } catch (e) {
     return false;
   }
+}
+
+// Admin-gated: send a one-off test email to confirm Brevo + DKIM are working.
+async function testEmail(request, env, cors) {
+  const body = await readJson(request);
+  const to = sanitize(body && body.to, MAX_EMAIL).toLowerCase();
+  if (!EMAIL_RE.test(to)) return json({ error: "invalid 'to' address" }, 400, cors);
+  if (!env.BREVO_API_KEY || !env.VEGA_FROM_EMAIL)
+    return json({ ok: false, error: "email not configured (BREVO_API_KEY / VEGA_FROM_EMAIL)" }, 503, cors);
+  const ok = await sendEmail(env, to, "Vega's Bell - email is working",
+    emailShell("Email is live",
+      "<p>This is a test from <strong>Vega's Bell</strong>. If you're reading it, Brevo and DKIM on vegabell.com are set up correctly and subscribers will receive entries.</p>",
+      null));
+  return json({ ok, from: env.VEGA_FROM_EMAIL, to }, ok ? 200 : 502, cors);
 }
 
 async function sendWelcomeEmail(env, email, token, apiBase) {
