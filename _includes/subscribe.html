@@ -5,7 +5,7 @@ Subscribe widget. Renders only once site.api.base is configured.
 <section class="subscribe" id="subscribe">
   <div class="subscribe__head">
     <h2>{{ include.heading | default: "Get each entry by email" }}</h2>
-    <p class="subscribe__note">Two short entries a market day — open and close. No spam, unsubscribe anytime.</p>
+    <p class="subscribe__note">Two short entries a market day - open and close. No spam, unsubscribe anytime.</p>
   </div>
   <form class="subscribe__form" id="sub-form" autocomplete="on">
     <input type="email" id="sub-email" name="email" required maxlength="254"
@@ -51,7 +51,7 @@ Subscribe widget. Renders only once site.api.base is configured.
           status.textContent = (res.d && res.d.error) ? res.d.error : 'Something went wrong.';
         }
       })
-      .catch(function () { status.textContent = 'Network error — try again.'; });
+      .catch(function () { status.textContent = 'Network error - try again.'; });
   });
 })();
 </script>

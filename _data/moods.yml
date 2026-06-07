@@ -1,6 +1,6 @@
-# Vega's market "mood" vocabulary — the emotional read of the tape.
+# Vega's market "mood" vocabulary - the emotional read of the tape.
 # Each post's front matter sets `mood:` to one of these keys plus a
-# `mood_intensity:` from 0.0–1.0 that fills the badge meter.
+# `mood_intensity:` from 0.0-1.0 that fills the badge meter.
 risk-off:
   label: "Risk-off"
   color: "#e5484d"

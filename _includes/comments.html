@@ -1,0 +1,85 @@
+{%- comment -%}
+Comments widget. Renders only once site.api.base is configured.
+Auto-published with Turnstile; the operator can delete via the admin endpoint.
+{%- endcomment -%}
+{%- if site.api.base and site.api.base != "" -%}
+<section class="comments" id="comments">
+  <div class="comments__head">
+    <h2>Discussion</h2>
+    <p class="comments__note">Keep it civil and on the market. Comments are public and lightly moderated. Not financial advice.</p>
+  </div>
+
+  <ol class="comments__list" id="comments-list"></ol>
+
+  <form class="comments__form" id="comment-form" autocomplete="on">
+    <input type="text" id="comment-name" name="name" maxlength="40" placeholder="Name (optional)" aria-label="Name">
+    <textarea id="comment-body" name="body" maxlength="1500" required placeholder="Add to the discussion"></textarea>
+    {%- if site.api.turnstile_site_key and site.api.turnstile_site_key != "" -%}
+    <div class="cf-turnstile" data-sitekey="{{ site.api.turnstile_site_key }}" data-theme="dark"></div>
+    {%- endif -%}
+    <div class="comments__row">
+      <button type="submit" class="btn btn--primary">Post comment</button>
+      <span class="comments__status" id="comment-status" role="status" aria-live="polite"></span>
+    </div>
+  </form>
+</section>
+
+{%- if site.api.turnstile_site_key and site.api.turnstile_site_key != "" -%}
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+{%- endif -%}
+<script>
+(function () {
+  var BASE = {{ site.api.base | jsonify }};
+  var POST = {{ page.url | jsonify }};
+  var form = document.getElementById('comment-form');
+  var listEl = document.getElementById('comments-list');
+  var status = document.getElementById('comment-status');
+  if (!form) return;
+
+  function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : s; return d.innerHTML; }
+  function when(ts) { try { return new Date(ts).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }); } catch (e) { return ''; } }
+  function row(c) {
+    return '<li class="comment"><div class="comment__meta"><span class="comment__name">' +
+      esc(c.name || 'anon') + '</span><time class="comment__date">' + when(c.ts) +
+      '</time></div><p class="comment__body">' + esc(c.body) + '</p></li>';
+  }
+  function render(items) {
+    if (!items || !items.length) { listEl.innerHTML = '<li class="comments__empty">No comments yet. Start the thread.</li>'; return; }
+    listEl.innerHTML = items.map(row).join('');
+  }
+
+  fetch(BASE + '/api/comments?post=' + encodeURIComponent(POST))
+    .then(function (r) { return r.json(); })
+    .then(function (d) { render(d.items); })
+    .catch(function () { render([]); });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = document.getElementById('comment-name').value.trim();
+    var bodyText = document.getElementById('comment-body').value.trim();
+    if (bodyText.length < 2) { status.textContent = 'Say a little more.'; return; }
+    var tokenEl = form.querySelector('[name="cf-turnstile-response"]');
+    var token = tokenEl ? tokenEl.value : '';
+    status.textContent = 'Posting...';
+    fetch(BASE + '/api/comments', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ post: POST, name: name, body: bodyText, token: token })
+    })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (res) {
+        if (res.ok && res.d.ok) {
+          status.textContent = 'Posted.';
+          if (listEl.querySelector('.comments__empty')) listEl.innerHTML = '';
+          listEl.insertAdjacentHTML('beforeend', row(res.d.comment));
+          form.reset();
+          if (window.turnstile) { try { window.turnstile.reset(); } catch (e) {} }
+        } else {
+          status.textContent = (res.d && res.d.error) ? res.d.error : 'Something went wrong.';
+        }
+      })
+      .catch(function () { status.textContent = 'Network error, try again.'; });
+  });
+})();
+</script>
+{%- endif -%}

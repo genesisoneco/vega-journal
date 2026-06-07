@@ -43,6 +43,11 @@ export default {
       if (pathname === "/api/subscribe" && request.method === "POST")
         return await subscribe(request, env, cors);
 
+      if (pathname === "/api/comments") {
+        if (request.method === "POST") return await submitComment(request, env, cors);
+        if (request.method === "GET") return await listComments(url, env, cors);
+      }
+
       // --- admin ---
       if (pathname === "/api/ask/pending" && request.method === "GET")
         return requireAdmin(request, env, cors) || (await listPending(env, cors));
@@ -50,6 +55,8 @@ export default {
         return requireAdmin(request, env, cors) || (await publishAsk(request, env, cors));
       if (pathname === "/api/subscribers" && request.method === "GET")
         return requireAdmin(request, env, cors) || (await listSubscribers(env, cors));
+      if (pathname === "/api/comments/delete" && request.method === "POST")
+        return requireAdmin(request, env, cors) || (await deleteComment(request, env, cors));
 
       return json({ error: "not found" }, 404, cors);
     } catch (err) {
@@ -209,4 +216,56 @@ async function listSubscribers(env, cors) {
     if (v) items.push(v);
   }
   return json({ count: items.length, items }, 200, cors);
+}
+
+/* --------------------------- comments ------------------------------------ */
+const MAX_NAME = 40;
+const MAX_BODY = 1500;
+
+async function submitComment(request, env, cors) {
+  const body = await readJson(request);
+  if (!body) return json({ error: "bad request" }, 400, cors);
+
+  const ok = await verifyTurnstile(body.token, clientIp(request), env);
+  if (!ok) return json({ error: "verification failed" }, 403, cors);
+
+  const post = sanitize(body.post, 200);
+  const name = sanitize(body.name, MAX_NAME) || "anon";
+  const text = sanitize(body.body, MAX_BODY);
+  if (!post) return json({ error: "missing post" }, 400, cors);
+  if (text.length < 2) return json({ error: "comment too short" }, 400, cors);
+
+  const id = crypto.randomUUID().slice(0, 8);
+  const ts = Date.now();
+  // Zero-pad the timestamp so KV's lexicographic key order == chronological order.
+  const tsKey = String(ts).padStart(15, "0");
+  const rec = { id, post, name, body: text, ts };
+  await env.KV.put(`cmt:${post}:${tsKey}:${id}`, JSON.stringify(rec));
+  return json({ ok: true, comment: { name, body: text, ts, id } }, 200, cors);
+}
+
+async function listComments(url, env, cors) {
+  const post = sanitize(url.searchParams.get("post"), 200);
+  if (!post) return json({ items: [], count: 0 }, 200, cors);
+  const list = await env.KV.list({ prefix: `cmt:${post}:` });
+  const items = [];
+  for (const k of list.keys) {
+    const v = await env.KV.get(k.name, "json");
+    if (v) items.push({ id: v.id, name: v.name, body: v.body, ts: v.ts });
+  }
+  return json({ items, count: items.length }, 200, cors); // already chronological
+}
+
+async function deleteComment(request, env, cors) {
+  const body = await readJson(request);
+  if (!body || !body.post || !body.id) return json({ error: "bad request" }, 400, cors);
+  const list = await env.KV.list({ prefix: `cmt:${sanitize(body.post, 200)}:` });
+  for (const k of list.keys) {
+    const v = await env.KV.get(k.name, "json");
+    if (v && v.id === body.id) {
+      await env.KV.delete(k.name);
+      return json({ ok: true }, 200, cors);
+    }
+  }
+  return json({ error: "not found" }, 404, cors);
 }

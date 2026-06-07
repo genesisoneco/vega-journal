@@ -25,6 +25,7 @@ Env overrides (same spirit as Trinity):
 """
 
 import argparse
+import json
 import os
 import re
 import subprocess
@@ -58,13 +59,51 @@ def fetch_brief(session):
     return brief
 
 
-def build_prompt(session, now, brief):
+def gather_memory(limit=6):
+    """Digest of Vega's recent calls + running hit-rate, for self-learning."""
+    posts = sorted(POSTS.glob("*.md"))
+    recent = posts[-limit:]
+    lines, hits, misses = [], 0, 0
+    for p in recent:
+        fm, _ = split_front_matter(p.read_text(encoding="utf-8"))
+        if not fm:
+            continue
+        date = field(fm, "date") or ""
+        claim = (re.search(r'claim:\s*"?(.+?)"?\s*$', fm, re.MULTILINE) or [None, ""])[1]
+        direction = (re.search(r"direction:\s*(\w+)", fm) or [None, ""])[1]
+        outcome = (re.search(r"outcome:\s*(\w+)", fm) or [None, "pending"])[1]
+        if outcome == "hit":
+            hits += 1
+        elif outcome == "miss":
+            misses += 1
+        if claim:
+            lines.append(f"- [{date[:10]}] ({outcome}) {direction}: {claim}")
+    if not lines:
+        return ""
+    graded = hits + misses
+    rate = f"{round(hits * 100 / graded)}%" if graded else "not yet graded"
+    return (f"Your record on recent calls: {hits} hit, {misses} missed ({rate}).\n"
+            + "\n".join(lines))
+
+
+def build_prompt(session, now, brief, memory=""):
     spec = (TOOLS / "WRITER.md").read_text(encoding="utf-8")
     date_iso = now.strftime("%Y-%m-%d %H:%M:%S %z")
     # Insert the concrete date/session into the spec placeholders.
     spec = spec.replace("{{DATE_ISO}}", date_iso).replace("{{SESSION}}", session)
+    mem_block = ""
+    if memory:
+        mem_block = (
+            "## Your recent calls (learn from these)\n\n"
+            f"{memory}\n\n"
+            "Study the above. If you have been missing, change something concrete: name a "
+            "level or a catalyst, narrow the horizon, raise or lower your confidence. Make "
+            "today's prediction more specific than a vague directional guess. When relevant, "
+            "reference how a past call turned out.\n\n---\n\n"
+        )
     return (
         f"{spec}\n\n---\n\n"
+        f"{mem_block}"
         f"## Today's market brief ({session} session, {date_iso})\n\n"
         f"{brief}\n\n---\n\n"
         f"Write today's **{session}** entry now. Output only the post, starting with `---`."
@@ -106,6 +145,8 @@ def validate(entry, brief):
     """Return (ok, reason). Cheap structural checks; the model owns the prose."""
     if not entry.startswith("---"):
         return False, "does not start with YAML front matter"
+    if "—" in entry or "–" in entry:
+        return False, "contains a forbidden em/en-dash (use commas/periods/hyphens)"
     fm, body = split_front_matter(entry)
     if fm is None:
         return False, "front matter not closed"
@@ -131,6 +172,112 @@ def validate(entry, brief):
                 if stem not in brief_nums and stem not in brief.replace(",", ""):
                     return False, f"tape number {n} not found in brief (possible fabrication)"
     return True, "ok"
+
+
+import html as _html  # noqa: E402
+
+
+def match_spark(label, snapshot):
+    """Find the price series for a tape label by matching name/symbol."""
+    if not label:
+        return None
+    L = label.lower()
+    for r in snapshot.get("indices", []):
+        nm = (r.get("name") or "").lower()
+        sy = (r.get("symbol") or "").lower()
+        if r.get("spark") and ((nm and (nm in L or nm.split()[0] in L)) or (sy and sy in L)):
+            return r["spark"]
+    for r in snapshot.get("crypto", []):
+        sy = (r.get("symbol") or "").lower()
+        if r.get("spark") and sy and sy in L:
+            return r["spark"]
+    return None
+
+
+def _pick_series(snapshot):
+    for pref in ("S&P 500", "Nasdaq Composite"):
+        for r in snapshot.get("indices", []):
+            if r.get("name") == pref and r.get("spark"):
+                return r["spark"], r["name"]
+    for r in snapshot.get("indices", []) + snapshot.get("crypto", []):
+        if r.get("spark"):
+            return r["spark"], r.get("name") or r.get("symbol")
+    return None, None
+
+
+def make_cover(now, slug, fm, snapshot):
+    """Render a data-driven gradient cover SVG for this post; return its site path."""
+    series, label = _pick_series(snapshot)
+    title = field(fm, "title") or "Market Diary"
+    session = field(fm, "session") or "adhoc"
+    if not series or len(series) < 2:
+        series, label = [1, 1.2, 1.1, 1.4, 1.3, 1.55], (label or "markets")
+    up = series[-1] >= series[0]
+    color = "#30a46c" if up else "#e5484d"
+    W, H = 1200, 630
+    mn, mx = min(series), max(series)
+    rng = (mx - mn) or 1
+    cy0, cy1 = H * 0.45, H * 0.96
+    pts = [(i * W / (len(series) - 1), cy1 - (v - mn) / rng * (cy1 - cy0)) for i, v in enumerate(series)]
+    line = " ".join(("M" if i == 0 else "L") + f"{x:.1f} {y:.1f}" for i, (x, y) in enumerate(pts))
+    area = f"{line} L{W} {cy1:.1f} L0 {cy1:.1f} Z"
+    # wrap title to <=2 lines
+    words, lines, cur = title.split(), [], ""
+    for w in words:
+        if len(cur) + len(w) + 1 <= 26:
+            cur = (cur + " " + w).strip()
+        else:
+            lines.append(cur); cur = w
+    if cur:
+        lines.append(cur)
+    tspans = "".join(
+        f'<tspan x="64" dy="{0 if i == 0 else 64}">{_html.escape(l)}</tspan>'
+        for i, l in enumerate(lines[:2]))
+    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b0e14"/><stop offset="1" stop-color="#121722"/></linearGradient>
+    <linearGradient id="ar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{color}" stop-opacity="0.55"/><stop offset="1" stop-color="{color}" stop-opacity="0"/></linearGradient>
+  </defs>
+  <rect width="{W}" height="{H}" fill="url(#bg)"/>
+  <path d="{area}" fill="url(#ar)"/>
+  <path d="{line}" fill="none" stroke="{color}" stroke-width="4"/>
+  <text x="64" y="84" font-family="ui-monospace,monospace" font-size="26" fill="{color}" letter-spacing="3">VEGA / {session.upper()}</text>
+  <text x="64" y="200" font-family="Georgia,serif" font-size="58" font-weight="700" fill="#e6e9ef">{tspans}</text>
+  <text x="64" y="{H - 40}" font-family="ui-monospace,monospace" font-size="22" fill="#7c8190">{_html.escape(str(label))} / {now.strftime('%b %d, %Y')} / not financial advice</text>
+</svg>"""
+    journal = ROOT / "assets" / "journal"
+    journal.mkdir(parents=True, exist_ok=True)
+    fname = f"{now.strftime('%Y-%m-%d')}-{slug}.svg"
+    (journal / fname).write_text(svg, encoding="utf-8")
+    return f"/assets/journal/{fname}"
+
+
+def augment(entry, now, snapshot):
+    """Inject an auto-generated cover image and per-tape sparkline data."""
+    fm, body = split_front_matter(entry)
+    if fm is None:
+        return entry
+    slug = field(fm, "slug") or re.sub(r"[^a-z0-9]+", "-", (field(fm, "title") or "entry").lower()).strip("-")
+    new_fm = fm
+    try:
+        img = make_cover(now, slug, fm, snapshot)
+        if img and "image:" not in new_fm:
+            new_fm = f'image: "{img}"\n' + new_fm
+    except Exception as e:  # noqa: BLE001 — cover is decorative, never block publish
+        sys.stderr.write(f"[warn] cover generation failed: {e}\n")
+
+    def add_spark(m):
+        row = m.group(0)
+        if "spark:" in row:
+            return row
+        lab = (re.search(r'label:\s*"([^"]+)"', row) or [None, ""])[1]
+        s = match_spark(lab, snapshot)
+        if not s:
+            return row
+        return row.rstrip()[:-1].rstrip() + f", spark: {s} }}"
+
+    new_fm = re.sub(r"-\s*\{[^}]*\}", add_spark, new_fm)
+    return f"---\n{new_fm}\n---\n{body}"
 
 
 def save_and_publish(entry, now, dry_run, no_push):
@@ -189,13 +336,24 @@ def main():
     print(f"[*] {args.session} session — fetching market brief…")
     brief = fetch_brief(args.session)
 
+    memory = gather_memory()
+    if memory:
+        print("[*] feeding Vega its recent track record (self-learning)")
     print("[*] asking Vega (Hermes) to write…")
-    entry = call_hermes(build_prompt(args.session, now, brief))
+    entry = call_hermes(build_prompt(args.session, now, brief, memory))
 
     ok, reason = validate(entry, brief)
     if not ok:
         sys.exit(f"[error] generated entry failed validation: {reason}\n\n{entry[:800]}")
     print("[ok] entry validated")
+
+    # Enrich with an auto-generated cover image + sparkline data (best effort).
+    try:
+        snapshot = json.loads((TOOLS / "market_snapshot.json").read_text(encoding="utf-8"))
+        entry = augment(entry, now, snapshot)
+        print("[ok] cover image + sparklines added")
+    except Exception as e:  # noqa: BLE001 — enrichment must never block publishing
+        sys.stderr.write(f"[warn] enrichment skipped: {e}\n")
 
     save_and_publish(entry, now, args.dry_run, args.no_push)
 

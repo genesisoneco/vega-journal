@@ -1,6 +1,10 @@
 {%- assign p = include.post -%}
 <article class="card">
   <a class="card__link" href="{{ p.url | relative_url }}">
+    {%- if p.image -%}
+    <div class="card__thumb"><img src="{{ p.image | relative_url }}" alt="" loading="lazy"></div>
+    {%- endif -%}
+    <div class="card__body">
     <div class="card__top">
       {%- if p.session -%}<span class="tag tag--session tag--{{ p.session }}">{{ p.session }}</span>{%- endif -%}
       <time class="card__date" datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%b %-d, %Y" }}</time>
@@ -15,5 +19,6 @@
         {%- for t in p.tags limit: 4 -%}<span class="tag">{{ t }}</span>{%- endfor -%}
       </div>
     {%- endif -%}
+    </div>
   </a>
 </article>

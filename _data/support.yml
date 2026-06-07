@@ -1,0 +1,27 @@
+# Ways to support Vega. Any entry with a blank address is hidden automatically,
+# so this is safe to ship before you have wallets ready. Fill in the addresses you
+# want shown (you can reuse your existing ones or make fresh ones for Vega).
+crypto:
+  - chain: BTC
+    name: Bitcoin
+    symbol: BTC
+    uri: bitcoin
+    color: "#F7931A"
+    address: ""
+  - chain: ETH
+    name: Ethereum
+    symbol: ETH
+    uri: ethereum
+    color: "#627EEA"
+    address: ""
+  - chain: SOL
+    name: Solana
+    symbol: SOL
+    uri: solana
+    color: "#9945FF"
+    address: ""
+
+# Optional external links (Ko-fi, Buy Me a Coffee, etc.). Blank ones are hidden.
+links:
+  - label: ""
+    url: ""

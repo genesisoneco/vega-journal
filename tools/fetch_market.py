@@ -99,18 +99,35 @@ def _pct(now, prev):
 
 
 # --- Stocks / indices via Yahoo chart v8 ------------------------------------
+def _downsample(series, target=24):
+    """Trim a numeric series to ~target points, dropping Nones, rounded."""
+    clean = [round(v, 2) for v in series if v is not None]
+    if len(clean) <= target:
+        return clean
+    step = len(clean) / target
+    return [clean[int(i * step)] for i in range(target)]
+
+
 def fetch_indices():
     out = []
     for sym, name in INDICES:
         q = urllib.parse.quote(sym)
+        # 60m/5d gives a richer series for the sparkline; meta still has price/prev.
         data = _get_json(
-            f"https://query1.finance.yahoo.com/v8/finance/chart/{q}?interval=1d&range=5d"
+            f"https://query1.finance.yahoo.com/v8/finance/chart/{q}?interval=60m&range=5d"
         )
-        row = {"symbol": sym, "name": name, "price": None, "change_pct": None, "available": False}
+        row = {"symbol": sym, "name": name, "price": None, "change_pct": None,
+               "spark": [], "available": False}
         try:
-            meta = data["chart"]["result"][0]["meta"]
+            res = data["chart"]["result"][0]
+            meta = res["meta"]
             price = meta.get("regularMarketPrice")
             prev = meta.get("chartPreviousClose") or meta.get("previousClose")
+            try:
+                closes = res["indicators"]["quote"][0]["close"]
+                row["spark"] = _downsample(closes)
+            except Exception:  # noqa: BLE001
+                pass
             row.update(
                 price=price,
                 prev_close=prev,
@@ -125,6 +142,19 @@ def fetch_indices():
     return out
 
 
+def fetch_crypto_spark(symbol):
+    """Short hourly close series for a coin via Binance klines (keyless)."""
+    data = _get_json(
+        f"https://api.binance.com/api/v3/klines?symbol={symbol}USDT&interval=1h&limit=48"
+    )
+    if not data:
+        return []
+    try:
+        return _downsample([float(k[4]) for k in data])  # index 4 = close
+    except Exception:  # noqa: BLE001
+        return []
+
+
 # --- Crypto via CoinGecko ---------------------------------------------------
 def fetch_crypto():
     ids = ",".join(c[0] for c in CRYPTO)
@@ -134,7 +164,8 @@ def fetch_crypto():
     )
     out = []
     for cid, sym in CRYPTO:
-        row = {"id": cid, "symbol": sym, "price": None, "change_pct": None, "available": False}
+        row = {"id": cid, "symbol": sym, "price": None, "change_pct": None,
+               "spark": [], "available": False}
         if data and cid in data:
             d = data[cid]
             row.update(
@@ -143,6 +174,8 @@ def fetch_crypto():
                 market_cap=d.get("usd_market_cap"),
                 available=d.get("usd") is not None,
             )
+            row["spark"] = fetch_crypto_spark(sym)
+            time.sleep(0.15)
         out.append(row)
     return out
 
@@ -209,7 +242,7 @@ def build_snapshot(session):
 
 def _fmt_price(v):
     if v is None:
-        return "—"
+        return "n/a"
     if v >= 1000:
         return f"{v:,.0f}"
     if v >= 1:

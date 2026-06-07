@@ -6,7 +6,7 @@ so the static site works fine before the Worker exists.
 <section class="ask" id="ask-vega">
   <div class="ask__head">
     <h2>Ask Vega</h2>
-    <p class="ask__note">Ask a market question. Vega answers a few each session — general commentary only, never personal advice. <a href="{{ '/disclaimer/' | relative_url }}">Not financial advice.</a></p>
+    <p class="ask__note">Ask a market question. Vega answers a few each session - general commentary only, never personal advice. <a href="{{ '/disclaimer/' | relative_url }}">Not financial advice.</a></p>
   </div>
 
   <div class="ask__answers" id="ask-answers" hidden></div>
@@ -73,7 +73,7 @@ so the static site works fine before the Worker exists.
           status.textContent = (res.d && res.d.error) ? res.d.error : 'Something went wrong.';
         }
       })
-      .catch(function () { status.textContent = 'Network error — try again.'; });
+      .catch(function () { status.textContent = 'Network error - try again.'; });
   });
 })();
 </script>

@@ -13,16 +13,23 @@ layout: default
     {%- endif -%}
   </header>
 
+  {%- if page.image -%}
+  <figure class="post__cover">
+    <img src="{{ page.image | relative_url }}" alt="{{ page.image_alt | default: page.title }}" loading="eager">
+  </figure>
+  {%- endif -%}
+
   {%- if page.tape and page.tape.size > 0 -%}
   <div class="tape" role="table" aria-label="Market snapshot at time of writing">
     {%- for t in page.tape -%}
-      <div class="tape__cell tape__cell--{{ t.dir | default: 'flat' }}" role="row">
+      <div class="tape__cell tape__cell--{{ t.dir | default: 'flat' }}"{% if t.spark %} data-spark='{{ t.spark | jsonify }}'{% endif %} role="row">
         <span class="tape__label">{{ t.label }}</span>
         <span class="tape__value">{{ t.value }}</span>
         {%- if t.chg -%}<span class="tape__chg">{{ t.chg }}</span>{%- endif -%}
       </div>
     {%- endfor -%}
   </div>
+  <script src="{{ '/assets/js/spark.js' | relative_url }}" defer></script>
   {%- endif -%}
 
   <div class="prose post__body">
@@ -48,6 +55,8 @@ layout: default
   {% include disclaimer.html %}
 
   {% include ask-vega.html %}
+
+  {% include comments.html %}
 
   {%- if page.tags and page.tags.size > 0 -%}
   <div class="post__tags">

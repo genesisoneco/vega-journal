@@ -1,4 +1,4 @@
-/* Vega — market diary. Dark "trading terminal" theme.
+/* Vega - market diary. Dark "trading terminal" theme.
    Hand-written, no build step. Mono numerals, green/red tape, calm ink. */
 
 :root {
@@ -203,6 +203,66 @@ h1, h2, h3 { line-height: 1.2; letter-spacing: -0.01em; }
 .subscribe__form input { width: 100%; max-width: 360px; background: var(--bg); color: var(--ink);
   border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font: inherit; font-size: 15px; }
 .subscribe__fine { font-size: 12px; color: var(--ink-dim); margin: 14px 0 0; }
+
+/* --- Post cover image --- */
+.post__cover { margin: 0 0 28px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); }
+.post__cover img { width: 100%; display: block; aspect-ratio: 1200 / 630; object-fit: cover; }
+
+/* --- Card thumbnails --- */
+.card__link { padding: 0; }
+.card__thumb { aspect-ratio: 1200 / 630; overflow: hidden; border-bottom: 1px solid var(--line); }
+.card__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .25s ease; }
+.card:hover .card__thumb img { transform: scale(1.03); }
+.card__body { padding: 18px; }
+
+/* --- Tape sparklines --- */
+.tape__spark { margin-top: 8px; height: 30px; }
+.spark { width: 100%; height: 30px; display: block; }
+
+/* --- Animated gradient hero --- */
+.hero { background-size: 180% 180%, 180% 180%; animation: heroShift 20s ease-in-out infinite; }
+@keyframes heroShift {
+  0%, 100% { background-position: 0% 0%, 100% 0%; }
+  50% { background-position: 100% 60%, 0% 100%; }
+}
+@media (prefers-reduced-motion: reduce) { .hero { animation: none; } }
+
+/* --- Nav CTA (Support) --- */
+.site-nav__link--cta { background: linear-gradient(135deg, var(--up), var(--accent)); color: #04121f; font-weight: 700; }
+.site-nav__link--cta:hover { background: linear-gradient(135deg, var(--up), var(--accent)); filter: brightness(1.08); color: #04121f; }
+
+/* --- Support page --- */
+.eyebrow { display: inline-block; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--up); font-weight: 700; margin-bottom: 10px; }
+.support-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 28px 0; }
+.support-card { background: var(--bg-card); border: 1px solid var(--line); border-top: 3px solid var(--chain, var(--accent)); border-radius: var(--radius); padding: 18px; }
+.support-card__head { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.support-card__dot { width: 10px; height: 10px; border-radius: 50%; background: var(--chain); box-shadow: 0 0 10px var(--chain); }
+.support-card__name { font-weight: 700; }
+.support-card__sym { font-family: var(--font-mono); font-size: 12px; color: var(--ink-dim); margin-left: auto; }
+.support-card__addr { display: block; font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft); word-break: break-all;
+  background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px; margin-bottom: 12px; }
+.support-card__copy { width: 100%; justify-content: center; font-size: 14px; padding: 9px; }
+.support-soon { margin: 28px 0; padding: 20px; border: 1px dashed var(--line); border-radius: var(--radius); color: var(--ink-soft); background: var(--bg-soft); }
+.support-links { display: flex; gap: 12px; flex-wrap: wrap; margin: 24px 0; }
+
+/* --- Comments --- */
+.comments { margin: 40px 0 8px; padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-soft); }
+.comments__head h2 { margin: 0 0 6px; font-size: 22px; }
+.comments__note { color: var(--ink-soft); font-size: 14px; margin: 0 0 18px; }
+.comments__list { list-style: none; padding: 0; margin: 0 0 22px; }
+.comments__empty { color: var(--ink-dim); font-size: 14.5px; padding: 8px 0; }
+.comment { padding: 14px 0; border-bottom: 1px solid var(--line); }
+.comment__meta { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+.comment__name { font-weight: 700; font-size: 14.5px; color: var(--ink); }
+.comment__date { font-family: var(--font-mono); font-size: 12px; color: var(--ink-dim); }
+.comment__body { margin: 0; color: var(--ink); font-size: 15.5px; white-space: pre-wrap; word-wrap: break-word; }
+.comments__form input[type="text"] { width: 100%; max-width: 280px; background: var(--bg); color: var(--ink);
+  border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font: inherit; font-size: 15px; margin-bottom: 10px; }
+.comments__form textarea { width: 100%; min-height: 84px; resize: vertical; background: var(--bg); color: var(--ink);
+  border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font: inherit; font-size: 15px; }
+.comments__form input:focus, .comments__form textarea:focus { outline: none; border-color: var(--accent); }
+.comments__row { display: flex; align-items: center; gap: 14px; margin-top: 12px; flex-wrap: wrap; }
+.comments__status { font-size: 13.5px; color: var(--ink-soft); }
 
 /* --- Responsive --- */
 @media (max-width: 640px) {

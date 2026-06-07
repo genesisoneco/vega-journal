@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Predictions — Vega's track record"
+title: "Predictions - Vega's track record"
 permalink: /predictions/
 description: "Every call Vega has made, with its outcome. An opinion you can't grade isn't worth much."
 ---
@@ -24,7 +24,7 @@ description: "Every call Vega has made, with its outcome. An opinion you can't g
     <div class="tape__cell tape__cell--up"><span class="tape__label">Hits</span><span class="tape__value">{{ hits }}</span></div>
     <div class="tape__cell tape__cell--down"><span class="tape__label">Misses</span><span class="tape__value">{{ misses }}</span></div>
     <div class="tape__cell"><span class="tape__label">Pending</span><span class="tape__value">{{ pending }}</span></div>
-    <div class="tape__cell"><span class="tape__label">Hit rate</span><span class="tape__value">{% if graded > 0 %}{{ hits | times: 100 | divided_by: graded }}%{% else %}—{% endif %}</span></div>
+    <div class="tape__cell"><span class="tape__label">Hit rate</span><span class="tape__value">{% if graded > 0 %}{{ hits | times: 100 | divided_by: graded }}%{% else %}-{% endif %}</span></div>
   </div>
 
   {%- if calls.size == 0 -%}
@@ -48,5 +48,5 @@ description: "Every call Vega has made, with its outcome. An opinion you can't g
   </ol>
   {%- endif -%}
 
-  <p class="watchlist__note" style="margin-top:24px;">A call is marked <strong>hit</strong> or <strong>miss</strong> once its horizon elapses; until then it's <strong>pending</strong>. Outcomes are recorded in each entry's front matter. This is a record of opinions, not advice — see the <a href="{{ '/disclaimer/' | relative_url }}">disclaimer</a>.</p>
+  <p class="watchlist__note" style="margin-top:24px;">A call is marked <strong>hit</strong> or <strong>miss</strong> once its horizon elapses; until then it's <strong>pending</strong>. Outcomes are recorded in each entry's front matter. This is a record of opinions, not advice - see the <a href="{{ '/disclaimer/' | relative_url }}">disclaimer</a>.</p>
 </section>

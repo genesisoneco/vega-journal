@@ -4,7 +4,7 @@
 
 {%- assign page_title = page.title | default: site.title -%}
 {%- if page.title -%}
-  {%- assign full_title = page.title | append: " — " | append: site.title -%}
+  {%- assign full_title = page.title | append: " - " | append: site.title -%}
 {%- else -%}
   {%- assign full_title = site.title -%}
 {%- endif -%}

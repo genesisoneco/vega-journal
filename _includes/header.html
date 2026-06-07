@@ -8,7 +8,7 @@
       {%- for item in site.data.navigation -%}
         {%- assign cur = page.url | remove_first: site.baseurl -%}
         <a href="{{ item.url | relative_url }}"
-           class="site-nav__link{% if cur == item.url %} is-active{% endif %}">{{ item.title }}</a>
+           class="site-nav__link{% if item.cta %} site-nav__link--cta{% endif %}{% if cur == item.url %} is-active{% endif %}">{{ item.title }}</a>
       {%- endfor -%}
     </nav>
   </div>
