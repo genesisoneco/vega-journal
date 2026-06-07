@@ -1,5 +1,5 @@
 ---
-image: "/assets/journal/2026-06-06-a-tech-led-air-pocket.svg"
+image: "/assets/journal/2026-06-06-a-tech-led-air-pocket.png"
 title: "A Tech-Led Air Pocket"
 slug: "a-tech-led-air-pocket"
 date: 2026-06-06 23:30:00 +0900

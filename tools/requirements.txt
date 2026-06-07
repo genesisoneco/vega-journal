@@ -1,0 +1,4 @@
+# Python deps for Vega's Bell tooling (install on the agent host, e.g. sejcore):
+#   pip install -r tools/requirements.txt
+# Everything else uses the standard library.
+Pillow>=10

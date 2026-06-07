@@ -250,86 +250,206 @@ def _abs_chg(r):
         return 0.0
 
 
+FONT_DIR = TOOLS / "fonts"
+
+
+def _hex_rgb(hx):
+    hx = (hx or "#00e5ff").lstrip("#")
+    return tuple(int(hx[i:i + 2], 16) for i in (0, 2, 4))
+
+
+def _mix(a, b, t):
+    return tuple(int(a[i] + (b[i] - a[i]) * t) for i in range(3))
+
+
+def _ai_background(concept, W, H):
+    """Optional: an AI-generated background via the OpenAI Images API. Returns a
+    PIL RGBA image cropped to WxH, or None if no key / not configured / it fails.
+    This is the 'evolve over time' switch: set VEGA_IMAGE_KEY to turn it on."""
+    key = os.environ.get("VEGA_IMAGE_KEY") or os.environ.get("OPENAI_IMAGE_KEY")
+    if not key or not concept:
+        return None
+    import base64
+    import urllib.request
+    from io import BytesIO
+    from PIL import Image
+    prompt = ("Editorial financial illustration for a market diary cover. Dark, moody, "
+              "cinematic fintech aesthetic, abstract, high contrast, no text and no words. "
+              "Scene: " + concept)
+    payload = json.dumps({"model": "gpt-image-1", "prompt": prompt,
+                          "size": "1536x1024", "n": 1}).encode()
+    req = urllib.request.Request("https://api.openai.com/v1/images/generations", data=payload,
+                                 method="POST",
+                                 headers={"Authorization": f"Bearer {key}",
+                                          "Content-Type": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=120) as r:
+            d = json.loads(r.read())
+        img = Image.open(BytesIO(base64.b64decode(d["data"][0]["b64_json"]))).convert("RGBA")
+        sw, sh = img.size
+        scale = max(W / sw, H / sh)
+        img = img.resize((int(sw * scale), int(sh * scale)))
+        x = (img.size[0] - W) // 2
+        y = (img.size[1] - H) // 2
+        return img.crop((x, y, x + W, y + H))
+    except Exception as e:  # noqa: BLE001
+        sys.stderr.write(f"[warn] AI background failed, using designed cover: {e}\n")
+        return None
+
+
 def make_cover(now, slug, fm):
-    """Render a unique, sentiment-colored cover SVG from the post's own data."""
-    color, mood_label = _mood_color(field(fm, "mood"))
-    title = field(fm, "title") or "Market Diary"
-    session = (field(fm, "session") or "adhoc").upper()
-    rows = _parse_tape(fm)
-
-    # Deterministic per-post fingerprint so even two similar days look distinct:
-    # vary the grid density, the background gradient direction, and scatter a faint
-    # constellation of dots in the upper-right.
-    h = hashlib.md5((slug + now.strftime("%Y%m%d")).encode()).digest()
-    gs = 40 + h[0] % 18                          # grid cell size 40..57
-    gx2 = round(0.55 + (h[1] % 50) / 100, 2)     # bg gradient direction
-    gy2 = round(0.55 + (h[2] % 50) / 100, 2)
-    dots = ""
-    for k in range(16):
-        b1, b2, b3 = h[(k * 3) % 16], h[(k * 3 + 1) % 16], h[(k * 3 + 2) % 16]
-        dx = 620 + b1 * 560 // 255
-        dy = 40 + b2 * 230 // 255
-        dots += f'<circle cx="{dx}" cy="{dy}" r="{1 + b3 % 3}" fill="{color}" opacity="{round(0.08 + (b3 % 7) / 30, 2)}"/>'
-
-    # Chart = the biggest mover's series, so each cover tells that post's story.
-    sparked = sorted([r for r in rows if len(r.get("spark") or []) >= 2],
-                     key=_abs_chg, reverse=True)
-    series = sparked[0]["spark"] if sparked else [1, 1.15, 1.05, 1.3, 1.2, 1.45, 1.32, 1.6]
-    chart_label = sparked[0]["label"] if sparked else "markets"
+    """Render a bold, clickable PNG cover (YouTube-thumbnail style) from the post's
+    own data: big headline, mood art, market context, branding. Raster so it also
+    works as the social/OG share image (SVG does not). Optional AI background."""
+    from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
     W, H = 1200, 630
-    cy0, cy1 = 322, 540
+    color = _hex_rgb(_mood_color(field(fm, "mood"))[0])
+    mood_label = _mood_color(field(fm, "mood"))[1]
+    title = field(fm, "title") or "Market Diary"
+    session = (field(fm, "session") or "adhoc").upper()
+    concept = field(fm, "image_concept") or ""
+    rows = _parse_tape(fm)
+    ink, dim, paper = (233, 237, 246), (140, 150, 175), (6, 7, 14)
+
+    def font(name, size):
+        return ImageFont.truetype(str(FONT_DIR / name), size)
+
+    # Deterministic per-post fingerprint: small variations so similar days differ.
+    h = hashlib.md5((slug + now.strftime("%Y%m%d")).encode()).digest()
+    tint = 0.10 + (h[0] % 8) / 100.0        # how strongly the mood tints the bg
+    grid_gap = 42 + h[1] % 16
+
+    img = Image.new("RGBA", (W, H), paper + (255,))
+
+    ai = _ai_background(concept, W, H)
+    if ai is not None:
+        img.alpha_composite(ai)
+        scrim = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        sd = ImageDraw.Draw(scrim)
+        for y in range(H):                  # darken left + bottom for text legibility
+            a = int(205 * (1 - y / H) ** 0.6) if y < H else 0
+            sd.line([(0, y), (W, y)], fill=(4, 6, 12, max(70, a)))
+        sd.rectangle([0, 0, int(W * 0.62), H], fill=(4, 6, 12, 120))
+        img.alpha_composite(scrim)
+    else:
+        # Designed background: vertical mood-tinted gradient + faint grid + dots.
+        top = _mix(paper, color, tint)
+        d0 = ImageDraw.Draw(img)
+        for y in range(H):
+            d0.line([(0, y), (W, y)], fill=_mix(top, paper, y / H) + (255,))
+        grid = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        gd = ImageDraw.Draw(grid)
+        for x in range(0, W, grid_gap):
+            gd.line([(x, 0), (x, H)], fill=color + (16,))
+        for y in range(0, H, grid_gap):
+            gd.line([(0, y), (W, y)], fill=color + (16,))
+        img.alpha_composite(grid)
+        dots = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        dd = ImageDraw.Draw(dots)
+        for k in range(18):
+            b1, b2, b3 = h[(k * 3) % 16], h[(k * 3 + 1) % 16], h[(k * 3 + 2) % 16]
+            cx, cy, rr = 560 + b1 * 600 // 255, 30 + b2 * 250 // 255, 1 + b3 % 3
+            dd.ellipse([cx - rr, cy - rr, cx + rr, cy + rr], fill=color + (40 + b3 % 60,))
+        img.alpha_composite(dots)
+
+    # Chart = the biggest mover's series, drawn low across the lower third.
+    sparked = sorted([r for r in rows if len(r.get("spark") or []) >= 2],
+                     key=_abs_chg, reverse=True)
+    series = sparked[0]["spark"] if sparked else [1, 1.12, 1.05, 1.22, 1.16, 1.4, 1.28, 1.55]
+    chart_label = sparked[0]["label"] if sparked else "markets"
+    cy_top, cy_bot = 372, 568
     mn, mx = min(series), max(series)
     rng = (mx - mn) or 1
-    pts = [(i * W / (len(series) - 1), cy1 - (v - mn) / rng * (cy1 - cy0)) for i, v in enumerate(series)]
-    line = " ".join(("M" if i == 0 else "L") + f"{x:.1f} {y:.1f}" for i, (x, y) in enumerate(pts))
-    area = f"{line} L{W} {cy1:.1f} L0 {cy1:.1f} Z"
+    pts = [(i * W / (len(series) - 1), cy_bot - (v - mn) / rng * (cy_bot - cy_top))
+           for i, v in enumerate(series)]
+    chart = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    cd = ImageDraw.Draw(chart)
+    cd.polygon(pts + [(W, H), (0, H)], fill=color + (40,))
+    cd.line(pts, fill=color + (180,), width=5, joint="curve")
+    chart = chart.filter(ImageFilter.GaussianBlur(0.6))
+    img.alpha_composite(chart)
 
-    # title wrap to <= 2 lines
-    words, lines, cur = title.split(), [], ""
-    for w in words:
-        if len(cur) + len(w) + 1 <= 24:
-            cur = (cur + " " + w).strip()
-        else:
-            lines.append(cur); cur = w
-    if cur:
-        lines.append(cur)
-    tspans = "".join(f'<tspan x="64" dy="{0 if i == 0 else 60}">{_html.escape(l)}</tspan>'
-                     for i, l in enumerate(lines[:2]))
+    draw = ImageDraw.Draw(img)
 
-    # stat strip: up to 3 tape rows, green/red by direction
-    stats = ""
+    def glow(xy, text, fnt, fill, gcol, rad=10, anchor=None):
+        layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        ImageDraw.Draw(layer).text(xy, text, font=fnt, fill=gcol + (180,), anchor=anchor)
+        img.alpha_composite(layer.filter(ImageFilter.GaussianBlur(rad)))
+        draw.text(xy, text, font=fnt, fill=fill, anchor=anchor)
+
+    def spaced(xy, text, fnt, fill, gap=6):
+        x, y = xy
+        for ch in text:
+            draw.text((x, y), ch, font=fnt, fill=fill)
+            x += draw.textlength(ch, font=fnt) + gap
+
+    # Eyebrow: VEGA'S BELL / SESSION / DATE
+    f_eye = font("SpaceMono-Bold.ttf", 21)
+    spaced((64, 52), f"VEGA'S BELL  /  {session}  /  {now.strftime('%b %d, %Y').upper()}",
+           f_eye, (0, 229, 255), gap=3)
+
+    # Mood badge pill (light text for contrast on the mood-tinted pill)
+    f_mood = font("SpaceMono-Bold.ttf", 26)
+    mw = draw.textlength(mood_label, font=f_mood)
+    draw.rounded_rectangle([64, 96, 64 + mw + 40, 142], radius=10,
+                           fill=color + (48,), outline=color + (230,), width=2)
+    draw.text((84, 104), mood_label, font=f_mood, fill=(245, 248, 255))
+
+    # Headline: shrink font until it fits <= 3 lines within the width.
+    max_w = 1010
+    for size in (96, 86, 76, 66, 58):
+        f_h = font("Arvo-Bold.ttf", size)
+        words, lines, cur = title.split(), [], ""
+        for w in words:
+            t = (cur + " " + w).strip()
+            if draw.textlength(t, font=f_h) <= max_w:
+                cur = t
+            else:
+                if cur:
+                    lines.append(cur)
+                cur = w
+        if cur:
+            lines.append(cur)
+        if len(lines) <= 3:
+            break
+    lh = int(size * 1.12)
+    y = 178
+    for ln in lines[:3]:
+        glow((64, y), ln, f_h, (244, 248, 255), color, rad=12)
+        y += lh
+
+    # Optional hook line (from the writer's image_concept), kept short.
+    if concept:
+        hook = concept if len(concept) <= 66 else concept[:63].rstrip() + "..."
+        draw.text((66, y + 6), hook, font=font("SpaceMono-Regular.ttf", 22), fill=color)
+
+    # Stat strip along the bottom: up to 3 tape rows, green/red by direction.
+    f_lab = font("SpaceMono-Bold.ttf", 16)
+    f_val = font("SpaceMono-Bold.ttf", 27)
+    f_chg = font("SpaceMono-Bold.ttf", 18)
     for i, r in enumerate(rows[:3]):
         x = 64 + i * 372
-        c = "#1bf0a8" if r.get("dir") == "up" else ("#ff3b6b" if r.get("dir") == "down" else "#aab6d0")
-        val = _html.escape(str(r.get("value") or ""))
-        stats += (
-            f'<text x="{x}" y="578" font-family="ui-monospace,monospace" font-size="17" fill="#6f7a99" letter-spacing="1">{_html.escape(str(r.get("label") or "").upper())}</text>'
-            f'<text x="{x}" y="608" font-family="ui-monospace,monospace" font-size="28" font-weight="700" fill="#e9edf6">{val}</text>'
-            f'<text x="{x + len(val) * 16 + 12}" y="608" font-family="ui-monospace,monospace" font-size="19" fill="{c}">{_html.escape(str(r.get("chg") or ""))}</text>'
-        )
+        up = r.get("dir") == "up"
+        c = (27, 240, 168) if up else ((255, 59, 107) if r.get("dir") == "down" else dim)
+        spaced((x, 556), str(r.get("label") or "").upper()[:18], f_lab, dim, gap=1)
+        val = str(r.get("value") or "")
+        draw.text((x, 580), val, font=f_val, fill=ink)
+        draw.text((x + draw.textlength(val, font=f_val) + 12, 588),
+                  str(r.get("chg") or ""), font=f_chg, fill=c)
 
-    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="{gx2}" y2="{gy2}"><stop offset="0" stop-color="#05060c"/><stop offset="1" stop-color="#0b1020"/></linearGradient>
-    <linearGradient id="ar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{color}" stop-opacity="0.5"/><stop offset="1" stop-color="{color}" stop-opacity="0"/></linearGradient>
-    <pattern id="grid" width="{gs}" height="{gs}" patternUnits="userSpaceOnUse"><path d="M{gs} 0H0V{gs}" fill="none" stroke="{color}" stroke-opacity="0.07" stroke-width="1"/></pattern>
-  </defs>
-  <rect width="{W}" height="{H}" fill="url(#bg)"/>
-  <rect width="{W}" height="{H}" fill="url(#grid)"/>
-  <g>{dots}</g>
-  <path d="{area}" fill="url(#ar)"/>
-  <path d="{line}" fill="none" stroke="{color}" stroke-width="4" style="filter:drop-shadow(0 0 8px {color})"/>
-  <text x="64" y="78" font-family="ui-monospace,monospace" font-size="23" fill="#00e5ff" letter-spacing="4">VEGA / {session} / {now.strftime('%b %d, %Y').upper()}</text>
-  <text x="64" y="140" font-family="ui-monospace,monospace" font-size="34" font-weight="700" fill="{color}" letter-spacing="2" style="filter:drop-shadow(0 0 10px {color})">{_html.escape(mood_label)}</text>
-  <text x="64" y="214" font-family="Georgia,serif" font-size="54" font-weight="700" fill="#e9edf6">{tspans}</text>
-  {stats}
-  <text x="{W - 64}" y="78" text-anchor="end" font-family="ui-monospace,monospace" font-size="17" fill="#6f7a99">{_html.escape(chart_label)} / not financial advice</text>
-</svg>"""
+    # Branding mark (the neon V) top-right.
+    try:
+        logo = Image.open(ROOT / "assets" / "img" / "logo.png").convert("RGBA")
+        logo = logo.resize((58, 58))
+        img.alpha_composite(logo, (W - 58 - 56, 44))
+    except Exception:  # noqa: BLE001
+        pass
+
     journal = ROOT / "assets" / "journal"
     journal.mkdir(parents=True, exist_ok=True)
-    fname = f"{now.strftime('%Y-%m-%d')}-{slug}.svg"
-    (journal / fname).write_text(svg, encoding="utf-8")
+    fname = f"{now.strftime('%Y-%m-%d')}-{slug}.png"
+    img.convert("RGB").save(journal / fname, "PNG", optimize=True)
     return f"/assets/journal/{fname}"
 
 

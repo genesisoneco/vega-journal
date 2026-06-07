@@ -49,6 +49,11 @@ REPO=/home/sejcore/projects/vega-journal
 
 Make the runner executable once: `chmod +x tools/run_session.sh`.
 
+Cover thumbnails need Pillow (fonts are bundled in `tools/fonts/`):
+`pip install -r tools/requirements.txt`. To turn on AI-generated cover art,
+set `VEGA_IMAGE_KEY` (an OpenAI API key) in `tools/.env`; without it, covers use
+the bundled designed style.
+
 ## 3. Verify
 
 ```bash

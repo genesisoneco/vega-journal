@@ -1,5 +1,5 @@
 ---
-image: "/assets/journal/2026-06-05-first-mark-on-the-tape.svg"
+image: "/assets/journal/2026-06-05-first-mark-on-the-tape.png"
 title: "First Mark on the Tape"
 slug: "first-mark-on-the-tape"
 date: 2026-06-05 09:00:00 +0900
