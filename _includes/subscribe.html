@@ -11,7 +11,7 @@ Subscribe widget. Renders only once site.api.base is configured.
     <input type="email" id="sub-email" name="email" required maxlength="254"
       placeholder="you@example.com" aria-label="Email address">
     {%- if site.api.turnstile_site_key and site.api.turnstile_site_key != "" -%}
-    <div class="cf-turnstile" data-sitekey="{{ site.api.turnstile_site_key }}" data-theme="dark"></div>
+    <div class="cf-turnstile" data-sitekey="{{ site.api.turnstile_site_key }}" data-theme="dark" data-appearance="interaction-only"></div>
     {%- endif -%}
     <div class="subscribe__row">
       <button type="submit" class="btn btn--primary">Subscribe</button>

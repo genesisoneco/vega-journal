@@ -15,7 +15,7 @@ Auto-published with Turnstile; the operator can delete via the admin endpoint.
     <input type="text" id="comment-name" name="name" maxlength="40" placeholder="Name (optional)" aria-label="Name">
     <textarea id="comment-body" name="body" maxlength="1500" required placeholder="Add to the discussion"></textarea>
     {%- if site.api.turnstile_site_key and site.api.turnstile_site_key != "" -%}
-    <div class="cf-turnstile" data-sitekey="{{ site.api.turnstile_site_key }}" data-theme="dark"></div>
+    <div class="cf-turnstile" data-sitekey="{{ site.api.turnstile_site_key }}" data-theme="dark" data-appearance="interaction-only"></div>
     {%- endif -%}
     <div class="comments__row">
       <button type="submit" class="btn btn--primary">Post comment</button>

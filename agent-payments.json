@@ -1,0 +1,5 @@
+---
+permalink: /.well-known/agent-payments.json
+sitemap: false
+---
+{% include agent_payments_manifest.json %}

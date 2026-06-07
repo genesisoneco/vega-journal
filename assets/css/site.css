@@ -421,3 +421,7 @@ img, svg { max-width: 100%; }
   .ticker { height: 32px; }
   .tk { font-size: 12px; }
 }
+
+/* Footer brand logo (match header) */
+.site-footer__brand { display: flex; align-items: center; gap: 10px; }
+.site-footer__brand .brand__logo { width: 28px; height: 28px; box-shadow: none; flex: none; }

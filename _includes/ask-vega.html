@@ -15,7 +15,7 @@ so the static site works fine before the Worker exists.
     <textarea name="question" id="ask-question" maxlength="600" required
       placeholder="What do you make of the VIX spike?"></textarea>
     {%- if site.api.turnstile_site_key and site.api.turnstile_site_key != "" -%}
-    <div class="cf-turnstile" data-sitekey="{{ site.api.turnstile_site_key }}" data-theme="dark"></div>
+    <div class="cf-turnstile" data-sitekey="{{ site.api.turnstile_site_key }}" data-theme="dark" data-appearance="interaction-only"></div>
     {%- endif -%}
     <div class="ask__row">
       <button type="submit" class="btn btn--primary">Send to Vega</button>
