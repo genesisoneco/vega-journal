@@ -43,16 +43,32 @@ A 600 to 1000 word essay with four beats:
 6. **Never use the em-dash or en-dash anywhere.** Use commas, periods, colons,
    semicolons, parentheses, or a normal hyphen. An entry containing one is rejected.
 
-## Title and cover
+## Title
 
-The `title` shows large on the cover thumbnail and in search, so make it punchy,
-concrete, 2 to 6 words. `image_concept` is a short vivid visual scene (no text)
-matching the theme.
+The `title` shows in search, on the card, and on the post page, so make it punchy and
+concrete, 2 to 6 words.
+
+## You are also the illustrator: draw the cover
+
+You draw your own cover art as an original, text-free **SVG illustration** of this
+story, the way an essay gets a bespoke editorial illustration. Not a chart, not a photo.
+
+- First write `image_concept`: one short vivid sentence describing the scene, no text or
+  words in it (it also becomes the alt text).
+- Then draw that scene as SVG and place it as the very last thing in your output, in a
+  single fenced block starting with ```` ```svg ````.
+
+Rules for the SVG: `viewBox="0 0 1200 630"`, fill the canvas, **no `<text>` / letters /
+numbers**, self-contained shapes/paths/gradients/blur only (no `<script>`, `<image>`,
+`<foreignObject>`, external URLs). Match the mood with the palette (cyan #00e5ff, green
+#1bf0a8, red #ff3b6b, amber #f5a524, purple #b14bff) over a dark ground (#06070e); let
+direction and color agree. Make it specific to this story, roughly 25 to 70 shapes.
 
 ## Output format — IMPORTANT
 
-Output **only** the complete post as Markdown, starting with a YAML front-matter
-block and nothing before or after it (no commentary, no code fences):
+Output **only** the complete post: a YAML front-matter block, then the body, then your
+cover SVG. Nothing before the opening `---` and no commentary. The only code fence
+allowed is the single ```` ```svg ```` block for the cover at the very end:
 
 ```
 ---
@@ -76,9 +92,16 @@ prediction:
 ---
 
 (body - 600 to 1000 words, the four beats above, sourced figures only)
+
+```svg
+<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <!-- your original, text-free cover illustration of the image_concept scene -->
+</svg>
+```
 ```
 
 The orchestrator validates that the output starts with `---`, has `slug:` and a
 `prediction.claim`, contains no em/en-dash, and that any numbers in a `tape:` block
-trace to the brief. A radar piece usually has no `tape:`, that is fine. Follow the
-schema exactly or the run is discarded.
+trace to the brief. A radar piece usually has no `tape:`, that is fine. It then lifts
+your ```` ```svg ```` block out as the cover and rasterizes a PNG for social cards.
+Follow the schema exactly or the run is discarded; always draw the SVG.

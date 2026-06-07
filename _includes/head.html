@@ -15,7 +15,14 @@
 <link rel="canonical" href="{{ page.url | absolute_url }}">
 
 <!-- Open Graph / Twitter -->
-{%- assign og_image = page.image | default: '/assets/img/og-default.png' | absolute_url -%}
+{%- comment -%}
+  Social cards must be raster: prefer the rasterized og_image, then a PNG image,
+  but never an SVG cover (most platforms will not render it). Fall back to the
+  branded default. The on-page <img> still uses page.image (the SVG) directly.
+{%- endcomment -%}
+{%- assign _og = page.og_image | default: page.image | default: '/assets/img/og-default.png' -%}
+{%- if _og contains '.svg' -%}{%- assign _og = '/assets/img/og-default.png' -%}{%- endif -%}
+{%- assign og_image = _og | absolute_url -%}
 <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
 <meta property="og:site_name" content="{{ site.title }}">
 <meta property="og:title" content="{{ full_title }}">

@@ -231,7 +231,11 @@ def validate(entry, brief):
     slug = field(fm, "slug")
     if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug or ""):
         return False, f"bad slug: {slug!r}"
-    words = len(re.findall(r"\w+", body))
+    # Count prose words only: strip the cover-art SVG (and any fenced block) so the
+    # illustration markup can't pad a thin entry past the minimum.
+    prose = re.sub(r"<svg\b.*?</svg>", "", body, flags=re.DOTALL | re.IGNORECASE)
+    prose = re.sub(r"```.*?```", "", prose, flags=re.DOTALL)
+    words = len(re.findall(r"\w+", prose))
     if words < 200:
         return False, f"body too short ({words} words)"
     # Soft check: numbers in the `tape:` block should come from the brief.
@@ -430,6 +434,9 @@ def make_cover(now, slug, fm):
                      key=_abs_chg, reverse=True)
     series = sparked[0]["spark"] if sparked else [1, 1.12, 1.05, 1.22, 1.16, 1.4, 1.28, 1.55]
     chart_label = sparked[0]["label"] if sparked else "markets"
+    # Color the line by the series' OWN direction (green up / red down), not by the
+    # post mood: a rising line must never render red just because the day was risk-off.
+    chart_color = (27, 240, 168) if series[-1] >= series[0] else (255, 59, 107)
     cy_top, cy_bot = 372, 568
     mn, mx = min(series), max(series)
     rng = (mx - mn) or 1
@@ -437,8 +444,8 @@ def make_cover(now, slug, fm):
            for i, v in enumerate(series)]
     chart = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     cd = ImageDraw.Draw(chart)
-    cd.polygon(pts + [(W, H), (0, H)], fill=color + (40,))
-    cd.line(pts, fill=color + (180,), width=5, joint="curve")
+    cd.polygon(pts + [(W, H), (0, H)], fill=chart_color + (40,))
+    cd.line(pts, fill=chart_color + (180,), width=5, joint="curve")
     chart = chart.filter(ImageFilter.GaussianBlur(0.6))
     img.alpha_composite(chart)
 
@@ -525,8 +532,79 @@ def make_cover(now, slug, fm):
     return f"/assets/journal/{fname}"
 
 
+SVG_FENCE_RE = re.compile(r"```(?:svg|xml|html)?\s*\n?\s*(<svg\b.*?</svg>)\s*\n?```",
+                          re.DOTALL | re.IGNORECASE)
+SVG_RAW_RE = re.compile(r"<svg\b.*?</svg>", re.DOTALL | re.IGNORECASE)
+
+
+def extract_svg(body):
+    """Pull Vega's hand-drawn cover SVG out of the body. Accepts a fenced ```svg
+    block (preferred) or a bare <svg>...</svg>. Returns (svg_or_None, body_without_it)."""
+    m = SVG_FENCE_RE.search(body)
+    if m:
+        svg = m.group(1)
+    else:
+        m = SVG_RAW_RE.search(body)
+        if not m:
+            return None, body
+        svg = m.group(0)
+    cleaned = (body[:m.start()] + body[m.end():]).strip()
+    return svg, cleaned
+
+
+def sanitize_svg(svg):
+    """Validate the writer's SVG is a safe, self-contained illustration. Raises
+    ValueError if it is unusable; returns the (lightly normalized) markup."""
+    s = svg.strip()
+    low = s.lower()
+    if not low.startswith("<svg") or "</svg>" not in low:
+        raise ValueError("not a complete <svg> element")
+    # No scripts, no external/remote references, no raster embeds, no foreign HTML.
+    for bad in ("<script", "<foreignobject", "javascript:", "<image", "<iframe",
+                'href="http', "href='http", "url(http", "<!entity", "<!doctype"):
+        if bad in low:
+            raise ValueError(f"disallowed content in cover svg: {bad!r}")
+    if "—" in s or "–" in s:
+        raise ValueError("cover svg contains a forbidden em/en-dash")
+    if "xmlns=" not in low:
+        s = s.replace("<svg", '<svg xmlns="http://www.w3.org/2000/svg"', 1)
+    if "viewbox" not in low:                       # keep the 1200x630 cover ratio
+        s = s.replace("<svg", '<svg viewBox="0 0 1200 630"', 1)
+    return s
+
+
+def save_cover_svg(now, slug, svg):
+    """Sanitize and write the cover SVG. Returns its site-relative path."""
+    s = sanitize_svg(svg)
+    journal = ROOT / "assets" / "journal"
+    journal.mkdir(parents=True, exist_ok=True)
+    fname = f"{now.strftime('%Y-%m-%d')}-{slug}.svg"
+    (journal / fname).write_text(s, encoding="utf-8")
+    return f"/assets/journal/{fname}"
+
+
+def rasterize_svg(svg_abspath, png_abspath, W, H):
+    """SVG -> PNG for the social / OG card (SVG is not a valid OG image). Returns the
+    site-relative PNG path, or None if no rasterizer is installed (caller falls back
+    to the Pillow template so the pipeline never breaks)."""
+    try:
+        import cairosvg
+    except Exception:  # noqa: BLE001 — cairosvg + system Cairo are optional
+        return None
+    try:
+        cairosvg.svg2png(url=str(svg_abspath), write_to=str(png_abspath),
+                         output_width=W, output_height=H, background_color="#06070e")
+    except Exception as e:  # noqa: BLE001
+        sys.stderr.write(f"[warn] SVG rasterize failed: {e}\n")
+        return None
+    return "/" + str(png_abspath.relative_to(ROOT)).replace("\\", "/")
+
+
 def augment(entry, now, snapshot):
-    """Inject sparkline series, then a sentiment-colored cover built from them."""
+    """Inject sparkline series, then wire up the cover. Vega draws a bespoke SVG
+    illustration per entry (like Trinity/Doaia); we save it as the on-page cover and
+    rasterize a PNG for social/OG cards. If the writer emits no usable SVG, we fall
+    back to the designed Pillow template so a post is never left without a cover."""
     fm, body = split_front_matter(entry)
     if fm is None:
         return entry
@@ -542,11 +620,36 @@ def augment(entry, now, snapshot):
         return row if not s else row.rstrip()[:-1].rstrip() + f", spark: {s} }}"
     new_fm = re.sub(r"-\s*\{[^}]*\}", add_spark, fm)
 
-    # 2) build the cover from the now-enriched front matter (mood + tape + spark)
+    # 2) cover art. Pull Vega's hand-drawn SVG out of the body (it never renders as
+    # prose), save it, and try to rasterize a PNG for social cards.
+    svg, body = extract_svg(body)
+    img_svg = None
+    if svg:
+        try:
+            img_svg = save_cover_svg(now, slug, svg)
+        except ValueError as e:
+            sys.stderr.write(f"[warn] cover svg rejected, using template: {e}\n")
+
     try:
-        img = make_cover(now, slug, new_fm)
-        if img and "image:" not in new_fm:
-            new_fm = f'image: "{img}"\n' + new_fm
+        if img_svg:
+            if "image:" not in new_fm:
+                new_fm = f'image: "{img_svg}"\n' + new_fm
+            if "image_alt:" not in new_fm:
+                alt = (field(new_fm, "image_concept") or field(new_fm, "title") or
+                       "Vega's Bell cover illustration").replace('"', "'")
+                new_fm = f'image_alt: "{alt}"\n' + new_fm
+            png = ROOT / "assets" / "journal" / f"{now.strftime('%Y-%m-%d')}-{slug}.png"
+            og = rasterize_svg(ROOT / img_svg.lstrip("/"), png, 1200, 630)
+            if not og:                       # no rasterizer: keep social cards working
+                og = make_cover(now, slug, new_fm)
+            if og and "og_image:" not in new_fm:
+                new_fm = f'og_image: "{og}"\n' + new_fm
+        else:
+            img = make_cover(now, slug, new_fm)
+            if img and "image:" not in new_fm:
+                new_fm = f'image: "{img}"\n' + new_fm
+            if img and "og_image:" not in new_fm:
+                new_fm = f'og_image: "{img}"\n' + new_fm
     except Exception as e:  # noqa: BLE001 — cover is decorative, never block publish
         sys.stderr.write(f"[warn] cover generation failed: {e}\n")
 
@@ -556,22 +659,24 @@ def augment(entry, now, snapshot):
 def save_and_publish(entry, now, dry_run, no_push):
     fm, _ = split_front_matter(entry)
     slug = field(fm, "slug")
-    img = field(fm, "image")  # /assets/journal/<f>.svg, or None
+    # Cover artifacts: image is the on-page SVG, og_image the rasterized social PNG.
+    covers = [c for c in (field(fm, "image"), field(fm, "og_image")) if c]
     fname = f"{now.strftime('%Y-%m-%d')}-{slug}.md"
     dest = POSTS / fname
 
     if dry_run:
         print(f"--- DRY RUN: would write {dest} ---\n")
         print(entry)
-        # Tidy: drop the cover image this dry run generated so it never lingers
+        # Tidy: drop the cover files this dry run generated so they never linger
         # untracked (and can't be swept into a later real commit).
-        if img and not dest.exists():
-            cov = ROOT / img.lstrip("/")
-            try:
-                if cov.exists():
-                    cov.unlink()
-            except Exception:  # noqa: BLE001
-                pass
+        if not dest.exists():
+            for c in covers:
+                cov = ROOT / c.lstrip("/")
+                try:
+                    if cov.exists():
+                        cov.unlink()
+                except Exception:  # noqa: BLE001
+                    pass
         return
 
     POSTS.mkdir(exist_ok=True)
@@ -586,8 +691,8 @@ def save_and_publish(entry, now, dry_run, no_push):
     # Stage ONLY what this entry produced. Never `git add -A`, so stray files,
     # leftover dry-run images, or local scratch can never sneak into a commit.
     paths = [str(dest)]
-    if img:
-        cov = ROOT / img.lstrip("/")
+    for c in covers:
+        cov = ROOT / c.lstrip("/")
         if cov.exists():
             paths.append(str(cov))
     if (ROOT / "tag").exists():
