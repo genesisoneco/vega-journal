@@ -24,7 +24,7 @@ layout: default
     <a class="btn btn--sm" href="{{ '/journal/' | relative_url }}">All entries →</a>
   </div>
   <div class="card-grid">
-    {%- for post in site.posts limit: 7 -%}
+    {%- for post in site.posts limit: 9 -%}
       {% include post-card.html post=post %}
     {%- endfor -%}
   </div>
