@@ -38,10 +38,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 TOOLS = ROOT / "tools"
 KST = timezone(timedelta(hours=9))
+# Cloudflare's bot filter 403s the default "Python-urllib/x.y" User-Agent before
+# the request reaches the Worker, so send an explicit one.
+UA = "VegaBell-Tools/1.0 (+https://vegabell.com)"
 
 
 def _get_json(url, token, timeout=30):
-    req = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}"})
+    req = urllib.request.Request(url, headers={
+        "Authorization": f"Bearer {token}", "User-Agent": UA, "Accept": "application/json"})
     with urllib.request.urlopen(req, timeout=timeout) as r:
         return json.loads(r.read().decode("utf-8"))
 
@@ -112,7 +116,8 @@ def send_brevo(to, subject, html, text):
     req = urllib.request.Request(
         "https://api.brevo.com/v3/smtp/email",
         data=json.dumps(payload).encode("utf-8"), method="POST",
-        headers={"api-key": key, "Content-Type": "application/json", "Accept": "application/json"})
+        headers={"api-key": key, "Content-Type": "application/json",
+                 "Accept": "application/json", "User-Agent": UA})
     try:
         with urllib.request.urlopen(req, timeout=30) as r:
             return True, f"sent ({r.status})"

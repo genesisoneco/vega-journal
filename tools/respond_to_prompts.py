@@ -70,9 +70,11 @@ def admin_token():
 def api(method, base, path, token, body=None):
     url = base + path
     data = json.dumps(body).encode() if body is not None else None
+    # A non-default User-Agent: Cloudflare's bot filter 403s "Python-urllib/x.y".
     req = urllib.request.Request(url, data=data, method=method,
                                  headers={"Authorization": f"Bearer {token}",
-                                          "Content-Type": "application/json"})
+                                          "Content-Type": "application/json",
+                                          "User-Agent": "VegaBell-Tools/1.0 (+https://vegabell.com)"})
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.loads(r.read() or "{}")
 

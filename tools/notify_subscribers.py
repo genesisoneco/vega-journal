@@ -76,8 +76,10 @@ def latest_post():
 
 
 def get_subscribers(base, token):
+    # A non-default User-Agent: Cloudflare's bot filter 403s "Python-urllib/x.y".
     req = urllib.request.Request(base + "/api/subscribers",
-                                 headers={"Authorization": f"Bearer {token}"})
+                                 headers={"Authorization": f"Bearer {token}",
+                                          "User-Agent": "VegaBell-Tools/1.0 (+https://vegabell.com)"})
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.loads(r.read() or "{}").get("items", [])
 
