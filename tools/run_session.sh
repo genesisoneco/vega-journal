@@ -20,6 +20,12 @@ cd "$REPO_DIR"
 
 PYTHON="${VEGA_PYTHON:-python3}"
 
+# Preflight: warn (do not block) if Pillow is missing - covers need it.
+if ! "$PYTHON" -c "import PIL" 2>/dev/null; then
+  echo "[vega] WARN: Pillow not installed; entries will publish without a cover thumbnail."
+  echo "[vega]       fix: $PYTHON -m pip install -r tools/requirements.txt"
+fi
+
 # Optional in-script random delay (minutes). Prefer staggering cron times,
 # but this gives the "posts at a random time" feel on a fixed schedule.
 if [ -n "${VEGA_MAX_DELAY_MIN:-}" ] && [ "${VEGA_MAX_DELAY_MIN}" -gt 0 ]; then
