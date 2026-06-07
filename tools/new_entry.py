@@ -283,12 +283,22 @@ def augment(entry, now, snapshot):
 def save_and_publish(entry, now, dry_run, no_push):
     fm, _ = split_front_matter(entry)
     slug = field(fm, "slug")
+    img = field(fm, "image")  # /assets/journal/<f>.svg, or None
     fname = f"{now.strftime('%Y-%m-%d')}-{slug}.md"
     dest = POSTS / fname
 
     if dry_run:
         print(f"--- DRY RUN: would write {dest} ---\n")
         print(entry)
+        # Tidy: drop the cover image this dry run generated so it never lingers
+        # untracked (and can't be swept into a later real commit).
+        if img and not dest.exists():
+            cov = ROOT / img.lstrip("/")
+            try:
+                if cov.exists():
+                    cov.unlink()
+            except Exception:  # noqa: BLE001
+                pass
         return
 
     POSTS.mkdir(exist_ok=True)
@@ -300,8 +310,17 @@ def save_and_publish(entry, now, dry_run, no_push):
     if tagscript.exists():
         run([sys.executable, str(tagscript)])
 
-    run(["git", "-C", str(ROOT), "add", "-A"])
-    msg = f"Vega: {field(fm, 'session')} entry — {field(fm, 'title')}"
+    # Stage ONLY what this entry produced. Never `git add -A`, so stray files,
+    # leftover dry-run images, or local scratch can never sneak into a commit.
+    paths = [str(dest)]
+    if img:
+        cov = ROOT / img.lstrip("/")
+        if cov.exists():
+            paths.append(str(cov))
+    if (ROOT / "tag").exists():
+        paths.append(str(ROOT / "tag"))
+    run(["git", "-C", str(ROOT), "add"] + paths)
+    msg = f"Vega {field(fm, 'session')} entry: {field(fm, 'title')}"
     run(["git", "-C", str(ROOT), "commit", "-m", msg])
     print(f"[ok] committed: {msg}")
     if no_push or os.environ.get("VEGA_NO_PUSH"):
