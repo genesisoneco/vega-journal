@@ -15,6 +15,7 @@
   {%- endif -%}
   {%- comment -%} bell.js is pure client-side clock math (no API), so it loads everywhere. {%- endcomment -%}
   <script src="{{ '/assets/js/bell.js' | relative_url }}" defer></script>
+  <script src="{{ '/assets/js/paginate.js' | relative_url }}" defer></script>
   {% include header.html %}
   <main id="main" class="site-main">
     {{ content }}

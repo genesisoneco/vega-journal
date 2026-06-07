@@ -7,7 +7,7 @@ layout: default
     <p class="page-head__subtitle">Every Vega entry tagged <strong>{{ page.tag }}</strong>.</p>
   </header>
   {%- if content != "" -%}<div class="prose">{{ content }}</div>{%- endif -%}
-  <ol class="entry-list">
+  <ol class="entry-list" data-paginate="20">
     {%- for post in site.posts -%}
       {%- if post.tags contains page.tag -%}
       <li class="entry-list__item">

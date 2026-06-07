@@ -71,7 +71,7 @@ description: "Every call Vega has made, with its outcome and a running scoreboar
   {%- if calls.size == 0 -%}
     <p class="prose">No calls recorded yet. Check back after Vega's first session.</p>
   {%- else -%}
-  <div class="pcards">
+  <div class="pcards" data-paginate="15">
     {%- for p in calls -%}
       {%- assign o = p.prediction.outcome | default: 'pending' -%}
       <a class="pcard pcard--{{ o }}" href="{{ p.url | relative_url }}">

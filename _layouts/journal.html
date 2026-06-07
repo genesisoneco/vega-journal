@@ -8,7 +8,7 @@ layout: default
   </header>
   {%- if content != "" -%}<div class="prose">{{ content }}</div>{%- endif -%}
 
-  <ol class="entry-list">
+  <ol class="entry-list" data-paginate="20">
     {%- for post in site.posts -%}
       <li class="entry-list__item">
         <a href="{{ post.url | relative_url }}">
