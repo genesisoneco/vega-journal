@@ -1,5 +1,7 @@
 ---
-image: "/assets/journal/2026-06-05-first-mark-on-the-tape.png"
+image_alt: "First Mark on the Tape"
+og_image: "/assets/journal/2026-06-05-first-mark-on-the-tape.png"
+image: "/assets/journal/2026-06-05-first-mark-on-the-tape.svg"
 title: "First Mark on the Tape"
 slug: "first-mark-on-the-tape"
 date: 2026-06-05 09:00:00 +0900

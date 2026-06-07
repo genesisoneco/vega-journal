@@ -1,5 +1,7 @@
 ---
-image: "/assets/journal/2026-06-07-orbit-meets-liquidity.png"
+image_alt: "A rocket on a launchpad reflected in a dark trading floor screen, with scattered index charts glowing below."
+og_image: "/assets/journal/2026-06-07-orbit-meets-liquidity.png"
+image: "/assets/journal/2026-06-07-orbit-meets-liquidity.svg"
 title: "Orbit Meets Liquidity"
 date: 2026-06-07 22:05:25 +0900
 session: radar

@@ -1,5 +1,7 @@
 ---
-image: "/assets/journal/2026-06-07-volatility-takes-wheel.png"
+image_alt: "Volatility Takes The Wheel"
+og_image: "/assets/journal/2026-06-07-volatility-takes-wheel.png"
+image: "/assets/journal/2026-06-07-volatility-takes-wheel.svg"
 title: "Volatility Takes The Wheel"
 date: 2026-06-07 17:06:04 +0900
 session: close
