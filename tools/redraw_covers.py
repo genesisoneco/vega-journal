@@ -16,6 +16,7 @@ Usage:
     python tools/redraw_covers.py red-tide a-tech  # only these slugs (substring match)
     python tools/redraw_covers.py --dry-run        # ask + validate, write nothing
     python tools/redraw_covers.py --limit 3        # at most 3 posts (rate/cost guard)
+    python tools/redraw_covers.py --alt-only       # keep the art, just write richer alt text
 
 Run on the agent host (sejcore) where the Hermes CLI lives. Needs cairosvg for the
 PNG card (else it falls back to the template PNG, same as the pipeline). This tool
@@ -148,12 +149,82 @@ def redraw_one(f, dry_run, force):
     return "ok"
 
 
+def build_alt_prompt(fm, body, svg):
+    """Ask Hermes to describe an already-drawn cover in one sentence (for alt text)."""
+    title = ne.field(fm, "title") or ""
+    mood = ne.field(fm, "mood") or ""
+    excerpt = re.sub(r"\s+", " ", body).strip()[:400]
+    return (
+        "You wrote the diary entry below and drew the SVG cover that follows it. Write\n"
+        "ONE plain sentence (max 160 characters) describing what the cover illustration\n"
+        "depicts, for use as image alt text. Describe the scene, shapes, and colors a\n"
+        "viewer would see, and keep it faithful to the actual SVG. Do not mention 'SVG',\n"
+        "'image', or 'illustration of'; do not quote; no letters or numbers as subjects\n"
+        "(the art has none); never use an em-dash or en-dash. Output only the sentence.\n\n"
+        f"Title: {title}\n"
+        f"Mood: {mood}\n"
+        f"Entry excerpt: {excerpt}\n\n"
+        f"Cover SVG:\n{svg}\n\n"
+        "Describe the cover now."
+    )
+
+
+def clean_alt(s):
+    """Normalize Hermes's alt sentence: one line, no quotes, no dashes, length-capped."""
+    s = (s or "").strip().strip('"').strip("'").strip()
+    s = s.splitlines()[0] if s else s
+    s = re.sub(r"\s+", " ", s).replace("—", "-").replace("–", "-").strip()
+    if len(s) > 180:
+        s = s[:177].rstrip() + "..."
+    return s
+
+
+def alt_only_one(f, dry_run, force):
+    """Refresh just image_alt (+ image_concept) from the existing SVG. Returns
+    'ok' | 'skip' | 'fail'. Leaves the art and the PNG untouched."""
+    text = f.read_text(encoding="utf-8")
+    fm, body = ne.split_front_matter(text)
+    m = re.match(r"(\d{4})-(\d{2})-(\d{2})-(.+)\.md$", f.name)
+    if not fm or not m:
+        print(f"[skip] {f.name} (no front matter)")
+        return "skip"
+    slug = m.group(4)
+    svg_path = JOURNAL / f"{m.group(1)}-{m.group(2)}-{m.group(3)}-{slug}.svg"
+    if not svg_path.exists():
+        print(f"[skip] {slug} (no SVG cover to describe; run a redraw first)")
+        return "skip"
+    title = (ne.field(fm, "title") or "").strip()
+    cur = (ne.field(fm, "image_alt") or "").strip()
+    # By default only fix the weak fallback (alt missing or equal to the title).
+    if not force and cur and cur != title:
+        print(f"[skip] {slug} (already has descriptive alt; use --force to redo)")
+        return "skip"
+
+    print(f"[*] {slug}: describing cover for alt text...")
+    out = ask_hermes(build_alt_prompt(fm, body, svg_path.read_text(encoding="utf-8")))
+    alt = clean_alt(out)
+    if not alt:
+        sys.stderr.write(f"[warn] {slug}: no alt text returned, skipping\n")
+        return "fail"
+    if dry_run:
+        print(f"    [dry-run] alt: {alt}")
+        return "ok"
+    fm = upsert_field(fm, "image_alt", alt)
+    fm = upsert_field(fm, "image_concept", alt)   # persist so later redraws keep it
+    f.write_text(f"---\n{fm}\n---\n{body}", encoding="utf-8")
+    print(f"    [ok] {alt}")
+    return "ok"
+
+
 def main():
     ap = argparse.ArgumentParser(description="Backfill SVG cover art for existing posts.")
     ap.add_argument("slugs", nargs="*", help="only posts whose slug contains one of these")
-    ap.add_argument("--force", action="store_true", help="redraw even posts that already have an SVG")
+    ap.add_argument("--force", action="store_true",
+                    help="act even on posts that already look done (existing SVG, or descriptive alt)")
     ap.add_argument("--dry-run", action="store_true", help="ask + validate, write nothing")
-    ap.add_argument("--limit", type=int, default=0, help="redraw at most N posts (0 = no cap)")
+    ap.add_argument("--limit", type=int, default=0, help="process at most N posts (0 = no cap)")
+    ap.add_argument("--alt-only", action="store_true",
+                    help="keep the existing art; only (re)write image_alt from the SVG")
     args = ap.parse_args()
     for s in (sys.stdout, sys.stderr):
         try:
@@ -169,13 +240,16 @@ def main():
     if args.limit > 0:
         posts = posts[:args.limit]
 
+    worker = alt_only_one if args.alt_only else redraw_one
+    verb = "alt updated" if args.alt_only else "redrawn"
     counts = {"ok": 0, "skip": 0, "fail": 0}
     for f in posts:
-        counts[redraw_one(f, args.dry_run, args.force)] += 1
+        counts[worker(f, args.dry_run, args.force)] += 1
 
-    print(f"\n[done] {counts['ok']} redrawn, {counts['skip']} skipped, {counts['fail']} failed.")
+    print(f"\n[done] {counts['ok']} {verb}, {counts['skip']} skipped, {counts['fail']} failed.")
     if counts["ok"] and not args.dry_run:
-        print("Review the changes, then commit the posts + assets/journal/ files.")
+        tail = "the posts" if args.alt_only else "the posts + assets/journal/ files"
+        print(f"Review the changes, then commit {tail}.")
 
 
 if __name__ == "__main__":
