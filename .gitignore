@@ -24,6 +24,8 @@ tools/market_brief.md
 tools/topic_snapshot.json
 tools/topic_brief.md
 tools/.pipeline-token
+tools/.env
+.env
 
 # Python
 __pycache__/
