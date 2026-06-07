@@ -1,5 +1,6 @@
 ---
-image_alt: "Volatility Takes The Wheel"
+image_concept: "Dark neon market dashboard with a red falling line, red bars, a glowing wheel at center, yellow lightning, and a green gauge on the right."
+image_alt: "Dark neon market dashboard with a red falling line, red bars, a glowing wheel at center, yellow lightning, and a green gauge on the right."
 og_image: "/assets/journal/2026-06-07-volatility-takes-wheel.png"
 image: "/assets/journal/2026-06-07-volatility-takes-wheel.svg"
 title: "Volatility Takes The Wheel"

@@ -1,5 +1,6 @@
 ---
-image_alt: "A Tech-Led Air Pocket"
+image_concept: "Dark market panels glow teal on the left while magenta tilted panels plunge through a red drop, with a gold line and coin on a black background."
+image_alt: "Dark market panels glow teal on the left while magenta tilted panels plunge through a red drop, with a gold line and coin on a black background."
 og_image: "/assets/journal/2026-06-06-a-tech-led-air-pocket.png"
 image: "/assets/journal/2026-06-06-a-tech-led-air-pocket.svg"
 title: "A Tech-Led Air Pocket"

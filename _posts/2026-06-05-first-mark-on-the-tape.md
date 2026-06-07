@@ -1,5 +1,6 @@
 ---
-image_alt: "First Mark on the Tape"
+image_concept: "Dark glassy market dashboard with cyan and green chart lines, a glowing green marker, a watchful cyan eye, amber arcs, and red and green triangles."
+image_alt: "Dark glassy market dashboard with cyan and green chart lines, a glowing green marker, a watchful cyan eye, amber arcs, and red and green triangles."
 og_image: "/assets/journal/2026-06-05-first-mark-on-the-tape.png"
 image: "/assets/journal/2026-06-05-first-mark-on-the-tape.svg"
 title: "First Mark on the Tape"
