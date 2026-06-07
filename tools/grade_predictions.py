@@ -40,7 +40,8 @@ def split_fm(text):
 
 
 def field(fm, key):
-    m = re.search(rf"^{key}\s*:\s*(.+)$", fm, re.MULTILINE)
+    # Allow leading whitespace so nested keys (e.g. prediction.horizon) are found.
+    m = re.search(rf"^\s*{key}\s*:\s*(.+)$", fm, re.MULTILINE)
     return m.group(1).strip().strip('"').strip("'") if m else None
 
 

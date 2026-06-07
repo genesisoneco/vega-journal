@@ -205,45 +205,110 @@ def _pick_series(snapshot):
     return None, None
 
 
-def make_cover(now, slug, fm, snapshot):
-    """Render a data-driven gradient cover SVG for this post; return its site path."""
-    series, label = _pick_series(snapshot)
+def _mood_color(mood):
+    """Mood -> (hex color, UPPER label) from _data/moods.yml, with a fallback."""
+    fb = {"risk-off": ("#ff3b6b", "RISK-OFF"), "fearful": ("#ff3b6b", "FEARFUL"),
+          "risk-on": ("#1bf0a8", "RISK-ON"), "greedy": ("#1bf0a8", "GREEDY"),
+          "cautious": ("#f5a524", "CAUTIOUS"), "vigilant": ("#4ea1ff", "VIGILANT"),
+          "coiled": ("#b14bff", "COILED"), "neutral": ("#7c8190", "NEUTRAL")}
+    try:
+        import yaml
+        m = yaml.safe_load((ROOT / "_data" / "moods.yml").read_text(encoding="utf-8")) or {}
+        e = m.get(mood)
+        if e and e.get("color"):
+            return e["color"], (e.get("label") or mood or "neutral").upper()
+    except Exception:  # noqa: BLE001
+        pass
+    return fb.get(mood, ("#00e5ff", (mood or "neutral").upper()))
+
+
+def _parse_tape(fm):
+    """Pull tape rows (label/value/chg/dir/spark) out of front-matter text."""
+    rows = []
+    block = re.search(r"^tape:\s*\n(.*?)(?=^\w|\Z)", fm + "\n", re.DOTALL | re.MULTILINE)
+    scope = block.group(1) if block else fm
+    for m in re.finditer(r"-\s*\{([^}]*)\}", scope):
+        seg = m.group(1)
+
+        def q(k):  # quote-aware so commas inside "7,384" are safe
+            mm = re.search(rf'{k}:\s*"([^"]*)"', seg)
+            return mm.group(1).strip() if mm else None
+        dm = re.search(r"dir:\s*([A-Za-z]+)", seg)
+        sm = re.search(r"spark:\s*\[([^\]]*)\]", seg)
+        spark = [float(x) for x in re.findall(r"-?\d+\.?\d*", sm.group(1))] if sm else []
+        if q("label"):
+            rows.append({"label": q("label"), "value": q("value"), "chg": q("chg"),
+                         "dir": dm.group(1) if dm else None, "spark": spark})
+    return rows
+
+
+def _abs_chg(r):
+    try:
+        return abs(float((r.get("chg") or "0").replace("%", "").replace("+", "")))
+    except Exception:  # noqa: BLE001
+        return 0.0
+
+
+def make_cover(now, slug, fm):
+    """Render a unique, sentiment-colored cover SVG from the post's own data."""
+    color, mood_label = _mood_color(field(fm, "mood"))
     title = field(fm, "title") or "Market Diary"
-    session = field(fm, "session") or "adhoc"
-    if not series or len(series) < 2:
-        series, label = [1, 1.2, 1.1, 1.4, 1.3, 1.55], (label or "markets")
-    up = series[-1] >= series[0]
-    color = "#30a46c" if up else "#e5484d"
+    session = (field(fm, "session") or "adhoc").upper()
+    rows = _parse_tape(fm)
+
+    # Chart = the biggest mover's series, so each cover tells that post's story.
+    sparked = sorted([r for r in rows if len(r.get("spark") or []) >= 2],
+                     key=_abs_chg, reverse=True)
+    series = sparked[0]["spark"] if sparked else [1, 1.15, 1.05, 1.3, 1.2, 1.45, 1.32, 1.6]
+    chart_label = sparked[0]["label"] if sparked else "markets"
+
     W, H = 1200, 630
+    cy0, cy1 = 322, 540
     mn, mx = min(series), max(series)
     rng = (mx - mn) or 1
-    cy0, cy1 = H * 0.45, H * 0.96
     pts = [(i * W / (len(series) - 1), cy1 - (v - mn) / rng * (cy1 - cy0)) for i, v in enumerate(series)]
     line = " ".join(("M" if i == 0 else "L") + f"{x:.1f} {y:.1f}" for i, (x, y) in enumerate(pts))
     area = f"{line} L{W} {cy1:.1f} L0 {cy1:.1f} Z"
-    # wrap title to <=2 lines
+
+    # title wrap to <= 2 lines
     words, lines, cur = title.split(), [], ""
     for w in words:
-        if len(cur) + len(w) + 1 <= 26:
+        if len(cur) + len(w) + 1 <= 24:
             cur = (cur + " " + w).strip()
         else:
             lines.append(cur); cur = w
     if cur:
         lines.append(cur)
-    tspans = "".join(
-        f'<tspan x="64" dy="{0 if i == 0 else 64}">{_html.escape(l)}</tspan>'
-        for i, l in enumerate(lines[:2]))
+    tspans = "".join(f'<tspan x="64" dy="{0 if i == 0 else 60}">{_html.escape(l)}</tspan>'
+                     for i, l in enumerate(lines[:2]))
+
+    # stat strip: up to 3 tape rows, green/red by direction
+    stats = ""
+    for i, r in enumerate(rows[:3]):
+        x = 64 + i * 372
+        c = "#1bf0a8" if r.get("dir") == "up" else ("#ff3b6b" if r.get("dir") == "down" else "#aab6d0")
+        val = _html.escape(str(r.get("value") or ""))
+        stats += (
+            f'<text x="{x}" y="578" font-family="ui-monospace,monospace" font-size="17" fill="#6f7a99" letter-spacing="1">{_html.escape(str(r.get("label") or "").upper())}</text>'
+            f'<text x="{x}" y="608" font-family="ui-monospace,monospace" font-size="28" font-weight="700" fill="#e9edf6">{val}</text>'
+            f'<text x="{x + len(val) * 16 + 12}" y="608" font-family="ui-monospace,monospace" font-size="19" fill="{c}">{_html.escape(str(r.get("chg") or ""))}</text>'
+        )
+
     svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b0e14"/><stop offset="1" stop-color="#121722"/></linearGradient>
-    <linearGradient id="ar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{color}" stop-opacity="0.55"/><stop offset="1" stop-color="{color}" stop-opacity="0"/></linearGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#05060c"/><stop offset="1" stop-color="#0b1020"/></linearGradient>
+    <linearGradient id="ar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{color}" stop-opacity="0.5"/><stop offset="1" stop-color="{color}" stop-opacity="0"/></linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="{color}" stroke-opacity="0.07" stroke-width="1"/></pattern>
   </defs>
   <rect width="{W}" height="{H}" fill="url(#bg)"/>
+  <rect width="{W}" height="{H}" fill="url(#grid)"/>
   <path d="{area}" fill="url(#ar)"/>
-  <path d="{line}" fill="none" stroke="{color}" stroke-width="4"/>
-  <text x="64" y="84" font-family="ui-monospace,monospace" font-size="26" fill="{color}" letter-spacing="3">VEGA / {session.upper()}</text>
-  <text x="64" y="200" font-family="Georgia,serif" font-size="58" font-weight="700" fill="#e6e9ef">{tspans}</text>
-  <text x="64" y="{H - 40}" font-family="ui-monospace,monospace" font-size="22" fill="#7c8190">{_html.escape(str(label))} / {now.strftime('%b %d, %Y')} / not financial advice</text>
+  <path d="{line}" fill="none" stroke="{color}" stroke-width="4" style="filter:drop-shadow(0 0 8px {color})"/>
+  <text x="64" y="78" font-family="ui-monospace,monospace" font-size="23" fill="#00e5ff" letter-spacing="4">VEGA / {session} / {now.strftime('%b %d, %Y').upper()}</text>
+  <text x="64" y="140" font-family="ui-monospace,monospace" font-size="34" font-weight="700" fill="{color}" letter-spacing="2" style="filter:drop-shadow(0 0 10px {color})">{_html.escape(mood_label)}</text>
+  <text x="64" y="214" font-family="Georgia,serif" font-size="54" font-weight="700" fill="#e9edf6">{tspans}</text>
+  {stats}
+  <text x="{W - 64}" y="78" text-anchor="end" font-family="ui-monospace,monospace" font-size="17" fill="#6f7a99">{_html.escape(chart_label)} / not financial advice</text>
 </svg>"""
     journal = ROOT / "assets" / "journal"
     journal.mkdir(parents=True, exist_ok=True)
@@ -253,30 +318,30 @@ def make_cover(now, slug, fm, snapshot):
 
 
 def augment(entry, now, snapshot):
-    """Inject an auto-generated cover image and per-tape sparkline data."""
+    """Inject sparkline series, then a sentiment-colored cover built from them."""
     fm, body = split_front_matter(entry)
     if fm is None:
         return entry
     slug = field(fm, "slug") or re.sub(r"[^a-z0-9]+", "-", (field(fm, "title") or "entry").lower()).strip("-")
-    new_fm = fm
-    try:
-        img = make_cover(now, slug, fm, snapshot)
-        if img and "image:" not in new_fm:
-            new_fm = f'image: "{img}"\n' + new_fm
-    except Exception as e:  # noqa: BLE001 — cover is decorative, never block publish
-        sys.stderr.write(f"[warn] cover generation failed: {e}\n")
 
+    # 1) inject sparkline series into each tape row (from the live snapshot)
     def add_spark(m):
         row = m.group(0)
         if "spark:" in row:
             return row
         lab = (re.search(r'label:\s*"([^"]+)"', row) or [None, ""])[1]
         s = match_spark(lab, snapshot)
-        if not s:
-            return row
-        return row.rstrip()[:-1].rstrip() + f", spark: {s} }}"
+        return row if not s else row.rstrip()[:-1].rstrip() + f", spark: {s} }}"
+    new_fm = re.sub(r"-\s*\{[^}]*\}", add_spark, fm)
 
-    new_fm = re.sub(r"-\s*\{[^}]*\}", add_spark, new_fm)
+    # 2) build the cover from the now-enriched front matter (mood + tape + spark)
+    try:
+        img = make_cover(now, slug, new_fm)
+        if img and "image:" not in new_fm:
+            new_fm = f'image: "{img}"\n' + new_fm
+    except Exception as e:  # noqa: BLE001 — cover is decorative, never block publish
+        sys.stderr.write(f"[warn] cover generation failed: {e}\n")
+
     return f"---\n{new_fm}\n---\n{body}"
 
 
