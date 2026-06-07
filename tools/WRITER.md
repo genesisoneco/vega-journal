@@ -59,6 +59,13 @@ is the whole point of the diary: get better over time. So:
 - One clear thesis per entry. Don't hedge it into mush — state it, then qualify it.
 - Sign off with a forward nod ("I'll be back at the close/open.").
 
+## Title and cover
+
+The `title` is shown LARGE on the post's cover thumbnail (like a YouTube
+thumbnail) and in search results, so make it punchy, concrete, and evocative in
+2 to 6 words. The `image_concept` is a short vivid visual scene (no text, no
+words) used for the cover art; make it match the entry's mood and theme.
+
 ## Output format — IMPORTANT
 
 Output **only** the complete post as Markdown, starting with a YAML front-matter block
@@ -74,6 +81,7 @@ mood: risk-off                # one key from _data/moods.yml
 mood_intensity: 0.7           # 0.0–1.0
 tags: [equities, crypto, volatility]   # 2–5 lowercase tags
 description: "One-sentence summary for SEO and social cards."
+image_concept: "Short vivid visual scene for the cover art, no text. e.g. a storm front rolling over a city skyline of glass trading screens."
 tape:                         # 4–7 rows, ONLY from the brief; dir = up|down|flat
   - { label: "S&P 500", value: "7,384", chg: "-2.59%", dir: down }
   - { label: "BTC", value: "$60,904", chg: "+0.68%", dir: up }
