@@ -35,6 +35,7 @@ export default {
     try {
       const { pathname } = url;
       if (pathname === "/api/health") return json({ ok: true }, 200, cors);
+      if (pathname === "/api/ticker" && request.method === "GET") return await ticker(env, cors);
 
       if (pathname === "/api/ask") {
         if (request.method === "POST") return await submitAsk(request, env, cors);
@@ -122,6 +123,48 @@ function clientIp(request) {
 
 function sanitize(s, max) {
   return String(s || "").replace(/\s+/g, " ").trim().slice(0, max);
+}
+
+/* ----------------------------- ticker ------------------------------------ */
+async function ticker(env, cors) {
+  // 45s KV cache so traffic never hammers the upstreams.
+  const cached = await env.KV.get("ticker:cache", "json");
+  const now = Date.now();
+  if (cached && now - cached.ts < 45000) return json(cached.data, 200, cors);
+  const data = await buildTicker();
+  if (data.items.length) {
+    await env.KV.put("ticker:cache", JSON.stringify({ ts: now, data }), { expirationTtl: 120 });
+  }
+  return json(data, 200, cors);
+}
+
+async function buildTicker() {
+  const items = [];
+  const ua = { "User-Agent": "Mozilla/5.0 VegaTicker/1.0" };
+  // Crypto via CoinGecko
+  try {
+    const r = await fetch(
+      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&include_24hr_change=true",
+      { headers: ua });
+    const d = await r.json();
+    for (const [id, label] of [["bitcoin", "BTC"], ["ethereum", "ETH"], ["solana", "SOL"]]) {
+      if (d[id]) items.push({ label, price: d[id].usd, chg: d[id].usd_24h_change });
+    }
+  } catch (e) { /* skip */ }
+  // Indices via Yahoo
+  for (const [sym, label] of [["%5EGSPC", "S&P 500"], ["%5EIXIC", "NASDAQ"], ["%5EDJI", "DOW"], ["%5EVIX", "VIX"]]) {
+    try {
+      const r = await fetch(
+        `https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1d&range=1d`,
+        { headers: ua });
+      const d = await r.json();
+      const m = d.chart.result[0].meta;
+      const price = m.regularMarketPrice;
+      const prev = m.chartPreviousClose || m.previousClose;
+      items.push({ label, price, chg: prev ? ((price - prev) / prev) * 100 : null });
+    } catch (e) { /* skip */ }
+  }
+  return { items, ts: Date.now() };
 }
 
 /* ----------------------------- ask --------------------------------------- */
