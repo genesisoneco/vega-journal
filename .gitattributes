@@ -1,0 +1,5 @@
+# Shell scripts and Python tools must use LF so they run on the Linux (sejcore) host.
+*.sh    text eol=lf
+*.py    text eol=lf
+# Windows launchers stay CRLF.
+*.cmd   text eol=crlf
