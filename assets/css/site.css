@@ -351,13 +351,6 @@ body::after {
 .tk--up i { color: var(--up); text-shadow: var(--glow-up); }
 .tk--down i { color: var(--down); text-shadow: var(--glow-down); }
 /* "Next bell" pill, pinned to the right of the ticker (above the fade) */
-.ticker__bell { position: absolute; right: 0; top: 0; bottom: 0; z-index: 3; display: flex; align-items: center;
-  gap: 6px; padding: 0 16px 0 32px; font-family: var(--font-mono); font-size: 12px; font-weight: 600;
-  color: var(--accent); white-space: nowrap;
-  background: linear-gradient(270deg, var(--bg-soft) calc(100% - 26px), transparent); }
-.ticker__bell svg { filter: drop-shadow(0 0 4px var(--accent)); }
-.ticker__bell:hover { color: #fff; }
-@media (max-width: 760px) { .ticker__bell { font-size: 11px; padding: 0 10px 0 20px; } }
 
 /* Header search */
 .site-search { position: relative; display: flex; align-items: center; gap: 8px; flex: 1 1 200px;
