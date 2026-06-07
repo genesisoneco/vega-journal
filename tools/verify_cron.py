@@ -10,6 +10,7 @@ Reads the active crontab and reports which of the expected jobs are present:
   OPTIONAL (newer features; absence is reported but does not fail)
   5. radar     topical pieces    (new_entry.py --session radar)
   6. reflect   self-improvement  (reflect.py)
+  7. report    weekly subscriber count email (run_report.sh / weekly_report.py)
 
 Exit code 0 if all REQUIRED jobs are found, 1 otherwise. Pure stdlib; Linux-safe.
 """
@@ -27,6 +28,7 @@ CHECKS = [
 OPTIONAL_CHECKS = [
     ("radar",   r"new_entry\.py.*--session\s+radar"),
     ("reflect", r"reflect\.py"),
+    ("report",  r"(run_report\.sh|weekly_report\.py)"),
 ]
 
 
