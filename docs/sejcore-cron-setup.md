@@ -9,6 +9,12 @@ The autonomous agent ("Ares") runs Vega's Bell on the Linux box `sejcore` from
 | **close** | writes the close-session entry | once near the US market close |
 | **responder** | answers pending "Ask Vega" questions | hourly |
 | **grader** | resolves due predictions (HIT/MISS) | once daily |
+| **radar** *(new)* | writes a topical "On the Radar" piece on a trending catalyst | a few times a week |
+| **reflect** *(new)* | updates calibration + self-rewrites the playbook | weekly |
+
+The **radar** and **reflect** jobs are optional but recommended. Radar pieces are
+the subscriber-growth lever (topical takes on IPOs, the Fed, big earnings).
+Reflect is the self-improvement pass that keeps Vega learning.
 
 ## 1. Optional local env
 
@@ -45,6 +51,20 @@ REPO=/home/sejcore/projects/vega-journal
 0 * * * *     cd $REPO && python3 tools/respond_to_prompts.py >> $REPO/tools/cron.log 2>&1
 # grader: daily at 06:00 ET
 0 6 * * *     cd $REPO && python3 tools/grade_predictions.py  >> $REPO/tools/cron.log 2>&1
+
+# --- optional: topical pieces + self-improvement ---
+# radar: Tue/Thu ~12:00 ET. Omit --topic to auto-pick from trending; or set one.
+0 12 * * 2,4  cd $REPO && python3 tools/new_entry.py --session radar >> $REPO/tools/cron.log 2>&1
+# reflect: weekly, Sunday 07:00 ET (recompute calibration, rewrite the playbook)
+0 7 * * 0     cd $REPO && python3 tools/reflect.py >> $REPO/tools/cron.log 2>&1
+```
+
+To steer a radar piece at a specific catalyst, run it by hand any time:
+
+```bash
+cd $REPO && python3 tools/new_entry.py --session radar --topic "SpaceX IPO"
+# preview without publishing:
+python3 tools/new_entry.py --session radar --topic "SpaceX IPO" --dry-run
 ```
 
 Make the runner executable once: `chmod +x tools/run_session.sh`.

@@ -16,6 +16,7 @@ Env: HERMES_* as in new_entry.py; VEGA_NO_PUSH to skip pushing.
 """
 
 import argparse
+import json
 import os
 import re
 import subprocess
@@ -26,6 +27,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 TOOLS = ROOT / "tools"
 POSTS = ROOT / "_posts"
+METHOD = ROOT / "method"
 TZ = timezone(timedelta(hours=9))
 
 HERMES_BIN = os.environ.get("HERMES_BIN", "hermes")
@@ -59,6 +61,33 @@ def horizon_days(h):
     if "week" in h:
         return 7
     return 5  # "by Friday", "end of week", etc.
+
+
+def parse_signals(fm):
+    """Read the `signals: [a, b, c]` list from front matter, lowercased."""
+    m = re.search(r"^\s*signals\s*:\s*\[([^\]]*)\]", fm, re.MULTILINE)
+    if not m:
+        return []
+    return [s.strip().strip('"').strip("'").lower()
+            for s in m.group(1).split(",") if s.strip()]
+
+
+def record_signals(signals, verdict):
+    """Increment hit/miss tallies per signal in method/signal_stats.json."""
+    if not signals:
+        return
+    METHOD.mkdir(exist_ok=True)
+    path = METHOD / "signal_stats.json"
+    try:
+        stats = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    except Exception:  # noqa: BLE001
+        stats = {}
+    key = "hit" if verdict == "HIT" else "miss"
+    for sig in signals:
+        d = stats.setdefault(sig, {"hit": 0, "miss": 0})
+        d[key] = d.get(key, 0) + 1
+    path.write_text(json.dumps(stats, indent=2, sort_keys=True) + "\n",
+                    encoding="utf-8", newline="\n")
 
 
 def post_date(fm):
@@ -131,7 +160,7 @@ def main():
         claim = (re.search(r'claim:\s*"?(.+?)"?\s*$', fm, re.MULTILINE) or [None, ""])[1]
         horizon = field(fm, "horizon")
         if now >= dt + timedelta(days=horizon_days(horizon)):
-            due.append((p, dt, claim))
+            due.append((p, dt, claim, parse_signals(fm)))
 
     if not due:
         print("No predictions are due for grading.")
@@ -139,26 +168,31 @@ def main():
 
     print(f"[*] {len(due)} prediction(s) due. Fetching current market...")
     brief = current_brief()
-    changed = 0
-    for p, dt, claim in due:
+    changed_paths = []
+    for p, dt, claim, signals in due:
         verdict = judge(claim, dt.strftime("%Y-%m-%d"), brief)
         print(f"  [{verdict}] {p.name}: {claim[:70]!r}")
         if verdict in ("HIT", "MISS") and not args.dry_run:
             text = p.read_text(encoding="utf-8")
             text = re.sub(r"(\n\s*outcome:\s*)pending", r"\1" + verdict.lower(), text, count=1)
             p.write_text(text, encoding="utf-8", newline="\n")
-            changed += 1
+            record_signals(signals, verdict)   # close the signal-attribution loop
+            changed_paths.append(str(p))
 
     if args.dry_run:
         print("[ok] dry run, nothing written.")
         return
-    if changed:
-        subprocess.run(["git", "-C", str(ROOT), "add", "-A"], check=True)
+    if changed_paths:
+        # Targeted add (house rule: never `git add -A`): only the graded posts and
+        # the signal stats this run touched.
+        paths = changed_paths + [str(METHOD / "signal_stats.json")]
+        paths = [pp for pp in paths if Path(pp).exists()]
+        subprocess.run(["git", "-C", str(ROOT), "add"] + paths, check=True)
         subprocess.run(["git", "-C", str(ROOT), "commit", "-m",
-                        f"Vega: graded {changed} prediction(s)"], check=True)
+                        f"Vega: graded {len(changed_paths)} prediction(s)"], check=True)
         if not os.environ.get("VEGA_NO_PUSH"):
             subprocess.run(["git", "-C", str(ROOT), "push"], check=True)
-        print(f"[ok] graded and committed {changed} prediction(s).")
+        print(f"[ok] graded and committed {len(changed_paths)} prediction(s).")
     else:
         print("[ok] nothing conclusive to record yet.")
 

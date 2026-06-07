@@ -21,6 +21,8 @@ worker/.brevo-key
 # Market sensor scratch output (regenerated each run, never committed)
 tools/market_snapshot.json
 tools/market_brief.md
+tools/topic_snapshot.json
+tools/topic_brief.md
 tools/.pipeline-token
 
 # Python

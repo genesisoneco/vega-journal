@@ -60,6 +60,22 @@ def fetch_brief(session):
     return brief
 
 
+def fetch_topic_brief(topic):
+    """Run fetch_topic.py for a radar piece. Returns (brief, resolved_topic)."""
+    cmd = [sys.executable, str(TOOLS / "fetch_topic.py"), "--out", str(TOOLS)]
+    if topic:
+        cmd += ["--topic", topic]
+    run(cmd, stdout=subprocess.DEVNULL)
+    brief = (TOOLS / "topic_brief.md").read_text(encoding="utf-8")
+    resolved = topic
+    try:
+        snap = json.loads((TOOLS / "topic_snapshot.json").read_text(encoding="utf-8"))
+        resolved = snap.get("topic") or topic
+    except Exception:  # noqa: BLE001
+        pass
+    return brief, resolved
+
+
 def gather_memory(limit=6):
     """Digest of Vega's recent calls + running hit-rate, for self-learning."""
     posts = sorted(POSTS.glob("*.md"))
@@ -87,27 +103,83 @@ def gather_memory(limit=6):
             + "\n".join(lines))
 
 
-def build_prompt(session, now, brief, memory=""):
-    spec = (TOOLS / "WRITER.md").read_text(encoding="utf-8")
+METHOD = ROOT / "method"
+
+
+def read_playbook():
+    """Vega's durable, self-maintained lessons. Fed into every prompt."""
+    p = METHOD / "playbook.md"
+    if not p.exists():
+        return ""
+    text = p.read_text(encoding="utf-8").strip()
+    # Skip the H1 title line; the rest is the substance.
+    return re.sub(r"^#\s+.*\n", "", text, count=1).strip()
+
+
+def gather_signal_feedback(min_graded=2):
+    """From method/signal_stats.json, which signals have preceded correct calls.
+    Returns a short coaching string for the prompt, or ''."""
+    p = METHOD / "signal_stats.json"
+    if not p.exists():
+        return ""
+    try:
+        stats = json.loads(p.read_text(encoding="utf-8")) or {}
+    except Exception:  # noqa: BLE001
+        return ""
+    rated = []
+    for sig, d in stats.items():
+        graded = d.get("hit", 0) + d.get("miss", 0)
+        if graded >= min_graded:
+            rated.append((sig, d["hit"] / graded, graded))
+    if not rated:
+        return ""
+    rated.sort(key=lambda x: x[1], reverse=True)
+    best = [f"{s} ({round(r*100)}%, n={n})" for s, r, n in rated[:3] if r >= 0.5]
+    worst = [f"{s} ({round(r*100)}%, n={n})" for s, r, n in rated[-3:] if r < 0.5]
+    out = []
+    if best:
+        out.append("Signals that have preceded your correct calls: " + ", ".join(best) + ".")
+    if worst:
+        out.append("Signals that have let you down: " + ", ".join(worst[::-1])
+                   + ". Weight these less, or be more specific when you use them.")
+    return " ".join(out)
+
+
+def build_prompt(session, now, brief, memory="", topic=None):
+    spec_file = "WRITER_RADAR.md" if session == "radar" else "WRITER.md"
+    spec = (TOOLS / spec_file).read_text(encoding="utf-8")
     date_iso = now.strftime("%Y-%m-%d %H:%M:%S %z")
-    # Insert the concrete date/session into the spec placeholders.
-    spec = spec.replace("{{DATE_ISO}}", date_iso).replace("{{SESSION}}", session)
+    # Insert the concrete date/session/topic into the spec placeholders.
+    spec = (spec.replace("{{DATE_ISO}}", date_iso)
+                .replace("{{SESSION}}", session)
+                .replace("{{TOPIC}}", topic or ""))
+    brief_heading = (f"## Research brief for: {topic}" if session == "radar"
+                     else f"## Today's market brief ({session} session, {date_iso})")
+    play = read_playbook()
+    play_block = f"## Your playbook (your own durable lessons)\n\n{play}\n\n---\n\n" if play else ""
+
     mem_block = ""
     if memory:
+        sig = gather_signal_feedback()
+        sig_line = f"\n\n{sig}" if sig else ""
         mem_block = (
             "## Your recent calls (learn from these)\n\n"
-            f"{memory}\n\n"
+            f"{memory}{sig_line}\n\n"
             "Study the above. If you have been missing, change something concrete: name a "
             "level or a catalyst, narrow the horizon, raise or lower your confidence. Make "
             "today's prediction more specific than a vague directional guess. When relevant, "
             "reference how a past call turned out.\n\n---\n\n"
         )
+    closer = (f"Write your **On the Radar** piece on {topic} now."
+              if session == "radar"
+              else f"Write today's **{session}** entry now.")
     return (
         f"{spec}\n\n---\n\n"
+        f"{play_block}"
         f"{mem_block}"
-        f"## Today's market brief ({session} session, {date_iso})\n\n"
+        f"{brief_heading}\n\n"
         f"{brief}\n\n---\n\n"
-        f"Write today's **{session}** entry now. Output only the post, starting with `---`."
+        f"{closer} Output only the post, starting with `---`."
     )
 
 
@@ -542,7 +614,9 @@ def save_and_publish(entry, now, dry_run, no_push):
 
 def main():
     ap = argparse.ArgumentParser(description="Generate and publish one Vega entry.")
-    ap.add_argument("--session", choices=["open", "close", "adhoc"], default="adhoc")
+    ap.add_argument("--session", choices=["open", "close", "radar", "adhoc"], default="adhoc")
+    ap.add_argument("--topic", default=None,
+                    help="for --session radar: the catalyst to cover (auto-picks if omitted)")
     ap.add_argument("--dry-run", action="store_true", help="print the entry, write nothing")
     ap.add_argument("--no-push", action="store_true", help="commit but do not push")
     args = ap.parse_args()
@@ -553,14 +627,22 @@ def main():
             pass
 
     now = datetime.now(TZ)
-    print(f"[*] {args.session} session — fetching market brief…")
-    brief = fetch_brief(args.session)
+    topic = None
+    if args.session == "radar":
+        print(f"[*] radar piece — researching: {args.topic or '(auto-pick)'}…")
+        brief, topic = fetch_topic_brief(args.topic)
+        print(f"[*] topic resolved to: {topic}")
+        snapshot_file = TOOLS / "topic_snapshot.json"   # has no market tape; cover uses fallback
+    else:
+        print(f"[*] {args.session} session — fetching market brief…")
+        brief = fetch_brief(args.session)
+        snapshot_file = TOOLS / "market_snapshot.json"
 
     memory = gather_memory()
     if memory:
         print("[*] feeding Vega its recent track record (self-learning)")
     print("[*] asking Vega (Hermes) to write…")
-    entry = call_hermes(build_prompt(args.session, now, brief, memory))
+    entry = call_hermes(build_prompt(args.session, now, brief, memory, topic))
 
     ok, reason = validate(entry, brief)
     if not ok:
@@ -568,8 +650,11 @@ def main():
     print("[ok] entry validated")
 
     # Enrich with an auto-generated cover image + sparkline data (best effort).
+    # Radar pieces have no market tape, so the cover falls back to a designed look.
     try:
-        snapshot = json.loads((TOOLS / "market_snapshot.json").read_text(encoding="utf-8"))
+        snapshot = {}
+        if args.session != "radar":
+            snapshot = json.loads(snapshot_file.read_text(encoding="utf-8"))
         entry = augment(entry, now, snapshot)
         print("[ok] cover image + sparklines added")
     except Exception as e:  # noqa: BLE001 — enrichment must never block publishing

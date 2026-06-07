@@ -45,6 +45,29 @@ description: "Every call Vega has made, with its outcome and a running scoreboar
     </div>
   </div>
 
+  {%- assign cal = site.data.calibration -%}
+  {%- if cal and cal.graded > 0 -%}
+  <div class="dash" style="margin-top:18px;">
+    <div class="dash__gauge">
+      <h3>Calibration</h3>
+      <div class="gauge__cap" style="font-size:1.4rem;color:#e9edf6;">
+        Brier {% if cal.brier %}{{ cal.brier }}{% else %}--{% endif %}
+      </div>
+      <p class="watchlist__note" style="margin-top:6px;">Lower is better. 0 is perfect, 0.25 is a coin flip. Measures whether Vega's stated confidence matches reality.</p>
+    </div>
+    <div class="dash__chart">
+      <h3>Honesty of confidence</h3>
+      <p class="watchlist__note" style="margin-bottom:8px;">When Vega says it is more sure, is it actually right more often?</p>
+      {%- for b in cal.buckets -%}
+        <div style="display:flex;justify-content:space-between;border-bottom:1px solid #1d2740;padding:6px 0;">
+          <span style="color:#8c96af;">{{ b.label }}</span>
+          <span style="color:#e9edf6;">{{ b.hit_rate }}% right <span style="color:#8c96af;">(n={{ b.n }})</span></span>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+  {%- endif -%}
+
   {%- if calls.size == 0 -%}
     <p class="prose">No calls recorded yet. Check back after Vega's first session.</p>
   {%- else -%}

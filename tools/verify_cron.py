@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
-"""verify_cron.py - confirm Vega's 4 scheduled jobs exist (run on sejcore).
+"""verify_cron.py - confirm Vega's scheduled jobs exist (run on sejcore).
 
 Reads the active crontab and reports which of the expected jobs are present:
+  REQUIRED
   1. open      session writer   (run_session.sh open  /  new_entry.py --session open)
   2. close     session writer   (run_session.sh close /  new_entry.py --session close)
   3. responder hourly Q&A        (respond_to_prompts.py)
   4. grader    daily grading     (grade_predictions.py)
+  OPTIONAL (newer features; absence is reported but does not fail)
+  5. radar     topical pieces    (new_entry.py --session radar)
+  6. reflect   self-improvement  (reflect.py)
 
-Exit code 0 if all four are found, 1 otherwise. Pure stdlib; safe on Linux.
+Exit code 0 if all REQUIRED jobs are found, 1 otherwise. Pure stdlib; Linux-safe.
 """
 
 import re
@@ -19,6 +23,10 @@ CHECKS = [
     ("close writer",  r"(run_session\.sh\s+close|new_entry\.py.*--session\s+close)"),
     ("responder",     r"respond_to_prompts\.py"),
     ("grader",        r"grade_predictions\.py"),
+]
+OPTIONAL_CHECKS = [
+    ("radar",   r"new_entry\.py.*--session\s+radar"),
+    ("reflect", r"reflect\.py"),
 ]
 
 
@@ -50,8 +58,17 @@ def main():
             ok = False
             print(f"  [MISSING] {label:12s}")
 
-    print("\n" + ("[ok] all 4 jobs scheduled." if ok
-                  else "[fail] some jobs are missing. See docs/sejcore-cron-setup.md."))
+    print("")
+    for label, pat in OPTIONAL_CHECKS:
+        match = next((l for l in active if re.search(pat, l)), None)
+        if match:
+            sched = " ".join(match.split()[:5])
+            print(f"  [OK]      {label:12s} (optional) -> {sched}")
+        else:
+            print(f"  [absent]  {label:12s} (optional)")
+
+    print("\n" + ("[ok] all 4 required jobs scheduled." if ok
+                  else "[fail] some required jobs are missing. See docs/sejcore-cron-setup.md."))
     sys.exit(0 if ok else 1)
 
 
