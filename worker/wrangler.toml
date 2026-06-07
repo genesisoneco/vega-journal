@@ -10,10 +10,12 @@ main = "src/index.js"
 compatibility_date = "2026-06-01"
 workers_dev = true
 
-# Public origin allowed to call the API (your GitHub Pages site origin — scheme +
-# host only, no path). localhost is always allowed for local dev.
+# Public origin(s) allowed to call the API (scheme + host only, no path).
+# Comma-separated list; localhost is always allowed for local dev.
+# First entry is the canonical site base (used in emails / confirm pages).
 [vars]
-ALLOWED_ORIGIN = "https://genesisoneco.github.io"
+ALLOWED_ORIGIN = "https://vegabell.com,https://www.vegabell.com,https://genesisoneco.github.io"
+SITE_BASE = "https://vegabell.com"
 
 # KV namespace. Create it with `wrangler kv namespace create KV` and paste the id.
 [[kv_namespaces]]

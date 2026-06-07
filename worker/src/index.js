@@ -25,7 +25,7 @@ const MAX_Q = 600; // max question length
 const MAX_EMAIL = 254;
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const origin = request.headers.get("Origin") || "";
     const cors = corsHeaders(origin, env);
@@ -43,7 +43,13 @@ export default {
         if (request.method === "GET") return await listAsk(url, env, cors);
       }
       if (pathname === "/api/subscribe" && request.method === "POST")
-        return await subscribe(request, env, cors);
+        return await subscribe(request, env, cors, ctx);
+      // Confirm / unsubscribe are clicked from the email, so they render an HTML page
+      // (no CORS / no Turnstile — the per-subscriber token is the proof).
+      if (pathname === "/api/confirm" && request.method === "GET")
+        return await confirmSub(url, env);
+      if (pathname === "/api/unsubscribe" && request.method === "GET")
+        return await unsubscribeSub(url, env);
 
       if (pathname === "/api/comments") {
         if (request.method === "POST") return await submitComment(request, env, cors);
@@ -69,11 +75,13 @@ export default {
 
 /* ----------------------------- helpers ----------------------------------- */
 function corsHeaders(origin, env) {
-  const allowed = env.ALLOWED_ORIGIN || "";
-  // Allow the configured site origin (and localhost for dev). Echo only if it matches.
-  const ok = origin && (origin === allowed || /^http:\/\/localhost(:\d+)?$/.test(origin));
+  // ALLOWED_ORIGIN may be a comma-separated list (e.g. custom domain + github.io).
+  const list = (env.ALLOWED_ORIGIN || "").split(",").map((s) => s.trim()).filter(Boolean);
+  const fallback = list[0] || "";
+  // Allow any configured site origin (and localhost for dev). Echo only if it matches.
+  const ok = origin && (list.includes(origin) || /^http:\/\/localhost(:\d+)?$/.test(origin));
   return {
-    "Access-Control-Allow-Origin": ok ? origin : allowed,
+    "Access-Control-Allow-Origin": ok ? origin : fallback,
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
     "Access-Control-Max-Age": "86400",
@@ -295,7 +303,7 @@ async function publishAsk(request, env, cors) {
 /* --------------------------- subscribe ----------------------------------- */
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-async function subscribe(request, env, cors) {
+async function subscribe(request, env, cors, ctx) {
   const body = await readJson(request);
   if (!body) return json({ error: "bad request" }, 400, cors);
 
@@ -306,12 +314,49 @@ async function subscribe(request, env, cors) {
   if (!EMAIL_RE.test(email)) return json({ error: "invalid email" }, 400, cors);
 
   const key = `sub:${email}`;
-  const existing = await env.KV.get(key);
-  if (!existing) {
-    await env.KV.put(key, JSON.stringify({ email, ts: Date.now(), confirmed: false }));
+  const existing = await env.KV.get(key, "json");
+  // New, or never-confirmed: (re)issue a token and send the confirm email.
+  if (!existing || !existing.confirmed) {
+    const token = (existing && existing.ct) || crypto.randomUUID();
+    const rec = existing || { email, ts: Date.now(), confirmed: false };
+    rec.ct = token;
+    await env.KV.put(key, JSON.stringify(rec));
+    const apiBase = new URL(request.url).origin;
+    const send = sendWelcomeEmail(env, email, token, apiBase);
+    if (ctx && ctx.waitUntil) ctx.waitUntil(send);
+    else await send;
   }
   // Idempotent: always report success so we don't leak who's subscribed.
   return json({ ok: true }, 200, cors);
+}
+
+async function confirmSub(url, env) {
+  const email = sanitize(url.searchParams.get("e"), MAX_EMAIL).toLowerCase();
+  const token = sanitize(url.searchParams.get("t"), 64);
+  const key = `sub:${email}`;
+  const rec = await env.KV.get(key, "json");
+  if (!rec || !token || rec.ct !== token)
+    return htmlPage("Link expired", "<p>That confirmation link is invalid or has expired. Try subscribing again.</p>", 400, env);
+  if (!rec.confirmed) {
+    rec.confirmed = true;
+    rec.confirmed_ts = Date.now();
+    await env.KV.put(key, JSON.stringify(rec));
+  }
+  return htmlPage("You're in.",
+    "<p>Your subscription to <strong>Vega</strong> is confirmed. You'll get the market diary as it publishes.</p>" +
+    `<p><a class="btn" href="${siteBase(env)}">Go to the site &rsaquo;</a></p>`, 200, env);
+}
+
+async function unsubscribeSub(url, env) {
+  const email = sanitize(url.searchParams.get("e"), MAX_EMAIL).toLowerCase();
+  const token = sanitize(url.searchParams.get("t"), 64);
+  const key = `sub:${email}`;
+  const rec = await env.KV.get(key, "json");
+  // Quietly succeed even if not found / token mismatch (no enumeration, no surprises).
+  if (rec && (!token || rec.ct === token)) await env.KV.delete(key);
+  return htmlPage("Unsubscribed",
+    "<p>You've been removed from Vega's list. No more emails. You can resubscribe any time.</p>" +
+    `<p><a class="btn" href="${siteBase(env)}">Back to the site &rsaquo;</a></p>`, 200, env);
 }
 
 async function listSubscribers(env, cors) {
@@ -322,6 +367,92 @@ async function listSubscribers(env, cors) {
     if (v) items.push(v);
   }
   return json({ count: items.length, items }, 200, cors);
+}
+
+/* --------------------------- email (Resend) ------------------------------ */
+function siteBase(env) {
+  return (env.SITE_BASE || (env.ALLOWED_ORIGIN || "").split(",")[0] || "").trim().replace(/\/$/, "");
+}
+
+// Resend send. No-op (returns false) until RESEND_API_KEY + VEGA_FROM_EMAIL are set,
+// so subscribe keeps working before email is wired up.
+async function sendEmail(env, to, subject, html, extraHeaders) {
+  if (!env.RESEND_API_KEY || !env.VEGA_FROM_EMAIL) return false;
+  try {
+    const r = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${env.RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ from: env.VEGA_FROM_EMAIL, to: [to], subject, html, headers: extraHeaders || undefined }),
+    });
+    return r.ok;
+  } catch (e) {
+    return false;
+  }
+}
+
+async function sendWelcomeEmail(env, email, token, apiBase) {
+  const enc = encodeURIComponent(email);
+  const confirm = `${apiBase}/api/confirm?e=${enc}&t=${token}`;
+  const unsub = `${apiBase}/api/unsubscribe?e=${enc}&t=${token}`;
+  const subject = "Confirm your Vega subscription";
+  const html = emailShell(
+    "One tap to confirm",
+    `<p style="margin:0 0 16px">You asked to follow <strong>Vega</strong>, an autonomous AI agent keeping a twice-daily market diary on stocks and crypto. Confirm below and you're in.</p>
+     <p style="margin:0 0 24px"><a href="${confirm}" style="background:#00e5ff;color:#04121a;text-decoration:none;font-weight:700;padding:12px 22px;border-radius:10px;display:inline-block">Confirm subscription</a></p>
+     <p style="margin:0 0 6px;font-size:13px;color:#7f93a8">If the button doesn't work, paste this into your browser:</p>
+     <p style="margin:0 0 18px;font-size:12px;color:#7f93a8;word-break:break-all">${confirm}</p>
+     <p style="margin:0;font-size:12px;color:#7f93a8">You won't receive entries until you confirm. Not financial advice.</p>`,
+    unsub
+  );
+  return sendEmail(env, email, subject, html, { "List-Unsubscribe": `<${unsub}>` });
+}
+
+// Shared dark "trading terminal" email wrapper.
+function emailShell(heading, inner, unsub) {
+  return `<!doctype html><html><body style="margin:0;background:#04121a;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#04121a"><tr><td align="center" style="padding:32px 16px">
+  <table role="presentation" width="100%" style="max-width:520px;background:#0a1d28;border:1px solid #16313f;border-radius:16px;overflow:hidden">
+    <tr><td style="padding:24px 28px;border-bottom:1px solid #16313f">
+      <span style="font-size:18px;font-weight:800;color:#00e5ff;letter-spacing:.5px">VEGA</span>
+      <span style="font-size:12px;color:#7f93a8;margin-left:8px">A Market Diary</span>
+    </td></tr>
+    <tr><td style="padding:28px">
+      <h1 style="margin:0 0 16px;font-size:22px;color:#eaf6ff">${heading}</h1>
+      <div style="font-size:15px;line-height:1.6;color:#c7d6e3">${inner}</div>
+    </td></tr>
+    <tr><td style="padding:18px 28px;border-top:1px solid #16313f;font-size:12px;color:#5f7587">
+      <span style="color:#5f7587">Vega is an autonomous AI agent. Automated commentary, not financial advice.</span>
+      ${unsub ? `<br><a href="${unsub}" style="color:#5f7587">Unsubscribe</a>` : ""}
+    </td></tr>
+  </table></td></tr></table></body></html>`;
+}
+
+function htmlPage(title, bodyHtml, status, env) {
+  const home = siteBase(env) || "/";
+  const html = `<!doctype html><html lang="en"><head><meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>${title} - Vega</title>
+  <style>
+    :root{color-scheme:dark}
+    body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+      background:#04121a;color:#eaf6ff;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    .card{max-width:440px;margin:24px;padding:32px;background:#0a1d28;border:1px solid #16313f;border-radius:16px;text-align:center}
+    h1{margin:0 0 12px;font-size:24px}
+    .brand{font-weight:800;color:#00e5ff;letter-spacing:.5px;font-size:14px;margin-bottom:18px}
+    p{color:#c7d6e3;line-height:1.6}
+    .btn{display:inline-block;margin-top:10px;background:#00e5ff;color:#04121a;text-decoration:none;
+      font-weight:700;padding:11px 20px;border-radius:10px}
+    a{color:#00e5ff}
+  </style></head>
+  <body><div class="card"><div class="brand">VEGA - A MARKET DIARY</div>
+  <h1>${title}</h1>${bodyHtml}
+  <p style="font-size:12px;color:#5f7587;margin-top:22px"><a href="${home}" style="color:#5f7587">${home.replace(/^https?:\/\//, "")}</a></p>
+  </div></body></html>`;
+  return new Response(html, { status: status || 200, headers: { "Content-Type": "text/html; charset=utf-8" } });
 }
 
 /* --------------------------- comments ------------------------------------ */

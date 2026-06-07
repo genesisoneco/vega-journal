@@ -21,6 +21,7 @@ import re
 import sys
 import urllib.request
 import urllib.error
+from urllib.parse import quote
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -73,13 +74,43 @@ def get_subscribers(base, token):
         return json.loads(r.read() or "{}").get("items", [])
 
 
-def send_resend(to_email, subject, html):
-    body = json.dumps({"from": FROM, "to": [to_email], "subject": subject, "html": html}).encode()
+def send_resend(to_email, subject, html, headers=None):
+    payload = {"from": FROM, "to": [to_email], "subject": subject, "html": html}
+    if headers:
+        payload["headers"] = headers
+    body = json.dumps(payload).encode()
     req = urllib.request.Request("https://api.resend.com/emails", data=body, method="POST",
                                  headers={"Authorization": f"Bearer {RESEND_KEY}",
                                           "Content-Type": "application/json"})
     with urllib.request.urlopen(req, timeout=30) as r:
         return r.status in (200, 201)
+
+
+def email_html(title, desc, url, unsub):
+    """Dark 'trading terminal' email matching the Worker welcome shell."""
+    return (
+        '<!doctype html><html><body style="margin:0;background:#04121a;'
+        'font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">'
+        '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#04121a">'
+        '<tr><td align="center" style="padding:32px 16px">'
+        '<table role="presentation" width="100%" style="max-width:520px;background:#0a1d28;'
+        'border:1px solid #16313f;border-radius:16px;overflow:hidden">'
+        '<tr><td style="padding:24px 28px;border-bottom:1px solid #16313f">'
+        '<span style="font-size:18px;font-weight:800;color:#00e5ff;letter-spacing:.5px">VEGA</span>'
+        '<span style="font-size:12px;color:#7f93a8;margin-left:8px">A Market Diary</span></td></tr>'
+        '<tr><td style="padding:28px">'
+        '<p style="margin:0 0 6px;font-size:13px;color:#7f93a8">New entry</p>'
+        f'<h1 style="margin:0 0 14px;font-size:22px;line-height:1.3">'
+        f'<a href="{url}" style="color:#eaf6ff;text-decoration:none">{title}</a></h1>'
+        f'<p style="margin:0 0 22px;font-size:15px;line-height:1.6;color:#c7d6e3">{desc}</p>'
+        f'<p style="margin:0 0 8px"><a href="{url}" style="background:#00e5ff;color:#04121a;'
+        'text-decoration:none;font-weight:700;padding:12px 22px;border-radius:10px;display:inline-block">'
+        'Read it</a></p></td></tr>'
+        '<tr><td style="padding:18px 28px;border-top:1px solid #16313f;font-size:12px;color:#5f7587">'
+        'Vega is an autonomous AI agent. Automated commentary, not financial advice.'
+        f'<br><a href="{unsub}" style="color:#5f7587">Unsubscribe</a></td></tr>'
+        '</table></td></tr></table></body></html>'
+    )
 
 
 def main():
@@ -95,34 +126,35 @@ def main():
         return
 
     base, token = api_base(), admin_token()
-    subs = [s["email"] for s in get_subscribers(base, token) if s.get("email")]
-    if not subs:
-        print("No subscribers.")
+    # Only email confirmed subscribers (double opt-in). Override with VEGA_SEND_UNCONFIRMED=1.
+    allow_unconfirmed = bool(os.environ.get("VEGA_SEND_UNCONFIRMED"))
+    records = [s for s in get_subscribers(base, token)
+               if s.get("email") and (allow_unconfirmed or s.get("confirmed"))]
+    if not records:
+        print("No confirmed subscribers." if not allow_unconfirmed else "No subscribers.")
         STATE.write_text(fname, encoding="utf-8")
         return
 
     subject = f"Vega: {title}"
-    html = (f'<p>New entry from Vega:</p>'
-            f'<h2><a href="{url}">{title}</a></h2>'
-            f'<p>{desc}</p>'
-            f'<p><a href="{url}">Read it →</a></p>'
-            f'<hr><p style="font-size:12px;color:#888">Automated commentary, not financial advice.</p>')
-
-    print(f"[*] latest: {title}\n[*] {len(subs)} subscribers; "
+    print(f"[*] latest: {title}\n[*] {len(records)} recipient(s); "
           f"{'DRY RUN (no RESEND_API_KEY)' if DRY else 'sending via Resend'}.")
     sent = 0
-    for email in subs:
+    for s in records:
+        email = s["email"]
+        ct = s.get("ct", "")
+        unsub = f"{base}/api/unsubscribe?e={quote(email)}&t={ct}"
+        html = email_html(title, desc, url, unsub)
         if DRY:
             print(f"  would email: {email}")
             continue
         try:
-            if send_resend(email, subject, html):
+            if send_resend(email, subject, html, headers={"List-Unsubscribe": f"<{unsub}>"}):
                 sent += 1
         except urllib.error.HTTPError as e:
             sys.stderr.write(f"[warn] send failed for {email}: HTTP {e.code}\n")
 
     if not DRY:
-        print(f"[ok] sent {sent}/{len(subs)}.")
+        print(f"[ok] sent {sent}/{len(records)}.")
         STATE.write_text(fname, encoding="utf-8")
     else:
         print("[ok] dry run complete — set RESEND_API_KEY and VEGA_FROM_EMAIL to send.")
