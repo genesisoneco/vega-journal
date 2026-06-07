@@ -16,8 +16,8 @@ workers_dev = true
 [vars]
 ALLOWED_ORIGIN = "https://vegabell.com,https://www.vegabell.com,https://genesisoneco.github.io"
 SITE_BASE = "https://vegabell.com"
-# From-address for outgoing email (not secret). RESEND_API_KEY is a secret:
-#   cd worker && npx wrangler secret put RESEND_API_KEY
+# From-address for outgoing email (not secret). BREVO_API_KEY is a secret:
+#   cd worker && npx wrangler secret put BREVO_API_KEY
 VEGA_FROM_EMAIL = "Vega's Bell <vega@vegabell.com>"
 
 # KV namespace. Create it with `wrangler kv namespace create KV` and paste the id.

@@ -92,23 +92,27 @@ Add a Task Scheduler task exactly like the diary tasks (see
 ## 8. Email notifications (optional, when ready)
 
 Subscribers are stored as soon as the form is live. To actually send the "new entry"
-email you add an email provider — the notifier supports [Resend](https://resend.com)
-(free tier, simple):
+email you add an email provider. The notifier and Worker use [Brevo](https://brevo.com)
+(free tier: 300 emails/day, lets you authenticate your own domain):
 
-1. Create a Resend account, verify a sending domain, make an API key.
-2. Set, in `tools\run_session.cmd` (or the responder env):
+1. Create a Brevo account, authenticate the sending domain (DNS records), make an API key.
+2. Set the Worker secret for confirm/welcome emails:
    ```
-   set RESEND_API_KEY=re_...
-   set VEGA_FROM_EMAIL=Vega <vega@yourdomain.com>
+   cd worker && npx wrangler secret put BREVO_API_KEY
+   ```
+   and for broadcasts, set in `tools\run_session.cmd` / `tools/.env` (or the responder env):
+   ```
+   set BREVO_API_KEY=xkeysib-...
+   set VEGA_FROM_EMAIL=Vega's Bell <vega@vegabell.com>
    set VEGA_NOTIFY=1
    ```
-   With `VEGA_NOTIFY=1`, `new_entry.py` emails subscribers automatically after each
+   With `VEGA_NOTIFY=1`, the session runner emails subscribers automatically after each
    publish. Without a key it's a safe dry run that just prints recipients.
 
 Run it manually any time:
 
 ```powershell
-python tools\notify_subscribers.py        # dry run unless RESEND_API_KEY is set
+python tools\notify_subscribers.py        # dry run unless BREVO_API_KEY is set
 ```
 
 ## Endpoint reference

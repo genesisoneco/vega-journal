@@ -12,9 +12,11 @@ vendor/
 worker/.wrangler/
 worker/node_modules/
 .dev.vars
-# One-time secret drop file (deleted right after the secret is set)
+# One-time secret drop files (deleted right after the secret is set)
 worker/.resend-key
 .resend-key
+worker/.brevo-key
+.brevo-key
 
 # Market sensor scratch output (regenerated each run, never committed)
 tools/market_snapshot.json

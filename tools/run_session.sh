@@ -15,7 +15,7 @@ REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 cd "$REPO_DIR"
 
 # Optional local env (gitignored): export HERMES_BIN, HERMES_PROVIDER,
-# HERMES_MODEL, VEGA_ADMIN_TOKEN, RESEND_API_KEY, VEGA_FROM_EMAIL, etc.
+# HERMES_MODEL, VEGA_ADMIN_TOKEN, BREVO_API_KEY, VEGA_FROM_EMAIL, etc.
 [ -f tools/.env ] && set -a && . tools/.env && set +a
 
 PYTHON="${VEGA_PYTHON:-python3}"
@@ -34,7 +34,7 @@ RC=$?
 echo "[vega] new_entry exit ${RC}"
 
 # Email the new entry to confirmed subscribers if enabled (no-op dry run
-# unless RESEND_API_KEY + VEGA_FROM_EMAIL are set).
+# unless BREVO_API_KEY + VEGA_FROM_EMAIL are set).
 if [ "$RC" -eq 0 ] && [ "${VEGA_NOTIFY:-0}" = "1" ]; then
   "$PYTHON" tools/notify_subscribers.py || echo "[vega] notify failed (non-fatal)"
 fi

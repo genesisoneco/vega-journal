@@ -369,23 +369,39 @@ async function listSubscribers(env, cors) {
   return json({ count: items.length, items }, 200, cors);
 }
 
-/* --------------------------- email (Resend) ------------------------------ */
+/* --------------------------- email (Brevo) ------------------------------- */
 function siteBase(env) {
   return (env.SITE_BASE || (env.ALLOWED_ORIGIN || "").split(",")[0] || "").trim().replace(/\/$/, "");
 }
 
-// Resend send. No-op (returns false) until RESEND_API_KEY + VEGA_FROM_EMAIL are set,
-// so subscribe keeps working before email is wired up.
+// "Name <email>" -> { name, email } for Brevo's structured sender field.
+function parseFrom(s) {
+  const m = /^\s*(.*?)\s*<([^>]+)>\s*$/.exec(s || "");
+  return m ? { name: m[1] || "Vega's Bell", email: m[2].trim() }
+           : { name: "Vega's Bell", email: (s || "").trim() };
+}
+
+// Brevo (Sendinblue) transactional send. No-op (returns false) until
+// BREVO_API_KEY + VEGA_FROM_EMAIL are set, so subscribe keeps working before
+// email is wired up.
 async function sendEmail(env, to, subject, html, extraHeaders) {
-  if (!env.RESEND_API_KEY || !env.VEGA_FROM_EMAIL) return false;
+  if (!env.BREVO_API_KEY || !env.VEGA_FROM_EMAIL) return false;
+  const sender = parseFrom(env.VEGA_FROM_EMAIL);
   try {
-    const r = await fetch("https://api.resend.com/emails", {
+    const r = await fetch("https://api.brevo.com/v3/smtp/email", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${env.RESEND_API_KEY}`,
+        "api-key": env.BREVO_API_KEY,
         "Content-Type": "application/json",
+        accept: "application/json",
       },
-      body: JSON.stringify({ from: env.VEGA_FROM_EMAIL, to: [to], subject, html, headers: extraHeaders || undefined }),
+      body: JSON.stringify({
+        sender,
+        to: [{ email: to }],
+        subject,
+        htmlContent: html,
+        headers: extraHeaders || undefined,
+      }),
     });
     return r.ok;
   } catch (e) {

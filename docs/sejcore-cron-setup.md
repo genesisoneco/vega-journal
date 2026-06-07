@@ -22,8 +22,8 @@ HERMES_PROVIDER=openai-codex
 HERMES_MODEL=gpt-5.5
 VEGA_ADMIN_TOKEN=...            # also in tools/.pipeline-token
 VEGA_PYTHON=python3
-# Email (only once the Resend domain is verified):
-# RESEND_API_KEY=re_...
+# Email (only once the Brevo domain is authenticated):
+# BREVO_API_KEY=xkeysib-...
 # VEGA_FROM_EMAIL=Vega's Bell <vega@vegabell.com>
 VEGA_NOTIFY=1                   # email subscribers after each new entry
 ```

@@ -2,16 +2,16 @@
 """notify_subscribers.py — email the latest entry to subscribers (runs locally).
 
 Pulls the subscriber list from the Worker admin endpoint and emails them a link to
-the newest post. Email delivery is pluggable: if RESEND_API_KEY is set it sends via
-Resend; otherwise it runs as a dry run and just prints what it would send — so the
+the newest post. Email delivery is pluggable: if BREVO_API_KEY is set it sends via
+Brevo; otherwise it runs as a dry run and just prints what it would send so the
 feature is wired end to end and you only add a provider key when you're ready.
 
 It records the last-notified post in tools/.last_notified so re-runs don't double-send.
 
 Config (env):
     VEGA_API_BASE / VEGA_ADMIN_TOKEN   as in respond_to_prompts.py
-    RESEND_API_KEY   optional; enables real sending
-    VEGA_FROM_EMAIL  e.g. "Vega <vega@yourdomain.com>" (required to actually send)
+    BREVO_API_KEY    optional; enables real sending (Brevo transactional API)
+    VEGA_FROM_EMAIL  e.g. "Vega's Bell <vega@vegabell.com>" (required to actually send)
     VEGA_DRY_RUN     force dry run even if a key is present
 """
 
@@ -29,9 +29,17 @@ TOOLS = ROOT / "tools"
 POSTS = ROOT / "_posts"
 STATE = TOOLS / ".last_notified"
 
-RESEND_KEY = os.environ.get("RESEND_API_KEY", "").strip()
-FROM = os.environ.get("VEGA_FROM_EMAIL", "Vega <onboarding@resend.dev>")
-DRY = bool(os.environ.get("VEGA_DRY_RUN")) or not RESEND_KEY
+BREVO_KEY = os.environ.get("BREVO_API_KEY", "").strip()
+FROM = os.environ.get("VEGA_FROM_EMAIL", "Vega's Bell <vega@vegabell.com>")
+DRY = bool(os.environ.get("VEGA_DRY_RUN")) or not BREVO_KEY
+
+
+def parse_from(s):
+    """'Name <email>' -> (name, email) for Brevo's structured sender."""
+    m = re.match(r"\s*(.*?)\s*<([^>]+)>\s*$", s or "")
+    if m:
+        return (m.group(1) or "Vega's Bell"), m.group(2).strip()
+    return "Vega's Bell", (s or "").strip()
 
 
 def cfg(key, default=""):
@@ -74,14 +82,17 @@ def get_subscribers(base, token):
         return json.loads(r.read() or "{}").get("items", [])
 
 
-def send_resend(to_email, subject, html, headers=None):
-    payload = {"from": FROM, "to": [to_email], "subject": subject, "html": html}
+def send_brevo(to_email, subject, html, headers=None):
+    name, email = parse_from(FROM)
+    payload = {"sender": {"name": name, "email": email},
+               "to": [{"email": to_email}], "subject": subject, "htmlContent": html}
     if headers:
         payload["headers"] = headers
     body = json.dumps(payload).encode()
-    req = urllib.request.Request("https://api.resend.com/emails", data=body, method="POST",
-                                 headers={"Authorization": f"Bearer {RESEND_KEY}",
-                                          "Content-Type": "application/json"})
+    req = urllib.request.Request("https://api.brevo.com/v3/smtp/email", data=body, method="POST",
+                                 headers={"api-key": BREVO_KEY,
+                                          "Content-Type": "application/json",
+                                          "accept": "application/json"})
     with urllib.request.urlopen(req, timeout=30) as r:
         return r.status in (200, 201)
 
@@ -137,7 +148,7 @@ def main():
 
     subject = f"Vega's Bell: {title}"
     print(f"[*] latest: {title}\n[*] {len(records)} recipient(s); "
-          f"{'DRY RUN (no RESEND_API_KEY)' if DRY else 'sending via Resend'}.")
+          f"{'DRY RUN (no BREVO_API_KEY)' if DRY else 'sending via Brevo'}.")
     sent = 0
     for s in records:
         email = s["email"]
@@ -148,7 +159,7 @@ def main():
             print(f"  would email: {email}")
             continue
         try:
-            if send_resend(email, subject, html, headers={"List-Unsubscribe": f"<{unsub}>"}):
+            if send_brevo(email, subject, html, headers={"List-Unsubscribe": f"<{unsub}>"}):
                 sent += 1
         except urllib.error.HTTPError as e:
             sys.stderr.write(f"[warn] send failed for {email}: HTTP {e.code}\n")
@@ -157,7 +168,7 @@ def main():
         print(f"[ok] sent {sent}/{len(records)}.")
         STATE.write_text(fname, encoding="utf-8")
     else:
-        print("[ok] dry run complete — set RESEND_API_KEY and VEGA_FROM_EMAIL to send.")
+        print("[ok] dry run complete - set BREVO_API_KEY and VEGA_FROM_EMAIL to send.")
 
 
 if __name__ == "__main__":

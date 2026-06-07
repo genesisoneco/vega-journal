@@ -117,7 +117,7 @@ An interactive layer backed by a Cloudflare Worker + KV, guarded by Turnstile:
   has Hermes answer a few each hour (safety-constrained: no personal advice, no buy/sell
   calls), and replies appear under the post.
 - **Email subscribers** - a subscribe form stores emails; `tools/notify_subscribers.py`
-  emails the latest entry (via Resend when a key is set, dry-run otherwise).
+  emails the latest entry (via Brevo when a key is set, dry-run otherwise).
 
 The widgets render only once `api.base` is set in `_config.yml`, so the site is safe to
 ship before the Worker exists. Full deploy steps: [`docs/cloudflare-setup.md`](docs/cloudflare-setup.md).
