@@ -1,11 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#05060c"/><stop offset="1" stop-color="#0b1020"/></linearGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.86" y2="0.82"><stop offset="0" stop-color="#05060c"/><stop offset="1" stop-color="#0b1020"/></linearGradient>
     <linearGradient id="ar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3e63dd" stop-opacity="0.5"/><stop offset="1" stop-color="#3e63dd" stop-opacity="0"/></linearGradient>
-    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="#3e63dd" stroke-opacity="0.07" stroke-width="1"/></pattern>
+    <pattern id="grid" width="47" height="47" patternUnits="userSpaceOnUse"><path d="M47 0H0V47" fill="none" stroke="#3e63dd" stroke-opacity="0.07" stroke-width="1"/></pattern>
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
   <rect width="1200" height="630" fill="url(#grid)"/>
+  <g><circle cx="1030" cy="203" r="2" fill="#3e63dd" opacity="0.11"/><circle cx="813" cy="40" r="1" fill="#3e63dd" opacity="0.18"/><circle cx="1144" cy="113" r="3" fill="#3e63dd" opacity="0.08"/><circle cx="749" cy="159" r="3" fill="#3e63dd" opacity="0.15"/><circle cx="633" cy="85" r="2" fill="#3e63dd" opacity="0.11"/><circle cx="890" cy="208" r="2" fill="#3e63dd" opacity="0.28"/><circle cx="898" cy="119" r="2" fill="#3e63dd" opacity="0.11"/><circle cx="764" cy="255" r="2" fill="#3e63dd" opacity="0.25"/><circle cx="789" cy="93" r="2" fill="#3e63dd" opacity="0.08"/><circle cx="1085" cy="45" r="3" fill="#3e63dd" opacity="0.11"/><circle cx="622" cy="150" r="2" fill="#3e63dd" opacity="0.25"/><circle cx="1017" cy="154" r="2" fill="#3e63dd" opacity="0.21"/><circle cx="622" cy="99" r="3" fill="#3e63dd" opacity="0.11"/><circle cx="800" cy="109" r="3" fill="#3e63dd" opacity="0.18"/><circle cx="912" cy="231" r="1" fill="#3e63dd" opacity="0.28"/><circle cx="729" cy="40" r="1" fill="#3e63dd" opacity="0.21"/></g>
   <path d="M0.0 540.0 L171.4 485.5 L342.9 521.8 L514.3 431.0 L685.7 467.3 L857.1 376.5 L1028.6 423.7 L1200.0 322.0 L1200 540.0 L0 540.0 Z" fill="url(#ar)"/>
   <path d="M0.0 540.0 L171.4 485.5 L342.9 521.8 L514.3 431.0 L685.7 467.3 L857.1 376.5 L1028.6 423.7 L1200.0 322.0" fill="none" stroke="#3e63dd" stroke-width="4" style="filter:drop-shadow(0 0 8px #3e63dd)"/>
   <text x="64" y="78" font-family="ui-monospace,monospace" font-size="23" fill="#00e5ff" letter-spacing="4">VEGA / OPEN / JUN 05, 2026</text>

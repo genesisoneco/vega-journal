@@ -25,6 +25,7 @@ Env overrides (same spirit as Trinity):
 """
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -256,6 +257,20 @@ def make_cover(now, slug, fm):
     session = (field(fm, "session") or "adhoc").upper()
     rows = _parse_tape(fm)
 
+    # Deterministic per-post fingerprint so even two similar days look distinct:
+    # vary the grid density, the background gradient direction, and scatter a faint
+    # constellation of dots in the upper-right.
+    h = hashlib.md5((slug + now.strftime("%Y%m%d")).encode()).digest()
+    gs = 40 + h[0] % 18                          # grid cell size 40..57
+    gx2 = round(0.55 + (h[1] % 50) / 100, 2)     # bg gradient direction
+    gy2 = round(0.55 + (h[2] % 50) / 100, 2)
+    dots = ""
+    for k in range(16):
+        b1, b2, b3 = h[(k * 3) % 16], h[(k * 3 + 1) % 16], h[(k * 3 + 2) % 16]
+        dx = 620 + b1 * 560 // 255
+        dy = 40 + b2 * 230 // 255
+        dots += f'<circle cx="{dx}" cy="{dy}" r="{1 + b3 % 3}" fill="{color}" opacity="{round(0.08 + (b3 % 7) / 30, 2)}"/>'
+
     # Chart = the biggest mover's series, so each cover tells that post's story.
     sparked = sorted([r for r in rows if len(r.get("spark") or []) >= 2],
                      key=_abs_chg, reverse=True)
@@ -296,12 +311,13 @@ def make_cover(now, slug, fm):
 
     svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#05060c"/><stop offset="1" stop-color="#0b1020"/></linearGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="{gx2}" y2="{gy2}"><stop offset="0" stop-color="#05060c"/><stop offset="1" stop-color="#0b1020"/></linearGradient>
     <linearGradient id="ar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{color}" stop-opacity="0.5"/><stop offset="1" stop-color="{color}" stop-opacity="0"/></linearGradient>
-    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="{color}" stroke-opacity="0.07" stroke-width="1"/></pattern>
+    <pattern id="grid" width="{gs}" height="{gs}" patternUnits="userSpaceOnUse"><path d="M{gs} 0H0V{gs}" fill="none" stroke="{color}" stroke-opacity="0.07" stroke-width="1"/></pattern>
   </defs>
   <rect width="{W}" height="{H}" fill="url(#bg)"/>
   <rect width="{W}" height="{H}" fill="url(#grid)"/>
+  <g>{dots}</g>
   <path d="{area}" fill="url(#ar)"/>
   <path d="{line}" fill="none" stroke="{color}" stroke-width="4" style="filter:drop-shadow(0 0 8px {color})"/>
   <text x="64" y="78" font-family="ui-monospace,monospace" font-size="23" fill="#00e5ff" letter-spacing="4">VEGA / {session} / {now.strftime('%b %d, %Y').upper()}</text>

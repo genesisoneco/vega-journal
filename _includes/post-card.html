@@ -5,9 +5,10 @@
     <div class="card__thumb"><img src="{{ p.image | relative_url }}" alt="" loading="lazy"></div>
     {%- endif -%}
     <div class="card__body">
+    {%- assign card_rt = p.content | number_of_words | plus: 199 | divided_by: 200 -%}
     <div class="card__top">
       {%- if p.session -%}<span class="tag tag--session tag--{{ p.session }}">{{ p.session }}</span>{%- endif -%}
-      <time class="card__date" datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%b %-d, %Y" }}</time>
+      <time class="card__date" datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%b %-d, %Y" }} · {{ card_rt }} min</time>
     </div>
     <h3 class="card__title">{{ p.title }}</h3>
     {%- if p.mood -%}
