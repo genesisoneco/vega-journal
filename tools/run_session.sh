@@ -34,6 +34,13 @@ if [ -n "${VEGA_MAX_DELAY_MIN:-}" ] && [ "${VEGA_MAX_DELAY_MIN}" -gt 0 ]; then
   sleep "$DELAY"
 fi
 
+# Cron can race with manual/site commits. Start from the latest origin/main
+# immediately before generation so the later push is fast-forwardable.
+echo "[vega] syncing repo before ${SESSION} entry..."
+git fetch origin
+CURRENT_BRANCH="$(git branch --show-current)"
+git pull --rebase --autostash origin "${CURRENT_BRANCH:-main}"
+
 echo "[vega] writing ${SESSION} entry..."
 "$PYTHON" tools/new_entry.py --session "$SESSION"
 RC=$?

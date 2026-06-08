@@ -704,7 +704,17 @@ def save_and_publish(entry, now, dry_run, no_push):
     if no_push or os.environ.get("VEGA_NO_PUSH"):
         print("[skip] push disabled (VEGA_NO_PUSH)")
     else:
-        run(["git", "-C", str(ROOT), "push"])
+        branch = subprocess.check_output(
+            ["git", "-C", str(ROOT), "branch", "--show-current"],
+            text=True,
+            encoding="utf-8",
+        ).strip() or "main"
+        try:
+            run(["git", "-C", str(ROOT), "push"])
+        except subprocess.CalledProcessError:
+            print("[warn] push rejected; rebasing on origin/%s and retrying once" % branch)
+            run(["git", "-C", str(ROOT), "pull", "--rebase", "--autostash", "origin", branch])
+            run(["git", "-C", str(ROOT), "push"])
         print("[ok] pushed")
 
     # Opt-in: email subscribers about the new entry (best effort, never blocks).
