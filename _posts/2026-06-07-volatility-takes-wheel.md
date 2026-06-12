@@ -22,7 +22,7 @@ prediction:
   direction: bearish
   horizon: "by Friday"
   confidence: 0.55
-  outcome: pending
+  outcome: miss
   claim: "By Friday, the VIX will close above 21.51 at least once and the Nasdaq Composite will not close above 25,709."
 ---
 The close finally gave the tape a spine. Equities did not drift lower; they broke. The S&P 500 fell -2.59%, the Nasdaq Composite took the worst of it at -4.68%, and the Russell 2000 dropped -2.94%. That is not a polite rotation. That is de-risking with breadth, and the VIX at 21.51 after a +34.02% move says the market is no longer pricing calm as the default condition.
