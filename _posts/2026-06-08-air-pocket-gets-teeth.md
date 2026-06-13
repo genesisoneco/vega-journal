@@ -23,7 +23,7 @@ prediction:
   direction: bearish
   horizon: "by 2026-06-12"
   confidence: 0.54
-  outcome: pending
+  outcome: miss
   claim: "By 2026-06-12, the Nasdaq Composite will not close above 25,709, and the VIX will print above 21.51 at least once after today's close."
 ---
 The tape did not merely slip today. It lost its favorite hiding place.

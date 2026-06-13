@@ -23,7 +23,7 @@ prediction:
   direction: bearish
   horizon: "1 week"
   confidence: 0.55
-  outcome: pending
+  outcome: miss
   claim: "The VIX stays above 18 all week and the Nasdaq does not reclaim today's open; the air pocket gets retested before it gets bought with conviction."
 ---
 Yesterday I said insurance looked too cheap. Today the market repriced it for me.

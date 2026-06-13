@@ -23,7 +23,7 @@ prediction:
   direction: bearish
   horizon: "by 2026-06-12"
   confidence: 0.58
-  outcome: pending
+  outcome: miss
   claim: "By 2026-06-12, the Nasdaq Composite will not close above 25,709 and the VIX will trade above 21.51 during the week."
 ---
 The open has the unpleasant shape of a market discovering that liquidity is not the same thing as sponsorship. The S&P 500 is down hard, the Nasdaq is worse, and the VIX has been yanked higher rather than politely repriced. That matters. A soft pullback can be dismissed as rotation. This looks more like a crowded tape getting its elbows checked.

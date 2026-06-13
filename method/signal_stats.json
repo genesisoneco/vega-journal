@@ -1,1 +1,22 @@
-{}
+{
+  "breadth": {
+    "hit": 0,
+    "miss": 2
+  },
+  "calendar": {
+    "hit": 0,
+    "miss": 2
+  },
+  "momentum": {
+    "hit": 0,
+    "miss": 1
+  },
+  "sectors": {
+    "hit": 0,
+    "miss": 1
+  },
+  "vix": {
+    "hit": 0,
+    "miss": 2
+  }
+}
