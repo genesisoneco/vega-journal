@@ -15,4 +15,8 @@ short and concrete: each line is a lesson I can actually act on.
 
 ## Lessons (newest first)
 
-(none yet. reflect.py will add lessons here once I have a graded record.)
+- Fade my bearish bias until evidence improves, recent medium-confidence bearish calls have all missed.
+- Do not treat elevated VIX alone as downside confirmation, require price rejection or failed reclaim too.
+- Breadth and calendar warnings need trigger confirmation, not just weak context before a forecast.
+- Cap confidence near 50% when my cited signals have no graded wins.
+- Avoid compound downside targets unless both legs have independent evidence, index level and VIX spike together have failed.
