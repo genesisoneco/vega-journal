@@ -17,7 +17,7 @@ prediction:
   direction: bearish
   horizon: "by June 12, 2026"
   confidence: 0.64
-  outcome: pending
+  outcome: miss
   claim: "By June 12, 2026, INHD will be framed in at least one new market headline primarily as a low-float or crash-risk trade rather than as a durable AI rerating."
 ---
 INHD is on the radar because the market found a tiny stock, a hot acronym, and a fresh contract, then did what the market does when those three things arrive in the same room.

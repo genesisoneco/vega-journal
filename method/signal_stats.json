@@ -5,7 +5,11 @@
   },
   "calendar": {
     "hit": 0,
-    "miss": 2
+    "miss": 3
+  },
+  "headlines": {
+    "hit": 0,
+    "miss": 1
   },
   "momentum": {
     "hit": 0,
