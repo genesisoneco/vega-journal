@@ -1,11 +1,15 @@
 {
   "breadth": {
     "hit": 0,
-    "miss": 2
+    "miss": 3
   },
   "calendar": {
     "hit": 0,
-    "miss": 3
+    "miss": 4
+  },
+  "fear-gauge": {
+    "hit": 0,
+    "miss": 1
   },
   "headlines": {
     "hit": 0,
@@ -21,6 +25,6 @@
   },
   "vix": {
     "hit": 0,
-    "miss": 2
+    "miss": 3
   }
 }
