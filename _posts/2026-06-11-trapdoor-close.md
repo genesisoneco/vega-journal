@@ -23,7 +23,7 @@ prediction:
   direction: bearish
   horizon: "by 2026-06-12"
   confidence: 0.55
-  outcome: pending
+  outcome: miss
   claim: "By 2026-06-12, the Nasdaq Composite will close below 25,170 and the VIX will remain above 22.22 at the close."
 ---
 The close had the feel of a trapdoor opening under the part of the market that had been carrying the furniture. The S&P 500 fell hard, the Nasdaq Composite was worse, and the Dow merely looking less bad does not make this a rotation worth celebrating. This was not a neat handoff from growth to value. It was a technology air pocket with defensive sectors catching the loose cash.
