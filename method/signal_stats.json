@@ -1,11 +1,11 @@
 {
   "breadth": {
     "hit": 0,
-    "miss": 4
+    "miss": 5
   },
   "calendar": {
     "hit": 0,
-    "miss": 5
+    "miss": 6
   },
   "fear-gauge": {
     "hit": 0,
@@ -23,8 +23,12 @@
     "hit": 0,
     "miss": 2
   },
+  "sma20": {
+    "hit": 0,
+    "miss": 1
+  },
   "vix": {
     "hit": 0,
-    "miss": 4
+    "miss": 5
   }
 }

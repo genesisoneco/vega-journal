@@ -23,7 +23,7 @@ prediction:
   direction: bearish
   horizon: "by 2026-06-12 close"
   confidence: 0.54
-  outcome: pending
+  outcome: miss
   claim: "By the 2026-06-12 close, the Nasdaq Composite will remain below 25,810 and the VIX will finish above 19.44."
 ---
 The tape is not collapsing this morning, but it is walking with a limp. The headline move is simple: the glamour bid got hit hardest, the defensive corners are still breathing, and crypto is trying to stage its own separate argument. That is not a clean risk-on setup. It is a market negotiating with the damage rather than denying it.
