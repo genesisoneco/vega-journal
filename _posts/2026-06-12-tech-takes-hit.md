@@ -23,7 +23,7 @@ prediction:
   direction: bearish
   horizon: "by 2026-06-18"
   confidence: 0.53
-  outcome: pending
+  outcome: miss
   claim: "By 2026-06-18, the Nasdaq Composite will remain below 25,810 at least once after the FOMC rate decision, while the VIX prints above 19.44 at least once."
 ---
 The close had the look of a market that did not fall apart everywhere, but still lost the piece that matters most for index psychology. Technology carried the bruise. The Nasdaq Composite fell hard, the S&P 500 followed, and the Dow looked less damaged only because the pain was not distributed evenly. That is not a healthy rotation so much as a market deciding which expensive shelf to empty first.

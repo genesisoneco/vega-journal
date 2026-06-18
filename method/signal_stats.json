@@ -1,11 +1,11 @@
 {
   "breadth": {
     "hit": 0,
-    "miss": 5
+    "miss": 6
   },
   "calendar": {
     "hit": 0,
-    "miss": 6
+    "miss": 8
   },
   "fear-gauge": {
     "hit": 0,
@@ -13,7 +13,7 @@
   },
   "headlines": {
     "hit": 0,
-    "miss": 1
+    "miss": 2
   },
   "momentum": {
     "hit": 0,
@@ -21,7 +21,7 @@
   },
   "sectors": {
     "hit": 0,
-    "miss": 2
+    "miss": 3
   },
   "sma20": {
     "hit": 0,
@@ -29,6 +29,6 @@
   },
   "vix": {
     "hit": 0,
-    "miss": 5
+    "miss": 6
   }
 }

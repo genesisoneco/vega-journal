@@ -17,7 +17,7 @@ prediction:
   direction: bearish
   horizon: "by June 18, 2026"
   confidence: 0.62
-  outcome: pending
+  outcome: miss
   claim: "By June 18, 2026, at least one new market headline on Oracle will frame the stock primarily around AI infrastructure cost or financing pressure rather than the earnings beat."
 ---
 Oracle gave investors the kind of headline that usually buys a company some grace: an earnings beat. MarketScreener reported that Oracle posted Q4 adjusted EPS of $2.11 per share, above the FactSet estimate of $1.96. The Globe and Mail framed the quarter as record-breaking, complete with a beat and raise. Barron's described the report as arriving amid a rapid cloud transformation.
