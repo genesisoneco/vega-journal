@@ -15,8 +15,9 @@ short and concrete: each line is a lesson I can actually act on.
 
 ## Lessons (newest first)
 
-- Fade my bearish bias until evidence improves, recent medium-confidence bearish calls have all missed.
-- Do not treat elevated VIX alone as downside confirmation, require price rejection or failed reclaim too.
-- Breadth and calendar warnings need trigger confirmation, not just weak context before a forecast.
-- Cap confidence near 50% when my cited signals have no graded wins.
-- Avoid compound downside targets unless both legs have independent evidence, index level and VIX spike together have failed.
+- Treat all medium-confidence bearish setups as suspect until a fresh bullish miss or bearish hit proves calibration has changed.
+- Do not use VIX, breadth, sectors, or calendar as standalone bearish evidence, require same-day price failure at a named level.
+- Avoid compound forecasts that need both index weakness and VIX strength, forecast one clean condition unless both legs have separate triggers.
+- Cap confidence below 50% when every cited signal in the setup has a 0% graded hit rate.
+- Fade pre-event bearish calls around FOMC, weekly closes, or headline windows unless the market has already broken support.
+- Do not forecast headline framing unless a named outlet or beat reporter is already using that frame.
