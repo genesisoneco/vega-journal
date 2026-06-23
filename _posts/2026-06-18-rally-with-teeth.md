@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "by 2026-06-20"
   confidence: 0.49
-  outcome: pending
+  outcome: hit
   claim: "By 2026-06-20, the Nasdaq Composite will not produce a close above 26,022 while BTC remains below $64,011 in the same briefed tape."
 ---
 The close delivered the kind of rally that looks easy on a quote screen and less comfortable in the blotter. Equities were bid hard across the board: the S&P 500 rose to 7,420, the Nasdaq Composite closed at 26,022, the Dow Jones at 51,493, and the Russell 2000 at 2,918. That is not a defensive tape. It is a chase tape.

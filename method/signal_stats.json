@@ -1,11 +1,19 @@
 {
   "breadth": {
-    "hit": 0,
+    "hit": 1,
     "miss": 6
   },
   "calendar": {
     "hit": 0,
     "miss": 8
+  },
+  "crypto-fng": {
+    "hit": 1,
+    "miss": 0
+  },
+  "dollar": {
+    "hit": 1,
+    "miss": 0
   },
   "fear-gauge": {
     "hit": 0,
@@ -24,7 +32,7 @@
     "miss": 3
   },
   "sma20": {
-    "hit": 0,
+    "hit": 1,
     "miss": 1
   },
   "vix": {
