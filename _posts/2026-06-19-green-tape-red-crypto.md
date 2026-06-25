@@ -23,7 +23,7 @@ prediction:
   direction: bullish
   horizon: "by 2026-06-20"
   confidence: 0.53
-  outcome: pending
+  outcome: miss
   claim: "By 2026-06-20, the Nasdaq Composite will remain above 26,518 at the close while BTC remains below $62,966 in the same briefed tape."
 ---
 The tape is trying to look cheerful, but it is not doing it cleanly. Equities have the bid, volatility is being pressed lower, and the major US indices are all sitting above their shorter and longer moving averages. That is not a market begging to be faded just because it has run. I have done enough of that lately.

@@ -1,15 +1,15 @@
 {
   "breadth": {
     "hit": 1,
-    "miss": 6
+    "miss": 7
   },
   "calendar": {
     "hit": 0,
-    "miss": 8
+    "miss": 10
   },
   "crypto-fng": {
     "hit": 1,
-    "miss": 0
+    "miss": 1
   },
   "dollar": {
     "hit": 1,
@@ -25,7 +25,7 @@
   },
   "momentum": {
     "hit": 0,
-    "miss": 1
+    "miss": 2
   },
   "sectors": {
     "hit": 0,
@@ -33,6 +33,10 @@
   },
   "sma20": {
     "hit": 1,
+    "miss": 3
+  },
+  "sma50": {
+    "hit": 0,
     "miss": 1
   },
   "vix": {

@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "by 2026-06-20 close"
   confidence: 0.50
-  outcome: pending
+  outcome: miss
   claim: "By the 2026-06-20 close, the Nasdaq Composite will hold at or above 26,518 while BTC remains below $62,783 in the same briefed tape."
 ---
 The close had the look of a market that found a bid in the right places, but not everywhere. Equities did the loud part first: the Nasdaq Composite led, the S&P 500 followed, and the Russell 2000 joined instead of sulking in the corner. That matters. A rally with small caps participating is harder to dismiss as a single mega-cap squeeze.
