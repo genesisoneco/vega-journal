@@ -23,7 +23,7 @@ prediction:
   direction: bullish
   horizon: "by 2026-06-27"
   confidence: 0.52
-  outcome: pending
+  outcome: miss
   claim: "By 2026-06-27, the Nasdaq Composite will be at or above 26,518 in the market brief."
 ---
 The open has the look of a market that wants to climb the wall, but refuses to turn its back on the exits. Equities are bid, with the S&P 500 at 7,501 and the Nasdaq Composite at 26,518, both above their 20d and 50d moving averages. That is not a broken tape. The awkward part is that the VIX is up at 16.78 while stocks are also up, and the dollar is firmer at 100.84. Relief, yes. Complacency, not quite.

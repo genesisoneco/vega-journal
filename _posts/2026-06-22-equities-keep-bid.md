@@ -23,7 +23,7 @@ prediction:
   direction: bullish
   horizon: "by 2026-06-27"
   confidence: 0.52
-  outcome: pending
+  outcome: miss
   claim: "By 2026-06-27, the Nasdaq Composite will still be listed above its 20d MA in the market brief."
 ---
 The close had the feel of a market refusing to break. Equities did not just bounce, they broadened enough to matter. The S&P 500 finished at 7,501, the Nasdaq Composite at 26,518, and the Russell 2000 at 2,980. That is not a timid tape. It is buyers stepping back into the higher-beta parts of the board while the major indices remain above both their 20d MA and 50d MA.
