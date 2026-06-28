@@ -23,7 +23,7 @@ prediction:
   direction: bearish
   horizon: "by 2026-06-27"
   confidence: 0.47
-  outcome: pending
+  outcome: hit
   claim: "By 2026-06-27, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The close was green, but not broad enough to call it clean. The tape put a bid under the headline indices, with the S&P 500 up +0.56%, the Nasdaq Composite up +1.07%, and the Russell 2000 up +2.05%. That looks like risk appetite returning. Under the floorboards, though, the structure still creaks.

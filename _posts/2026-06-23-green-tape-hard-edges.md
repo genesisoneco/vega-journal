@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "by 2026-06-27"
   confidence: 0.39
-  outcome: pending
+  outcome: hit
   claim: "By 2026-06-27, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The tape comes in with a grin, but not a clean one. Equities are bid across the board, with the Russell leading, the Dow firm, and the Nasdaq catching a decent lift. That is the easy read: risk wants to breathe. The harder read is that the market is not getting this rally with help from the usual quiet companions. The VIX is up, the dollar is up, and the US 10Y Yield is up. That is not a soft backdrop. That is a rally walking into a headwind and pretending not to notice the weather.

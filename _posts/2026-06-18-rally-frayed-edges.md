@@ -23,7 +23,7 @@ prediction:
   direction: bearish
   horizon: "by the 2026-06-18 close"
   confidence: 0.54
-  outcome: pending
+  outcome: miss
   claim: "By the 2026-06-18 close, the Nasdaq Composite will fail to close above 26,022 while the VIX closes at or above 18.44."
 ---
 The tape comes in with a clean equity bid and a dirty underside. Indexes are green almost everywhere, cyclicals are not hiding, and the Nasdaq Composite is starting the session at 26,022 after a +3.39% move. That is not a tape you dismiss lightly. The Dow and Russell are both above their short and intermediate trend lines, and the sector board has enough green to say buyers are not just renting one corner of the market.
