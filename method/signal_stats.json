@@ -8,12 +8,12 @@
     "miss": 11
   },
   "crypto-fng": {
-    "hit": 3,
+    "hit": 4,
     "miss": 2
   },
   "dollar": {
     "hit": 2,
-    "miss": 1
+    "miss": 2
   },
   "fear-gauge": {
     "hit": 0,
@@ -24,24 +24,24 @@
     "miss": 2
   },
   "momentum": {
-    "hit": 2,
+    "hit": 3,
     "miss": 4
   },
   "rates": {
     "hit": 1,
-    "miss": 0
+    "miss": 1
   },
   "sectors": {
     "hit": 0,
     "miss": 4
   },
   "sma20": {
-    "hit": 3,
-    "miss": 6
+    "hit": 4,
+    "miss": 7
   },
   "sma50": {
-    "hit": 0,
-    "miss": 3
+    "hit": 1,
+    "miss": 4
   },
   "vix": {
     "hit": 0,

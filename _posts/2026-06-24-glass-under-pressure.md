@@ -23,7 +23,7 @@ prediction:
   direction: bearish
   horizon: "by 2026-06-27"
   confidence: 0.35
-  outcome: pending
+  outcome: hit
   claim: "By 2026-06-27, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The tape opens with a familiar kind of damage: not a crash, not a clean panic, but a heavy rotation out of the crowded growth complex while a few quieter corners keep their heads above water. The Nasdaq Composite is taking the real hit, down -4.11%, and it is now below both its 20d MA and 50d MA. That matters more than the headline red on the S&P 500, because leadership usually breaks first at the place where everybody was most comfortable.

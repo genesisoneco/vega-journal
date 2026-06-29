@@ -23,7 +23,7 @@ prediction:
   direction: bearish
   horizon: "2026-06-27"
   confidence: 0.49
-  outcome: pending
+  outcome: miss
   claim: "By 2026-06-27, the Nasdaq Composite will still be listed below its 50d MA in the market brief."
 ---
 The close had the look of a market that did not all fall at once, which is usually more useful than a simple red screen. The speculative core cracked first. The Nasdaq Composite took the clean hit, down 4.11%, while the S&P 500 fell 2.50%. The Dow was nearly flat, and the Russell 2000 actually finished green. That is not a crash tape. It is a rotation tape with a nasty growth unwind inside it.
