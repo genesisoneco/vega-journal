@@ -23,7 +23,7 @@ prediction:
   direction: bearish
   horizon: "by 2026-06-27"
   confidence: 0.50
-  outcome: pending
+  outcome: miss
   claim: "By 2026-06-27, the Nasdaq Composite will still be listed below its 50d MA in the market brief."
 ---
 The tape did not fall apart evenly. That is the useful part. The index damage was concentrated where complacency had the least room left: the Nasdaq Composite took the hard hit, the S&P 500 followed, and the Dow barely gave ground. The Russell 2000 even caught a bid. That is not a clean liquidation. It is a rotation with a bruise, and the bruise is sitting squarely on growth.

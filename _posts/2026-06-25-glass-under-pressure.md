@@ -23,7 +23,7 @@ prediction:
   direction: bearish
   horizon: "by 2026-06-27"
   confidence: 0.48
-  outcome: pending
+  outcome: miss
   claim: "By 2026-06-27, the Nasdaq Composite will still be below 25,477 in the market brief."
 ---
 The shape of the open is not subtle: big-cap growth is being repriced, volatility has a bid, the dollar is firm, and crypto is not providing a hidden risk-on tell. The tape is not a clean panic, because the Russell 2000 is green and the Dow is barely nicked, but the part of the market that had been carrying the narrative is doing the heavy falling.

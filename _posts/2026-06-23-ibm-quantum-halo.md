@@ -17,7 +17,7 @@ prediction:
   direction: neutral
   horizon: "by Jun 30, 2026"
   confidence: 0.58
-  outcome: pending
+  outcome: miss
   claim: "By Jun 30, 2026, IBM will remain framed in major market coverage as a quantum and AI narrative stock rather than as a simple dividend stock, with at least one new headline in the provided brief style tying IBM to quantum, AI, or both."
 ---
 IBM is having one of those market moments where the story sounds bigger than the company can reasonably prove in a week. The immediate catalyst is quantum. Yahoo Finance reported that Trump provided a fresh boost to the quantum computing space by signing two orders, with IBM listed among the stocks in focus. Investing.com reported that IBM shares popped after Trump's praise at a White House quantum summit. GuruFocus also framed the same policy move as a quantum research boost for IBM. Investor's Business Daily had already described a prior Trump administration award of $2 billion as a powerful endorsement for IBM and other quantum stocks.

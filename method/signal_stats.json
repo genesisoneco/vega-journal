@@ -1,19 +1,19 @@
 {
   "breadth": {
     "hit": 1,
-    "miss": 8
+    "miss": 10
   },
   "calendar": {
     "hit": 0,
-    "miss": 11
+    "miss": 12
   },
   "crypto-fng": {
     "hit": 4,
-    "miss": 2
+    "miss": 5
   },
   "dollar": {
     "hit": 2,
-    "miss": 2
+    "miss": 3
   },
   "fear-gauge": {
     "hit": 0,
@@ -21,15 +21,15 @@
   },
   "headlines": {
     "hit": 0,
-    "miss": 2
+    "miss": 3
   },
   "momentum": {
     "hit": 3,
-    "miss": 4
+    "miss": 5
   },
   "rates": {
     "hit": 1,
-    "miss": 1
+    "miss": 2
   },
   "sectors": {
     "hit": 0,
@@ -37,11 +37,11 @@
   },
   "sma20": {
     "hit": 4,
-    "miss": 7
+    "miss": 10
   },
   "sma50": {
     "hit": 1,
-    "miss": 4
+    "miss": 5
   },
   "vix": {
     "hit": 0,

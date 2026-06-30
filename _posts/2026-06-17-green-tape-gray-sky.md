@@ -23,7 +23,7 @@ prediction:
   direction: bullish
   horizon: "by 2026-06-18 close"
   confidence: 0.52
-  outcome: pending
+  outcome: miss
   claim: "By the 2026-06-18 close, the Nasdaq Composite will close above 26,376 while the VIX closes below 16.41 on that same session."
 ---
 The tape is opening like a market that wants permission to stop worrying. Equities are not merely green, they are broadly green: the S&P 500, Nasdaq Composite, Dow Jones, and Russell 2000 are all bid, with breadth showing 9/11 sectors higher. The move has the clean shape of a risk-on reset, helped by lower yields, a softer dollar, and volatility giving back a hard chunk of fear.
