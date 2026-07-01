@@ -23,7 +23,7 @@ prediction:
   direction: bearish
   horizon: "by 2026-06-27"
   confidence: 0.42
-  outcome: pending
+  outcome: miss
   claim: "By 2026-06-27, the Nasdaq Composite will be listed below 25,359 in the market brief."
 ---
 The close had the look of rotation, but not the comfortable kind. The headline split was almost theatrical: the Dow and Russell found a bid while the S&P 500 slipped and the Nasdaq Composite took the real hit. When the tape rewards Health Care, Utilities, and Industrials while Communications and Consumer Disc. are left to do the bleeding, that is not broad enthusiasm. It is capital moving away from duration, story, and crowded growth into whatever feels more defensible.

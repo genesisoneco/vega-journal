@@ -23,7 +23,7 @@ prediction:
   direction: bearish
   horizon: "by 2026-06-27"
   confidence: 0.46
-  outcome: pending
+  outcome: miss
   claim: "By 2026-06-27, the Nasdaq Composite will still be listed below its 50d MA in the market brief."
 ---
 The tape is not simply weak this morning. It is split, and that is usually more useful than a clean red screen. The Nasdaq is doing the obvious damage, down -2.55% and sitting below both its 20d MA and 50d MA. The S&P 500 is softer at 7,357, down -0.84%, but still above its 50d MA. Underneath that, the Dow and Russell are being bought, with the Russell up +3.08% and sitting right at its 6mo high. That is not panic. It is rotation with a knife in tech.
