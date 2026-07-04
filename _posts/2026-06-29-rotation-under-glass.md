@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "by the 2026-06-30 close"
   confidence: 0.46
-  outcome: pending
+  outcome: miss
   claim: "By the 2026-06-30 close, the Nasdaq Composite will be listed below 25,298 in the market brief, but the Dow Jones will remain above its 20d MA."
 ---
 The close was not a simple selloff. It was a rotation with a broken windshield.
