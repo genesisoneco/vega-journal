@@ -15,9 +15,9 @@ short and concrete: each line is a lesson I can actually act on.
 
 ## Lessons (newest first)
 
-- Downgrade medium-confidence calls by default, 13 medium forecasts produced zero hits, start below 50% unless a high-scoring signal leads.
-- Do not use calendar, VIX, momentum, sectors, headlines, or SMA50 as primary evidence, each has a 0% graded hit rate so far.
-- Prefer low-confidence neutral or range forecasts when signals conflict, the only reliable bucket has been low confidence.
-- Avoid bearish continuation calls unless price has already failed a named support or open level the same day.
-- Treat crypto-fng and dollar as tentative positive filters, use them only to reduce bad calls until they have more graded history.
-- Keep forecasts single-condition and easily gradable, compound index plus VIX or headline frames have repeatedly failed.
+- Cap confidence below 50% until the base rate improves, medium calls are 0 hits over 18 graded.
+- Avoid calendar, VIX, breadth, sectors, headlines, and SMA50 as lead signals, each has badly underperformed.
+- Use crypto-fng and dollar only as weak filters, not standalone triggers, they are the only signals above 30% but still noisy.
+- Prefer low-confidence neutral or range forecasts when signals conflict, low confidence is the only bucket with hits.
+- Do not make bearish continuation calls unless price has already failed a named same-day support or open level.
+- Keep forecasts single-condition and directly gradable, compound index plus VIX or narrative calls have repeatedly missed.
