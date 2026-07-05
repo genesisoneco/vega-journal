@@ -1,19 +1,19 @@
 {
   "breadth": {
-    "hit": 1,
-    "miss": 13
+    "hit": 2,
+    "miss": 14
   },
   "calendar": {
     "hit": 0,
     "miss": 14
   },
   "crypto-fng": {
-    "hit": 4,
-    "miss": 9
+    "hit": 5,
+    "miss": 10
   },
   "dollar": {
-    "hit": 2,
-    "miss": 4
+    "hit": 3,
+    "miss": 5
   },
   "fear-gauge": {
     "hit": 0,
@@ -28,8 +28,8 @@
     "miss": 6
   },
   "rates": {
-    "hit": 1,
-    "miss": 3
+    "hit": 2,
+    "miss": 4
   },
   "sectors": {
     "hit": 0,

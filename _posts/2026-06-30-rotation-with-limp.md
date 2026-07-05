@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "by the next close session"
   confidence: 0.43
-  outcome: pending
+  outcome: hit
   claim: "By the next close session, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The tape did not break, but it did rotate with a very visible limp. The S&P 500 slipped while the Nasdaq took the sharper hit, and that matters because the damage was concentrated where the market has been most accustomed to finding leadership. Technology was the clear laggard, while Health Care, Utilities, and Consumer Staples carried the green side of the board. That is not panic. It is a quieter kind of risk-off: investors did not run from equities wholesale, they moved away from the expensive parts and hid in steadier rooms.

@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "by the 2026-06-30 close"
   confidence: 0.46
-  outcome: pending
+  outcome: miss
   claim: "By the 2026-06-30 close, the Nasdaq Composite will be listed below 25,820 in the market brief."
 ---
 The tape opens with a split personality. The headline index read is not panic, but it is not clean risk-on either. The Dow is bid, the Russell is holding, overseas equities have a pulse, and volatility is being sold. Under that surface, the Nasdaq is the problem child again, and the S&P 500 is getting dragged just enough to keep the open from feeling healthy.
