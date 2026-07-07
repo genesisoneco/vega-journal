@@ -1,0 +1,64 @@
+<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#06070e"/>
+      <stop offset="0.55" stop-color="#0b1022"/>
+      <stop offset="1" stop-color="#05060b"/>
+    </linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#10152c"/>
+      <stop offset="0.45" stop-color="#07101a"/>
+      <stop offset="1" stop-color="#02030a"/>
+    </linearGradient>
+    <radialGradient id="moon" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#ffd77a"/>
+      <stop offset="0.55" stop-color="#f5a524"/>
+      <stop offset="1" stop-color="#7a4312"/>
+    </radialGradient>
+    <filter id="blur">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#sky)"/>
+  <circle cx="890" cy="138" r="84" fill="url(#moon)" opacity="0.95"/>
+  <circle cx="860" cy="116" r="18" fill="#ffe6a8" opacity="0.35"/>
+  <circle cx="918" cy="160" r="12" fill="#5b310f" opacity="0.22"/>
+  <path d="M0 395 C120 350 220 440 340 392 C465 344 560 430 690 378 C820 324 930 420 1048 370 C1110 344 1165 348 1200 360 L1200 630 L0 630 Z" fill="url(#water)"/>
+  <path d="M0 430 C110 408 210 456 330 428 C462 396 552 452 690 415 C820 380 930 442 1055 410 C1115 394 1165 398 1200 408" fill="none" stroke="#00e5ff" stroke-width="4" opacity="0.36"/>
+  <path d="M20 478 C145 456 245 505 365 475 C500 438 590 498 735 460 C850 430 965 486 1085 458 C1138 446 1175 448 1200 454" fill="none" stroke="#1bf0a8" stroke-width="3" opacity="0.26"/>
+  <path d="M0 525 C155 488 260 552 410 515 C552 480 670 548 820 504 C950 468 1050 528 1200 498" fill="none" stroke="#b14bff" stroke-width="3" opacity="0.18"/>
+  <polygon points="250,250 950,250 1035,386 165,386" fill="#0b1720" stroke="#1bf0a8" stroke-width="5"/>
+  <polygon points="295,278 900,278 955,360 235,360" fill="#101f2a" stroke="#00e5ff" stroke-width="3" opacity="0.9"/>
+  <rect x="330" y="302" width="80" height="38" rx="6" fill="#1bf0a8" opacity="0.88"/>
+  <rect x="438" y="294" width="80" height="46" rx="6" fill="#1bf0a8" opacity="0.76"/>
+  <rect x="546" y="286" width="80" height="54" rx="6" fill="#1bf0a8" opacity="0.88"/>
+  <rect x="654" y="300" width="80" height="40" rx="6" fill="#00e5ff" opacity="0.72"/>
+  <rect x="762" y="282" width="80" height="58" rx="6" fill="#1bf0a8" opacity="0.82"/>
+  <rect x="332" y="350" width="510" height="10" fill="#f5a524" opacity="0.58"/>
+  <polygon points="186,386 1030,386 970,435 240,435" fill="#071016" stroke="#1bf0a8" stroke-width="3" opacity="0.92"/>
+  <path d="M285 435 L220 612" stroke="#0fe39c" stroke-width="9" opacity="0.55"/>
+  <path d="M915 435 L990 612" stroke="#0fe39c" stroke-width="9" opacity="0.55"/>
+  <path d="M480 435 L455 612" stroke="#00e5ff" stroke-width="7" opacity="0.42"/>
+  <path d="M705 435 L735 612" stroke="#00e5ff" stroke-width="7" opacity="0.42"/>
+  <ellipse cx="600" cy="396" rx="410" ry="32" fill="#1bf0a8" opacity="0.11" filter="url(#blur)"/>
+  <circle cx="600" cy="254" r="18" fill="#ff3b6b" opacity="0.9"/>
+  <path d="M600 272 C588 300 579 322 570 352" stroke="#ff3b6b" stroke-width="6" fill="none" opacity="0.85"/>
+  <path d="M600 272 C620 298 635 322 648 354" stroke="#ff3b6b" stroke-width="6" fill="none" opacity="0.8"/>
+  <path d="M572 310 C545 302 520 296 496 292" stroke="#ff3b6b" stroke-width="5" fill="none" opacity="0.74"/>
+  <path d="M626 309 C660 300 690 294 718 292" stroke="#ff3b6b" stroke-width="5" fill="none" opacity="0.74"/>
+  <path d="M140 388 C190 330 248 310 315 330" stroke="#f5a524" stroke-width="5" fill="none" opacity="0.5"/>
+  <path d="M1058 373 C1000 325 944 308 884 326" stroke="#f5a524" stroke-width="5" fill="none" opacity="0.5"/>
+  <circle cx="154" cy="389" r="9" fill="#f5a524" opacity="0.8"/>
+  <circle cx="1047" cy="374" r="9" fill="#f5a524" opacity="0.8"/>
+  <path d="M70 226 C160 196 238 198 330 230" stroke="#00e5ff" stroke-width="3" fill="none" opacity="0.2"/>
+  <path d="M760 226 C840 190 950 196 1088 246" stroke="#00e5ff" stroke-width="3" fill="none" opacity="0.18"/>
+  <path d="M150 560 C250 532 348 580 452 548" stroke="#ff3b6b" stroke-width="4" fill="none" opacity="0.28"/>
+  <path d="M720 555 C825 520 930 580 1080 540" stroke="#ff3b6b" stroke-width="4" fill="none" opacity="0.24"/>
+  <circle cx="350" cy="518" r="6" fill="#00e5ff" opacity="0.5"/>
+  <circle cx="436" cy="472" r="5" fill="#1bf0a8" opacity="0.55"/>
+  <circle cx="706" cy="498" r="6" fill="#00e5ff" opacity="0.45"/>
+  <circle cx="818" cy="458" r="5" fill="#1bf0a8" opacity="0.45"/>
+  <circle cx="995" cy="506" r="5" fill="#b14bff" opacity="0.45"/>
+  <polygon points="560,178 610,150 660,178 640,224 580,224" fill="#00e5ff" opacity="0.08"/>
+  <polygon points="550,184 610,130 670,184 642,242 578,242" fill="none" stroke="#00e5ff" stroke-width="3" opacity="0.22"/>
+</svg>
