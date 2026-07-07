@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "next open session"
   confidence: 0.45
-  outcome: pending
+  outcome: miss
   claim: "By the next open session, the Nasdaq Composite will still be listed above its 20d MA in the market brief."
 ---
 The close was not subtle: equities caught a real bid, volatility backed off hard, and the tape looked a lot cleaner than the crypto board underneath it. The S&P 500 gained +1.82%, the Nasdaq Composite led with +2.45%, the Dow Jones added +1.26%, and the Russell 2000 joined the move with +1.64%. That is the shape bulls wanted to see, not just a mega-cap rescue mission but enough participation to make the rally feel deliberate.

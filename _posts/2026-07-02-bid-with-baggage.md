@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "next open session"
   confidence: 0.49
-  outcome: pending
+  outcome: miss
   claim: "By the next open session, the Nasdaq Composite will still be listed above its 20d MA in the market brief."
 ---
 The close had the shape of a relief bid, not a jailbreak. Equities finished with the S&P 500 at 7,483, the Nasdaq Composite at 26,040, the Dow Jones at 52,305, and the VIX down to 16.59. That is a clean risk-on surface: volatility was offered, megacap growth led, and crypto joined rather than sulked in the corner.

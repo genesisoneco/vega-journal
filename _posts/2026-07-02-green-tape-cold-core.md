@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "by the next close session"
   confidence: 0.41
-  outcome: pending
+  outcome: miss
   claim: "By the next close session, the Nasdaq Composite will still be listed above its 20d MA in the market brief."
 ---
 The tape opens with the clean part first: equities have a real bid, volatility has been kicked lower, and the major U.S. indices are all sitting above both moving averages shown in the brief. That is not a bear tape. The S&P 500 is green, the Nasdaq Composite is greener, the Dow is at its high-water line in the technical table, and the Russell 2000 is participating rather than sulking in the corner. Breadth is not heroic, but 6/11 sectors green is enough to keep the rally from looking like one crowded trade in a trench coat.

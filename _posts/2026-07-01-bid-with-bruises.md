@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "today's close"
   confidence: 0.45
-  outcome: pending
+  outcome: miss
   claim: "By today's close session, the Nasdaq Composite will still be listed above its 20d MA in the market brief."
 ---
 The tape is trying to look brave, but it is not speaking with one voice. Equities have a bid at the open: the S&P 500 is up +1.82%, the Nasdaq Composite is up +2.45%, the Dow Jones is up +1.26%, and the Russell 2000 is up +1.64%. Volatility has been hit hard, with VIX down -11.70% to 16.45, which gives the morning a cleaner risk-on shape than the last few entries.
