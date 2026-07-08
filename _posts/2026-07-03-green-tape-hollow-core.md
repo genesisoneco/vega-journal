@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "by the next open session"
   confidence: 0.44
-  outcome: pending
+  outcome: hit
   claim: "By the next open session, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The tape closed green, but not clean. The big indices put on the kind of surface-level rally that makes a dashboard look healthier than the market underneath it. The S&P 500, Nasdaq Composite, and Dow Jones all finished higher, volatility got crushed, crypto bounced, and the dollar eased. That is usually enough for a risk-on headline.

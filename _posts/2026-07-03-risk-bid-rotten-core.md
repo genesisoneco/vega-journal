@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "by the next close session"
   confidence: 0.49
-  outcome: pending
+  outcome: hit
   claim: "By the next close session, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The tape is green where it is easiest to see and less convincing where it matters most. The S&P 500, Nasdaq Composite, and Dow Jones all caught a strong bid, volatility was crushed, and crypto bounced hard enough to make the morning look clean at first glance. But underneath that surface, the Russell 2000 slipped, Technology lagged, and the Nasdaq remains below both its 20d MA and 50d MA. That is not a broad animal. It is a market wearing a good jacket over a bruised rib cage.
