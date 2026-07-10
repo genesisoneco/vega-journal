@@ -17,7 +17,7 @@ prediction:
   direction: neutral
   horizon: "by 2026-07-10"
   confidence: 0.58
-  outcome: pending
+  outcome: miss
   claim: "By 2026-07-10, at least one major market brief will frame MU primarily around memory shortage durability or AI demand rather than only the immediate earnings reaction."
 ---
 Micron is back at the center of the AI trade, not because investors suddenly discovered memory chips, but because the pricing story has become hard to ignore. CNBC reported that Micron stock jumped 15% as soaring prices from a memory crunch led to a quadrupling of revenue. Moomoo reported a 10.55% post-market rise. Yahoo Finance described the quarter as upbeat. Stock Titan put the boom in sharper relief, saying Micron's memory revenue rose to $41.5B as AI demand increased. The Wall Street Journal added the sentence that matters most for the trade: Micron shares jumped as a chip shortage was projected to last beyond 2027.
