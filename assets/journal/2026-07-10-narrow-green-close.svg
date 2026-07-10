@@ -1,0 +1,53 @@
+<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#06070e"/>
+      <stop offset="100%" stop-color="#101528"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="38%" r="50%">
+      <stop offset="0%" stop-color="#1bf0a8" stop-opacity="0.55"/>
+      <stop offset="70%" stop-color="#00e5ff" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#06070e" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#g)"/>
+  <circle cx="610" cy="230" r="260" fill="url(#glow)" filter="url(#blur)"/>
+  <rect x="0" y="438" width="1200" height="192" fill="#06070e"/>
+  <path d="M0 448 C130 418 240 474 360 446 C500 414 620 472 760 444 C910 414 1030 466 1200 434 L1200 630 L0 630 Z" fill="#111a2d"/>
+  <path d="M0 493 C170 462 278 526 430 492 C566 462 704 522 850 490 C986 462 1098 508 1200 486 L1200 630 L0 630 Z" fill="#09101e"/>
+  <rect x="514" y="112" width="172" height="338" rx="14" fill="#0c1b24" stroke="#1bf0a8" stroke-width="5"/>
+  <rect x="542" y="145" width="116" height="54" rx="8" fill="#1bf0a8" opacity="0.9"/>
+  <rect x="542" y="222" width="116" height="54" rx="8" fill="#1bf0a8" opacity="0.78"/>
+  <rect x="542" y="299" width="116" height="54" rx="8" fill="#1bf0a8" opacity="0.65"/>
+  <rect x="542" y="376" width="116" height="54" rx="8" fill="#1bf0a8" opacity="0.52"/>
+  <polygon points="600,66 700,126 500,126" fill="#1bf0a8" opacity="0.95"/>
+  <path d="M600 66 L600 450" stroke="#00e5ff" stroke-width="4" opacity="0.55"/>
+  <rect x="226" y="276" width="112" height="98" rx="12" fill="#25111c" stroke="#ff3b6b" stroke-width="4"/>
+  <rect x="244" y="300" width="76" height="18" rx="4" fill="#ff3b6b" opacity="0.75"/>
+  <rect x="244" y="332" width="54" height="18" rx="4" fill="#ff3b6b" opacity="0.48"/>
+  <polygon points="282,404 360,452 204,452" fill="#ff3b6b" opacity="0.72"/>
+  <rect x="838" y="296" width="124" height="88" rx="12" fill="#23131d" stroke="#ff3b6b" stroke-width="4"/>
+  <rect x="858" y="320" width="82" height="16" rx="4" fill="#ff3b6b" opacity="0.68"/>
+  <rect x="858" y="352" width="62" height="16" rx="4" fill="#ff3b6b" opacity="0.44"/>
+  <polygon points="900,412 984,462 816,462" fill="#ff3b6b" opacity="0.65"/>
+  <rect x="104" y="398" width="92" height="42" rx="20" fill="#151b2b" stroke="#ff3b6b" stroke-width="3"/>
+  <polygon points="114,398 150,360 186,398" fill="#ff3b6b" opacity="0.55"/>
+  <rect x="1012" y="388" width="104" height="48" rx="22" fill="#151b2b" stroke="#ff3b6b" stroke-width="3"/>
+  <polygon points="1026,388 1064,348 1102,388" fill="#ff3b6b" opacity="0.5"/>
+  <circle cx="384" cy="455" r="18" fill="#f5a524" opacity="0.8"/>
+  <circle cx="420" cy="462" r="10" fill="#f5a524" opacity="0.55"/>
+  <circle cx="780" cy="456" r="15" fill="#f5a524" opacity="0.72"/>
+  <path d="M80 536 C178 506 230 574 334 536 C438 498 500 572 608 536 C714 500 778 572 884 536 C996 498 1064 558 1160 526" fill="none" stroke="#00e5ff" stroke-width="5" opacity="0.28"/>
+  <path d="M68 574 C174 544 246 604 354 572 C468 538 548 606 660 570 C770 536 850 604 966 570 C1054 544 1110 586 1190 560" fill="none" stroke="#b14bff" stroke-width="4" opacity="0.22"/>
+  <path d="M438 468 C488 436 532 456 574 430" fill="none" stroke="#1bf0a8" stroke-width="6" opacity="0.62"/>
+  <path d="M626 430 C678 456 720 436 766 468" fill="none" stroke="#1bf0a8" stroke-width="6" opacity="0.62"/>
+  <circle cx="600" cy="462" r="34" fill="#1bf0a8" opacity="0.18"/>
+  <circle cx="600" cy="462" r="16" fill="#1bf0a8" opacity="0.7"/>
+  <path d="M500 126 C430 168 392 232 364 314" fill="none" stroke="#00e5ff" stroke-width="3" opacity="0.22"/>
+  <path d="M700 126 C772 170 812 238 840 318" fill="none" stroke="#00e5ff" stroke-width="3" opacity="0.22"/>
+  <path d="M252 456 C284 480 330 482 364 458" fill="none" stroke="#ff3b6b" stroke-width="5" opacity="0.55"/>
+  <path d="M840 466 C886 490 940 486 984 460" fill="none" stroke="#ff3b6b" stroke-width="5" opacity="0.5"/>
+</svg>
