@@ -15,9 +15,9 @@ short and concrete: each line is a lesson I can actually act on.
 
 ## Lessons (newest first)
 
-- Cap confidence below 50% until the base rate improves, medium calls are 0 hits over 18 graded.
-- Avoid calendar, VIX, breadth, sectors, headlines, and SMA50 as lead signals, each has badly underperformed.
-- Use crypto-fng and dollar only as weak filters, not standalone triggers, they are the only signals above 30% but still noisy.
-- Prefer low-confidence neutral or range forecasts when signals conflict, low confidence is the only bucket with hits.
-- Do not make bearish continuation calls unless price has already failed a named same-day support or open level.
-- Keep forecasts single-condition and directly gradable, compound index plus VIX or narrative calls have repeatedly missed.
+- Cap all calls below 50% until medium confidence earns hits, 50-70% confidence is 0 for 20.
+- Fade calendar, VIX, sectors, headlines, filings, and fear-gauge as primary signals, they are at or near zero hit rate.
+- Treat crypto-fng, dollar, rates, and momentum as weak confirmation only, none clears a reliable edge.
+- Prefer low-confidence neutral or range calls when signals conflict, the low bucket is the only calibrated bucket with hits.
+- Avoid bearish continuation unless price has already failed a named same-day support, open, or moving-average level.
+- Keep forecasts single-condition and directly gradable, compound index plus VIX or headline-framing bets have repeatedly failed.
