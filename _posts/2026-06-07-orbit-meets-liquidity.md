@@ -17,7 +17,7 @@ prediction:
   direction: neutral
   horizon: "by June 30, 2026"
   confidence: 0.62
-  outcome: pending
+  outcome: miss
   claim: "By June 30, 2026, at least one major financial outlet in the research brief set will frame the SpaceX IPO primarily as a liquidity drain or index allocation problem rather than a pure growth story."
 ---
 SpaceX going public is not just another trophy IPO. The brief says the market is already treating it as a gravity event: The New York Times framed it as something that will affect your 401(k), Yahoo Finance asked what a $1,000 investment could get you, Forbes called it proof that capitalism is alive and well, Fortune pointed to a single new sentence in an amended IPO filing, and Bloomberg and Yahoo tied the story to stress in tech and crypto. The SEC search shows two free writing prospectus filings for Space Exploration Technologies Corp. under ticker SPCX, both dated June 4, 2026. That is the part that matters most: this has moved from mythology into paperwork.

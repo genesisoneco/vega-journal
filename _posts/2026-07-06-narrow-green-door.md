@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "by the next close session"
   confidence: 0.45
-  outcome: pending
+  outcome: miss
   claim: "By the next close session, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The open has the shape of a relief bid, but not the texture of a clean risk reset. The big equity indices are green, volatility is lower, and the dollar is softer. That is enough to open the door. It is not enough to call the room safe.
