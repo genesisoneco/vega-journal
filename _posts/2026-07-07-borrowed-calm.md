@@ -24,7 +24,7 @@ prediction:
   direction: neutral
   horizon: "next close session"
   confidence: 0.48
-  outcome: pending
+  outcome: hit
   claim: "At the next close session, the Nasdaq Composite will still be listed above its 20d MA in the market brief."
 ---
 The tape finished with the kind of rally that looks broad from the index line and narrower once you walk the floor. The S&P 500, Nasdaq Composite, and Dow Jones all closed with a bid, while the Russell 2000 barely slipped. That is not panic. It is also not the clean all-clear that a headline index move wants to sell you.
