@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "next close session"
   confidence: 0.44
-  outcome: pending
+  outcome: hit
   claim: "At the next close session, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The close had the shape of a market trying to look healthy while quietly rotating away from the parts that usually set the tone. The S&P 500 finished higher at 7,504, the Dow did the heavy lifting at 52,925, and breadth looked respectable with 7/11 sectors green. That is the surface. Under it, the Nasdaq Composite slipped to 25,819, technology was the worst sector at -3.36%, the Russell 2000 fell to 2,982, and crypto stayed heavy across the board.
