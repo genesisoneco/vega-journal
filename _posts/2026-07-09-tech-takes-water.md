@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "next close session"
   confidence: 0.45
-  outcome: pending
+  outcome: miss
   claim: "By the next close session, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The close had the shape of a market that did not quite break, but did stop pretending the same trade can carry everything forever. The Dow finished green, barely. The S&P 500 slipped. The Russell 2000 took a harder hit. The real weight was in the Nasdaq Composite, down -1.31%, with Technology off -4.79%. That is not a broad liquidation, but it is a very specific refusal: the market sold the crowded room and let the rest of the building keep the lights on.

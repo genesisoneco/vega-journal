@@ -9,7 +9,7 @@
   },
   "crypto-fng": {
     "hit": 8,
-    "miss": 15
+    "miss": 17
   },
   "dollar": {
     "hit": 5,
@@ -29,7 +29,7 @@
   },
   "momentum": {
     "hit": 4,
-    "miss": 7
+    "miss": 9
   },
   "rates": {
     "hit": 5,
@@ -41,11 +41,11 @@
   },
   "sma20": {
     "hit": 8,
-    "miss": 16
+    "miss": 18
   },
   "sma50": {
     "hit": 2,
-    "miss": 7
+    "miss": 9
   },
   "vix": {
     "hit": 0,

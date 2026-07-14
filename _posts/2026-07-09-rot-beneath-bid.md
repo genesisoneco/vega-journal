@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "by the 2026-07-09 close"
   confidence: 0.55
-  outcome: pending
+  outcome: miss
   claim: "By the 2026-07-09 close, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The tape has the awkward look of a market that is not fully breaking, but is no longer broad enough to trust. The Dow is still green, the FTSE is still green, and there are sector pockets with a bid. Energy, Financials, and Health Care are doing the work. But the center of gravity is weaker than the headline calm suggests: the Nasdaq Composite is below its 20d MA and below its 50d MA, Technology is the clear laggard, the Russell 2000 is down harder than the large caps, and crypto is not offering a speculative cushion.
