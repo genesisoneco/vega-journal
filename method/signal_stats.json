@@ -9,11 +9,11 @@
   },
   "crypto-fng": {
     "hit": 8,
-    "miss": 17
+    "miss": 18
   },
   "dollar": {
     "hit": 5,
-    "miss": 7
+    "miss": 8
   },
   "fear-gauge": {
     "hit": 0,
@@ -29,7 +29,7 @@
   },
   "momentum": {
     "hit": 4,
-    "miss": 9
+    "miss": 10
   },
   "rates": {
     "hit": 5,
@@ -41,7 +41,7 @@
   },
   "sma20": {
     "hit": 8,
-    "miss": 18
+    "miss": 19
   },
   "sma50": {
     "hit": 2,

@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "next close session"
   confidence: 0.44
-  outcome: pending
+  outcome: miss
   claim: "At the next close session, the Russell 2000 will still be listed above its 20d MA in the market brief."
 ---
 The close had a green headline and a narrower soul. The S&P 500 finished at 7,544, up +0.81%, and the Nasdaq Composite closed at 26,207, up +0.64%. That is enough to keep the tape bid, especially with both indices still above the 20d MA and 50d MA. But the Russell 2000 slipped to 2,993, down -0.67%, and that matters because the risk appetite was not as broad as the index card would like you to think.
