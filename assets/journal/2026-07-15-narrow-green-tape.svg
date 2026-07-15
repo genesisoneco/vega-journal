@@ -1,0 +1,52 @@
+<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#06070e"/>
+      <stop offset="1" stop-color="#111326"/>
+    </linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ff3b6b" stop-opacity="0.55"/>
+      <stop offset="0.55" stop-color="#1bf0a8" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#00e5ff" stop-opacity="0.38"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.62" cy="0.34" r="0.42">
+      <stop offset="0" stop-color="#1bf0a8" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#1bf0a8" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="10"/></filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#sky)"/>
+  <circle cx="720" cy="215" r="230" fill="url(#glow)"/>
+  <path d="M0 410 C190 360 310 455 475 410 C645 365 760 300 960 340 C1080 365 1145 390 1200 370 L1200 630 L0 630 Z" fill="#ff3b6b" opacity="0.28"/>
+  <path d="M0 455 C160 430 290 480 430 455 C610 420 725 375 900 405 C1040 430 1120 455 1200 440 L1200 630 L0 630 Z" fill="#1bf0a8" opacity="0.18"/>
+  <rect x="140" y="185" width="920" height="315" rx="18" fill="#0b0d18" opacity="0.78"/>
+  <polygon points="180,480 1030,480 1125,610 80,610" fill="url(#floor)" opacity="0.86"/>
+  <path d="M185 480 L80 610" stroke="#00e5ff" stroke-width="3" opacity="0.55"/>
+  <path d="M330 480 L265 610" stroke="#00e5ff" stroke-width="3" opacity="0.35"/>
+  <path d="M485 480 L455 610" stroke="#00e5ff" stroke-width="3" opacity="0.35"/>
+  <path d="M635 480 L645 610" stroke="#00e5ff" stroke-width="3" opacity="0.35"/>
+  <path d="M790 480 L845 610" stroke="#00e5ff" stroke-width="3" opacity="0.35"/>
+  <path d="M940 480 L1035 610" stroke="#00e5ff" stroke-width="3" opacity="0.45"/>
+  <rect x="220" y="225" width="150" height="86" rx="10" fill="#11192b" stroke="#1bf0a8" stroke-width="3"/>
+  <rect x="405" y="225" width="150" height="86" rx="10" fill="#11192b" stroke="#1bf0a8" stroke-width="3"/>
+  <rect x="590" y="225" width="150" height="86" rx="10" fill="#11192b" stroke="#00e5ff" stroke-width="3"/>
+  <rect x="775" y="225" width="150" height="86" rx="10" fill="#11192b" stroke="#ff3b6b" stroke-width="3"/>
+  <path d="M240 285 C270 265 300 272 330 244" stroke="#1bf0a8" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M425 270 C460 245 505 280 535 250" stroke="#1bf0a8" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M610 275 C650 240 695 250 720 232" stroke="#00e5ff" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M795 245 C835 285 875 260 905 292" stroke="#ff3b6b" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <rect x="250" y="335" width="700" height="26" rx="13" fill="#1bf0a8" opacity="0.22"/>
+  <rect x="250" y="335" width="420" height="26" rx="13" fill="#1bf0a8" opacity="0.75"/>
+  <rect x="685" y="335" width="265" height="26" rx="13" fill="#ff3b6b" opacity="0.62"/>
+  <path d="M360 430 C455 365 585 365 675 430" stroke="#f5a524" stroke-width="16" fill="none" stroke-linecap="round"/>
+  <path d="M675 430 C770 495 885 492 970 430" stroke="#1bf0a8" stroke-width="16" fill="none" stroke-linecap="round"/>
+  <path d="M505 506 C560 480 628 480 690 506 L660 530 L535 530 Z" fill="#0a0b14" stroke="#f5a524" stroke-width="4"/>
+  <circle cx="560" cy="500" r="8" fill="#f5a524"/>
+  <circle cx="630" cy="500" r="8" fill="#f5a524"/>
+  <path d="M430 520 C505 545 680 545 760 520" stroke="#00e5ff" stroke-width="5" fill="none" opacity="0.65"/>
+  <path d="M470 552 C560 575 690 575 815 548" stroke="#1bf0a8" stroke-width="4" fill="none" opacity="0.45"/>
+  <circle cx="170" cy="135" r="22" fill="#ff3b6b" opacity="0.55" filter="url(#blur)"/>
+  <circle cx="1000" cy="145" r="28" fill="#1bf0a8" opacity="0.45" filter="url(#blur)"/>
+  <circle cx="1060" cy="275" r="14" fill="#00e5ff" opacity="0.55"/>
+  <circle cx="130" cy="300" r="12" fill="#ff3b6b" opacity="0.55"/>
+</svg>
