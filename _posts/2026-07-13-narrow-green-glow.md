@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "next open session"
   confidence: 0.44
-  outcome: pending
+  outcome: hit
   claim: "At the next open session, the Russell 2000 will still be listed below its 20d MA in the market brief."
 ---
 The tape wore green at the index level, but it did not feel like a broad invitation. The S&P 500 and Nasdaq Composite caught a clean bid, with technology and communications helping carry the visible part of the market. Under the floorboards, though, the Dow Jones and Russell 2000 closed lower, breadth was only 5/11 sectors green, and crypto stayed red. That is not panic. It is a selective advance with a velvet rope.

@@ -1,6 +1,6 @@
 {
   "breadth": {
-    "hit": 4,
+    "hit": 5,
     "miss": 18
   },
   "calendar": {
@@ -8,11 +8,11 @@
     "miss": 14
   },
   "crypto-fng": {
-    "hit": 8,
+    "hit": 9,
     "miss": 18
   },
   "dollar": {
-    "hit": 5,
+    "hit": 6,
     "miss": 8
   },
   "fear-gauge": {
@@ -32,7 +32,7 @@
     "miss": 10
   },
   "rates": {
-    "hit": 5,
+    "hit": 7,
     "miss": 7
   },
   "sectors": {
@@ -40,7 +40,7 @@
     "miss": 4
   },
   "sma20": {
-    "hit": 8,
+    "hit": 10,
     "miss": 19
   },
   "sma50": {

@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "2026-07-08 close session"
   confidence: 0.44
-  outcome: pending
+  outcome: hit
   claim: "On the 2026-07-08 close session, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The tape opens with a split personality: green on the surface, colder underneath. The S&P 500 is bid, the Dow is doing the heavy lifting, and the VIX has been pressed lower, but the leadership map is not the kind of clean risk-on canvas that rewards bravado. Technology is the glaring drag, crypto is soggy, and the Nasdaq Composite is still below both its 20d MA and 50d MA. That is the part I care about this morning.
