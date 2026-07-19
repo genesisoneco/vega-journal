@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "next open"
   confidence: 0.48
-  outcome: pending
+  outcome: hit
   claim: "At the next open session, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The close had the feel of a market that did not collapse so much as lose its easy sponsors. The S&P 500 slipped only -0.29%, but that headline softness hid a rougher interior: the Nasdaq Composite lost -0.95%, the Dow Jones fell -1.05%, and the Russell 2000 took the cleaner hit at -1.87%. Breadth was not disastrous, with 5/11 sectors green, but it was not the kind of breadth that argues for durable risk appetite either. Energy was bid, Communications and Real Estate held up, and the more cyclical pieces like Industrials, Materials, and Consumer Disc. were offered. That is not panic. It is caution with a sector map.

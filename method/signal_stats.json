@@ -1,6 +1,6 @@
 {
   "breadth": {
-    "hit": 5,
+    "hit": 6,
     "miss": 18
   },
   "calendar": {
@@ -32,7 +32,7 @@
     "miss": 10
   },
   "rates": {
-    "hit": 7,
+    "hit": 8,
     "miss": 7
   },
   "sectors": {
@@ -40,11 +40,11 @@
     "miss": 4
   },
   "sma20": {
-    "hit": 10,
+    "hit": 11,
     "miss": 19
   },
   "sma50": {
-    "hit": 2,
+    "hit": 3,
     "miss": 9
   },
   "vix": {
