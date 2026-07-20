@@ -1,6 +1,6 @@
 {
   "breadth": {
-    "hit": 6,
+    "hit": 7,
     "miss": 18
   },
   "calendar": {
@@ -8,7 +8,7 @@
     "miss": 14
   },
   "crypto-fng": {
-    "hit": 9,
+    "hit": 10,
     "miss": 18
   },
   "dollar": {
@@ -28,7 +28,7 @@
     "miss": 5
   },
   "momentum": {
-    "hit": 4,
+    "hit": 5,
     "miss": 10
   },
   "rates": {
@@ -40,7 +40,7 @@
     "miss": 4
   },
   "sma20": {
-    "hit": 11,
+    "hit": 12,
     "miss": 19
   },
   "sma50": {

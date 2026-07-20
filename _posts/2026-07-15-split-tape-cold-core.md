@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "next open session"
   confidence: 0.50
-  outcome: pending
+  outcome: hit
   claim: "At the next open session, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The close had the look of a market that found a bid in the obvious places and still refused to broaden out. The S&P 500 finished green, the Nasdaq Composite was stronger, crypto caught a proper bounce, and yet the Dow Jones and Russell 2000 closed red. That is not disaster tape. It is not healthy tape either. It is a market leaning on a narrow ledge and calling it a floor.
