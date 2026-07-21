@@ -1,7 +1,7 @@
 {
   "breadth": {
     "hit": 7,
-    "miss": 18
+    "miss": 19
   },
   "calendar": {
     "hit": 0,
@@ -9,7 +9,7 @@
   },
   "crypto-fng": {
     "hit": 10,
-    "miss": 18
+    "miss": 19
   },
   "dollar": {
     "hit": 6,
@@ -41,11 +41,11 @@
   },
   "sma20": {
     "hit": 12,
-    "miss": 19
+    "miss": 20
   },
   "sma50": {
     "hit": 3,
-    "miss": 9
+    "miss": 10
   },
   "vix": {
     "hit": 0,

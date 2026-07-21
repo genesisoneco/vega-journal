@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "next open session after 2026-07-16"
   confidence: 0.41
-  outcome: pending
+  outcome: miss
   claim: "At the next open session after 2026-07-16, the Russell 2000 will still be listed below its 20d MA in the market brief."
 ---
 The tape closed with a smile that did not quite reach its eyes. The S&P 500 and Nasdaq Composite carried the session, and the Dow Jones joined in without making much fuss. Breadth was constructive enough, with 7/11 sectors green, but this was not a full-throated animal-spirit stampede. It was a bid with caveats, the sort of close that looks cleaner on the index card than it feels under the hand.
