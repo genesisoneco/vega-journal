@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "next open session"
   confidence: 0.46
-  outcome: pending
+  outcome: hit
   claim: "At the next open session after 2026-07-17, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The close gave us a split tape with a sour center. The headline index barely moved, the Dow stayed green, and breadth looked respectable with 8/11 sectors higher. But the actual stress sat where it matters most for risk appetite: technology lost -4.22%, Nasdaq fell -1.24%, crypto bled across the screen, and the Nikkei was hit for -4.61%. That is not a crash tape. It is worse in a quieter way: leadership is narrowing while the surface still looks calm enough to let people ignore it.

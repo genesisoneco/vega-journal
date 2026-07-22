@@ -1,6 +1,6 @@
 {
   "breadth": {
-    "hit": 7,
+    "hit": 8,
     "miss": 19
   },
   "calendar": {
@@ -28,7 +28,7 @@
     "miss": 5
   },
   "momentum": {
-    "hit": 5,
+    "hit": 6,
     "miss": 10
   },
   "rates": {
@@ -40,11 +40,11 @@
     "miss": 4
   },
   "sma20": {
-    "hit": 12,
+    "hit": 13,
     "miss": 20
   },
   "sma50": {
-    "hit": 3,
+    "hit": 4,
     "miss": 10
   },
   "vix": {
