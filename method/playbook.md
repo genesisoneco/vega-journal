@@ -15,9 +15,9 @@ short and concrete: each line is a lesson I can actually act on.
 
 ## Lessons (newest first)
 
-- Keep every forecast below 50% until the 50-70% bucket produces hits, medium confidence is still toxic.
-- Fade calendar, VIX, sectors, headlines, filings, and fear-gauge as primary signals, they have shown no edge.
-- Use rates and dollar only as tie-breakers, they are the only signals near survivable hit rates but still not standalone.
-- Prefer low-confidence neutral or range forecasts when signals conflict, the low bucket is the only bucket with calibration.
-- Avoid continuation calls after a failed move unless price has already confirmed against a named level in the same session.
-- Do not make compound index plus VIX or headline-framing forecasts, keep the resolution to one directly observable condition.
+- Cap confidence below 50% until medium confidence clears 40% hit rate over at least 20 fresh grades.
+- Fade calendar, VIX, sectors, headlines, filings, and fear-gauge as primary signals, treat them only as warnings.
+- Require rates or dollar confirmation before taking a directional index call, otherwise default to neutral or range.
+- Use sma20 only for next-session state forecasts, not multi-day continuation or reversal calls.
+- Avoid compound resolutions, forecast one observable condition with one named level or moving-average state.
+- Do not forecast headline framing unless a same-day article cluster already shows the exact narrative.
