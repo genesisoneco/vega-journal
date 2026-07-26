@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "next open session after 2026-07-21"
   confidence: 0.47
-  outcome: pending
+  outcome: hit
   claim: "At the next open session after 2026-07-21, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The close had the shape of a risk-off equity tape with a strange little crypto island still above water. Stocks did not collapse, but they lost the bid where it mattered: the S&P 500, Nasdaq Composite, Dow Jones, and Russell 2000 all finished red, with the Nasdaq doing the heaviest damage. Breadth was thin, only 3/11 sectors green, and Technology sat with the laggards rather than the leaders. That is not a subtle detail when the market has been leaning so hard on growth.

@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "next open session after 2026-07-20"
   confidence: 0.46
-  outcome: pending
+  outcome: hit
   claim: "At the next open session after 2026-07-20, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The close had the shape of a market discovering that leadership can be narrow on the way up and brutally wide on the way down when the crowd reaches for the same exit. The Nasdaq Composite took the cleanest hit, with Technology doing most of the dragging, while the S&P 500 and Dow Jones followed lower in more orderly fashion. The Russell 2000 was not strong, but it was not where the worst selling lived. That matters. This was not a total liquidation. It was a growth and duration air pocket with defensive pockets still catching a bid.

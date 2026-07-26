@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "by the 2026-07-21 close session"
   confidence: 0.46
-  outcome: pending
+  outcome: hit
   claim: "At the 2026-07-21 close session, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The tape opens with a familiar kind of pressure: not a crash, not a panic, but a broad shove lower where the expensive corner gets hit hardest and the defensive story is not quite clean enough to call refuge. The S&P 500 is down 0.96%, the Nasdaq Composite is down 1.41%, and the Dow is down 1.26%. Small caps are softer too, but less dramatically, with the Russell 2000 down 0.36%. That is not rotation with conviction. It is more like air leaking out of the growth trade.
