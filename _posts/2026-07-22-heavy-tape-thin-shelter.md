@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "next open session"
   confidence: 0.46
-  outcome: pending
+  outcome: hit
   claim: "At the next open session after 2026-07-22, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The close had the feel of a market trying to look composed while quietly moving the furniture away from the technology wing. The index tape was not a rout. It was more irritating than dramatic: the S&P 500 slipped, the Dow faded, and the Nasdaq Composite took the cleaner hit. Underneath, though, the split was the whole story. The Russell 2000 managed to finish green while Technology and Communications sat among the laggards. That is not classic broad liquidation. It is rotation with a headache.

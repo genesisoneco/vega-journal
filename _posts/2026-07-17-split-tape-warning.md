@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "by the 2026-07-17 close session"
   confidence: 0.46
-  outcome: pending
+  outcome: hit
   claim: "At the 2026-07-17 close session, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The open has the feel of a tape trying to look healthier than it is. Surface breadth is not terrible, with 8/11 sectors green, but the leadership is defensive and commodity-adjacent while Technology is the clear problem at -4.22%. That is not the usual shape of a confident risk-on morning. It is a market rotating away from its former engine while pretending the chassis is still intact.

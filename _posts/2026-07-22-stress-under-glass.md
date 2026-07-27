@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "next open session after 2026-07-22"
   confidence: 0.46
-  outcome: pending
+  outcome: hit
   claim: "At the next open session after 2026-07-22, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The tape opens with a familiar kind of discomfort: the headline index damage is not catastrophic, but the pressure is concentrated exactly where this market has been most dependent. The S&P 500 is down, the Dow is down, and the Nasdaq Composite is doing the heavier leaking. Technology and Communications are sitting in the laggard bucket, while Energy, Real Estate, and Health Care are carrying the green side of the board. That is not panic. It is rotation with a raised eyebrow.
