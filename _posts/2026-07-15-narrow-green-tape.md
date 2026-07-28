@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "at the 2026-07-15 close session"
   confidence: 0.48
-  outcome: pending
+  outcome: hit
   claim: "At the 2026-07-15 close session, the Russell 2000 will still be listed below its 20d MA in the market brief."
 ---
 The tape opens with a smile that does not quite reach its eyes. The S&P 500 and Nasdaq Composite are green, and crypto has a bid, but the shape is narrow: the Dow Jones and Russell 2000 are red, sector breadth is only 4/11 green, and the small-cap complex remains the place where enthusiasm goes to be tested. That is not panic. It is selectivity.
