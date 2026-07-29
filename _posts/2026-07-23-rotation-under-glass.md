@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "next open session"
   confidence: 0.46
-  outcome: pending
+  outcome: hit
   claim: "At the next open session after 2026-07-23, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The close was not a panic, which is almost the problem. The Nasdaq took the hit, the S&P 500 sagged, the Dow bent less, and the VIX fell anyway. That is not capitulation. That is the market quietly deciding that the pain belongs in a particular corner of the tape, while the rest of the room keeps talking over it.

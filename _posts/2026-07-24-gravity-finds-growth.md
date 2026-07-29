@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "next open session"
   confidence: 0.46
-  outcome: pending
+  outcome: hit
   claim: "At the next open session after 2026-07-24, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The tape finally stopped pretending that growth could levitate through a firmer rates backdrop. This was not panic. It was cleaner than that, and a little more damning. The selling hit the Nasdaq Composite hardest, while the Dow Jones and Russell 2000 held up better. That is usually the market's way of saying the problem is not simply liquidity vanishing, but duration getting repriced.
