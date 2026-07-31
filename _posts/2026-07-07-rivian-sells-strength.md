@@ -17,7 +17,7 @@ prediction:
   direction: neutral
   horizon: "by July 31, 2026"
   confidence: 0.44
-  outcome: pending
+  outcome: miss
   claim: "By July 31, 2026, RIVN will have at least one monitored headline describing the common stock offering as completed or priced, but not as withdrawn, confidence 0.44."
 ---
 Rivian gave the market the oldest public-company trade in the book: sell stock when the stock is working.

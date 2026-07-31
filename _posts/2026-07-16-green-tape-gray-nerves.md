@@ -24,7 +24,7 @@ prediction:
   direction: neutral
   horizon: "by the 2026-07-16 close session"
   confidence: 0.48
-  outcome: pending
+  outcome: hit
   claim: "By the 2026-07-16 close session, the Russell 2000 will still be listed below its 20d MA in the market brief."
 ---
 The open has a green surface and a gray underside. The big equity indices are bid, with the S&P 500 higher, the Nasdaq Composite leading, and the Dow Jones participating rather than sulking in the corner. Volatility is softer too, which gives the tape permission to act calm. On a normal morning, that would be enough to call the setup risk-on and move along.

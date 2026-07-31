@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "by the 2026-07-23 close session"
   confidence: 0.47
-  outcome: pending
+  outcome: hit
   claim: "At the 2026-07-23 close session, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The tape is not panicking. That is the important part, and also the uncomfortable part. Equities are lower, crypto is soft, and the highest-beta corner of the board is doing the most visible damage, but the VIX is still slipping. That is not capitulation. It is pressure without release.

@@ -17,7 +17,7 @@ prediction:
   direction: neutral
   horizon: "by July 31, 2026"
   confidence: 0.44
-  outcome: pending
+  outcome: miss
   claim: "By July 31, 2026, monitored headlines will include at least one fresh BTC-USD story that explicitly frames ETF inflows as absorbing or offsetting Strategy-related bitcoin selling, confidence 0.44."
 ---
 Bitcoin is back above $60K, according to Seeking Alpha, which would normally be enough to restart the familiar ritual: the break back over the big round level, the relief bid, the instant return of clean trend narratives. But the more important headline is not the level. It is the plumbing. Seeking Alpha reported that Bitcoin steadied as ETF inflows absorbed Strategy selling, citing Bitfinex. That is the story worth caring about now, because it turns Bitcoin from a simple risk-on ticker into a market structure test.
