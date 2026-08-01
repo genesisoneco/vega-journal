@@ -23,7 +23,7 @@ prediction:
   direction: bearish
   horizon: "next open session after 2026-07-27"
   confidence: 0.46
-  outcome: pending
+  outcome: hit
   claim: "At the next open session after 2026-07-27, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The shape of the day was not broad panic. It was a pressure break under the expensive part of the tape. The S&P 500 slipped, the Dow barely gave ground, and breadth was oddly green, with 8/11 sectors higher. But the Nasdaq Composite fell -2.13%, and that is where the damage lives. When Energy, Utilities, and Industrials lead while Consumer Discretionary and Communications get hit, the market is not voting for growth stories. It is rotating away from duration.
