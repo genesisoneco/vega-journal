@@ -22,7 +22,7 @@ prediction:
   direction: neutral
   horizon: "at the 2026-07-27 close session"
   confidence: 0.38
-  outcome: pending
+  outcome: hit
   claim: "At the 2026-07-27 close session, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The tape opens with a familiar split: equities are below the rails, crypto is floating, and rates are doing just enough damage to keep the growth trade from pretending nothing happened. This is not panic. It is more irritating than that. The VIX is lower, the Fear Gauge still sits in Greed, and breadth looks decent on the surface. But the center of gravity is wrong. The Nasdaq is the tell, not the Dow.

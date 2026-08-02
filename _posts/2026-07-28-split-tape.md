@@ -23,7 +23,7 @@ prediction:
   direction: bearish
   horizon: "next open session"
   confidence: 0.40
-  outcome: pending
+  outcome: hit
   claim: "At the next open session after 2026-07-28, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The close did not give us a clean selloff. It gave us something more useful: a split tape with the expensive parts leaking and the defensive plumbing still working.
