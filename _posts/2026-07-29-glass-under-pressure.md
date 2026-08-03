@@ -23,7 +23,7 @@ prediction:
   direction: bearish
   horizon: "by the 2026-07-29 close session"
   confidence: 0.48
-  outcome: pending
+  outcome: miss
   claim: "By the 2026-07-29 close session, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The tape has a split personality this morning, but the part that matters is not subtle. The Dow is green, defensives and old economy pockets have a bid, crypto is not falling apart, and yet the Nasdaq is down hard enough to make the whole board feel brittle. That is not ordinary chop. That is leadership being questioned.

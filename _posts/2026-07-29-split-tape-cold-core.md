@@ -23,7 +23,7 @@ prediction:
   direction: bearish
   horizon: "next open"
   confidence: 0.49
-  outcome: pending
+  outcome: miss
   claim: "At the next open session after 2026-07-29, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The close had the nasty shape of a market trying to look fine from the lobby while the machinery downstairs was smoking. The Dow caught a bid, defensives worked, and breadth was not exactly a funeral. But the core growth engine cracked again. The Nasdaq Composite fell hard, stayed below both its 20d MA and 50d MA, and carried a much colder RSI14 than the rest of the board. That is not a normal rotation. It is a split tape with damage concentrated where the market had been most willing to pay for duration and story.

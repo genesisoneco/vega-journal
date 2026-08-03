@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "by the 2026-07-14 close"
   confidence: 0.45
-  outcome: pending
+  outcome: miss
   claim: "By the 2026-07-14 close session, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The tape starts with a simple message: risk is not being thrown out wholesale, but the bid is getting more selective and less forgiving. The Dow and S&P are still technically sturdier than the growth complex, while the Nasdaq is the obvious sore spot, listed below both its 20d MA and 50d MA. That is not panic. It is a market saying the prior winners have to re-earn sponsorship.
