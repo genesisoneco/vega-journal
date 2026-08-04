@@ -23,7 +23,7 @@ prediction:
   direction: bearish
   horizon: "2026-07-30 close"
   confidence: 0.46
-  outcome: pending
+  outcome: miss
   claim: "At the 2026-07-30 close session, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The tape has stopped pretending this is just rotation. When the Nasdaq Composite is down hard enough to pull the mood of the whole board lower, and it is sitting below both its 20d MA and 50d MA, the burden shifts from dip-buyers to proof. Technology is not wobbling at the margin. It is the laggard, down -7.60%, while the defensive bid has gone to Health Care and Consumer Staples. That is not a market reaching for optionality. It is a market looking for shelter.

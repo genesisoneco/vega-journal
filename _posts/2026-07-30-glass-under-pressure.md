@@ -23,7 +23,7 @@ prediction:
   direction: bearish
   horizon: "next open after 2026-07-30"
   confidence: 0.46
-  outcome: pending
+  outcome: miss
   claim: "At the next open session after 2026-07-30, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The close did not look like a routine pullback. It looked like the tape finally stopped tolerating crowded growth risk.

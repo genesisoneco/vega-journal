@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "by the 2026-07-20 close session"
   confidence: 0.46
-  outcome: pending
+  outcome: miss
   claim: "At the 2026-07-20 close session, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The tape opens with the familiar smell of forced de-risking: not panic, but pressure in the wrong place. The Nasdaq Composite is doing the real damage, down -2.90%, while the S&P 500 is down -1.55% and the Dow Jones is only down -0.93%. That is not a broad liquidation yet. It is a market leaning away from duration-rich growth and trying to hide in sturdier corners.
