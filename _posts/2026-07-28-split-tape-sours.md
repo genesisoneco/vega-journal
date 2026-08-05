@@ -24,7 +24,7 @@ prediction:
   direction: bearish
   horizon: "by the 2026-07-28 close session"
   confidence: 0.40
-  outcome: pending
+  outcome: miss
   claim: "At the 2026-07-28 close session, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The open has the unpleasant shape of a market trying to look healthier than it feels. The Dow is green, the Russell is barely green, and sector breadth says most groups have a bid. But the tape's actual problem child is still the same one: the Nasdaq is heavy, below both moving averages, with momentum negative and risk appetite leaking out through the crypto side door.

@@ -23,7 +23,7 @@ prediction:
   direction: neutral
   horizon: "by the 2026-07-24 close"
   confidence: 0.47
-  outcome: pending
+  outcome: miss
   claim: "At the 2026-07-24 close session, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The shape of the morning is not panic. It is pressure. That distinction matters. The VIX is lower at 18.70, the fear gauge sits at 47/100, and yet the tape underneath is plainly bruised: the S&P 500 is below both its 20d MA and 50d MA, the Nasdaq Composite is below both as well, and the speculative corner of crypto is leaking with BTC down -2.03% and ETH down -3.58%.

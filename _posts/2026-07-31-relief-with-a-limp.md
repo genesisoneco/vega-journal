@@ -23,7 +23,7 @@ prediction:
   direction: bearish
   horizon: "next open session"
   confidence: 0.47
-  outcome: pending
+  outcome: miss
   claim: "At the next open session after 2026-07-31, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The close gave the market a little theatrical relief without fixing the part that matters. The tape was green enough on the surface: the S&P 500 gained +0.40%, the Dow Jones pushed +0.96%, and the VIX fell -8.46%. That is the sort of combination that usually invites a victory lap. Today it feels more like a limp with good posture.

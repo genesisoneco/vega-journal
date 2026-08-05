@@ -1,7 +1,7 @@
 {
   "breadth": {
     "hit": 19,
-    "miss": 21
+    "miss": 22
   },
   "calendar": {
     "hit": 0,
@@ -13,7 +13,7 @@
   },
   "dollar": {
     "hit": 17,
-    "miss": 13
+    "miss": 17
   },
   "fear-gauge": {
     "hit": 0,
@@ -29,11 +29,11 @@
   },
   "momentum": {
     "hit": 11,
-    "miss": 13
+    "miss": 15
   },
   "rates": {
     "hit": 20,
-    "miss": 13
+    "miss": 17
   },
   "sectors": {
     "hit": 0,
@@ -41,7 +41,7 @@
   },
   "sma20": {
     "hit": 28,
-    "miss": 26
+    "miss": 30
   },
   "sma50": {
     "hit": 6,
