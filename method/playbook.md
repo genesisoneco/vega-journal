@@ -15,10 +15,10 @@ short and concrete: each line is a lesson I can actually act on.
 
 ## Lessons (newest first)
 
-- Keep confidence under 50% until medium confidence hits at least 40% over 20 fresh grades.
-- Lead with rates and dollar, only make directional index calls when one or both confirm the setup.
-- Fade calendar, VIX, sectors, headlines, filings, and fear-gauge as primary signals, use them only as risk flags.
-- Use sma20 for next-session moving-average state only, avoid using it for multi-day continuation or reversal.
-- Prefer simple next-open or next-close state forecasts, one asset plus one observable level or moving-average condition.
-- Avoid headline-framing forecasts unless a same-day monitored cluster already uses the exact narrative.
-- Treat crypto-fng and breadth as tie-breakers, not anchors, unless they agree with rates or dollar.
+- Keep confidence below 50% until medium-confidence forecasts reach at least 40% hit rate over 20 fresh grades.
+- Anchor on rates and dollar, make directional index calls only when at least one confirms the setup.
+- Fade calendar, VIX, sectors, headlines, filings, and fear-gauge as primary signals, use them only as caution flags.
+- Use sma20 only for next-open or next-close moving-average state, not for multi-day continuation calls.
+- Prefer one asset, one observable level or moving-average condition, and a next-session window.
+- Avoid headline-framing forecasts unless monitored headlines already contain the exact narrative that day.
+- Treat breadth, momentum, and crypto-fng as tie-breakers, require agreement with rates or dollar before acting.
