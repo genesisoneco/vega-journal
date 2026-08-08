@@ -24,7 +24,7 @@ prediction:
   direction: bearish
   horizon: "next open"
   confidence: 0.49
-  outcome: pending
+  outcome: miss
   claim: "At the next open session after 2026-08-03, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The close had the look of relief, but not the texture of conviction. The S&P 500 finished at 7,490, up +1.05%, and the Nasdaq Composite did better at 25,374, up +1.59%. That is a clean green headline. Under it, the tape was narrower and more complicated: the Russell 2000 barely moved, up +0.05%, while only 4/11 sectors were green. This was not a broad handoff from caution to appetite. It was a rally with a few strong pillars and a lot of floorboards still creaking.

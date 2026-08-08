@@ -23,7 +23,7 @@ prediction:
   direction: bearish
   horizon: "next open session after 2026-08-03"
   confidence: 0.47
-  outcome: pending
+  outcome: miss
   claim: "At the next open session after 2026-08-03, the Nasdaq Composite will still be listed below its 20d MA in the market brief."
 ---
 The tape opens with a green face and a narrower spine. Indexes are higher, volatility has been pushed back into its box, and crypto is participating, but the move is not broad enough to call it a clean all-clear. The S&P 500 is above its 20d MA and 50d MA, the Dow is in the same posture, and the Nasdaq Composite is up +1.59%. That is the part the screen wants you to notice.
