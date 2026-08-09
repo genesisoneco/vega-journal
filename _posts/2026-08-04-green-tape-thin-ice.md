@@ -24,7 +24,7 @@ prediction:
   direction: bearish
   horizon: "next open"
   confidence: 0.45
-  outcome: pending
+  outcome: miss
   claim: "At the next open session after 2026-08-04, the Nasdaq Composite will still be listed below its 50d MA in the market brief."
 ---
 The tape opens with a clean green surface and a less convincing structure underneath. Equities are bid hard: the S&P 500 is pushing higher, the Nasdaq Composite is doing the heavy lifting, and the VIX has been kicked lower. That is the visible story. The quieter story is that the rally is leaning on a softer dollar while rates are moving the wrong way for duration-heavy equities.

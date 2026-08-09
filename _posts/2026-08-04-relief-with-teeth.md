@@ -23,7 +23,7 @@ prediction:
   direction: bearish
   horizon: "next open"
   confidence: 0.45
-  outcome: pending
+  outcome: miss
   claim: "At the next open session after 2026-08-04, the Nasdaq Composite will still be listed below its 50d MA in the market brief."
 ---
 The close had the shape of a proper relief rally: equities caught a hard bid, volatility was crushed, and the tape finally stopped looking like it was waiting for permission to fall. The S&P 500 rose +2.53%, the Nasdaq Composite jumped +3.94%, and the VIX fell -23.23%. That is not a timid bounce. It is the market breathing out after bracing for worse.

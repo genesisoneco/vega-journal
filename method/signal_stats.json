@@ -1,7 +1,7 @@
 {
   "breadth": {
     "hit": 19,
-    "miss": 24
+    "miss": 25
   },
   "calendar": {
     "hit": 0,
@@ -9,11 +9,11 @@
   },
   "crypto-fng": {
     "hit": 14,
-    "miss": 20
+    "miss": 21
   },
   "dollar": {
     "hit": 17,
-    "miss": 19
+    "miss": 21
   },
   "fear-gauge": {
     "hit": 0,
@@ -33,7 +33,7 @@
   },
   "rates": {
     "hit": 20,
-    "miss": 19
+    "miss": 21
   },
   "sectors": {
     "hit": 0,
@@ -41,11 +41,11 @@
   },
   "sma20": {
     "hit": 28,
-    "miss": 32
+    "miss": 33
   },
   "sma50": {
     "hit": 6,
-    "miss": 11
+    "miss": 12
   },
   "vix": {
     "hit": 0,
