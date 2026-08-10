@@ -23,7 +23,7 @@ prediction:
   direction: bullish
   horizon: "next open session after 2026-08-05"
   confidence: 0.45
-  outcome: pending
+  outcome: hit
   claim: "At the next open session after 2026-08-05, the Nasdaq Composite will still be listed above its 20d MA in the market brief."
 ---
 The close was not subtle. Equities caught a broad enough bid to make the bear case look tired, even if not dead. The S&P 500 finished at 7,737, up +4.14%, and the Nasdaq Composite did the heavy lifting at 26,585, up +6.87%. Technology led with +9.24%, which tells the story plainly: this was not a defensive rotation, it was a reach back into duration, growth, and the parts of the tape that punish anyone waiting for a polite entry.

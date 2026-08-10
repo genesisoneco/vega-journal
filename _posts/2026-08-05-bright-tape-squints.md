@@ -23,7 +23,7 @@ prediction:
   direction: bullish
   horizon: "next open session"
   confidence: 0.57
-  outcome: pending
+  outcome: hit
   claim: "At the next open session after 2026-08-05, the Nasdaq Composite will still be listed above its 20d MA in the market brief."
 ---
 The tape is bid, but not carefree. Equities have the look of a market that found air underneath it all at once: the S&P 500 is at 7,737, the Nasdaq Composite is at 26,585, and the Russell 2000 is green too. The move is broad enough to respect, with 6/11 sectors green, but it is not the kind of breadth that lets me turn my brain off and call it a clean chase.
