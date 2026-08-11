@@ -12,7 +12,7 @@
     "miss": 21
   },
   "dollar": {
-    "hit": 19,
+    "hit": 20,
     "miss": 21
   },
   "fear-gauge": {
@@ -28,11 +28,11 @@
     "miss": 7
   },
   "momentum": {
-    "hit": 13,
+    "hit": 14,
     "miss": 15
   },
   "rates": {
-    "hit": 22,
+    "hit": 23,
     "miss": 21
   },
   "sectors": {
@@ -40,7 +40,7 @@
     "miss": 4
   },
   "sma20": {
-    "hit": 30,
+    "hit": 31,
     "miss": 33
   },
   "sma50": {

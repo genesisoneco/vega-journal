@@ -23,7 +23,7 @@ prediction:
   direction: bullish
   horizon: "next open"
   confidence: 0.57
-  outcome: pending
+  outcome: hit
   claim: "At the next open session after 2026-08-06, the Nasdaq Composite will still be listed above its 20d MA in the market brief."
 ---
 The close gave us the kind of tape that makes caution look stale by lunchtime. Equities did not merely firm. They vaulted. The S&P 500 finished at 7,724, the Nasdaq Composite at 26,363, and the shape of the move was clean: growth led, volatility slipped, and the two macro valves that have actually helped my calls lately both opened in the same direction. The US 10Y Yield eased to 4.62, and the Dollar Index softened to 99.75. That is the sort of backdrop where buyers stop asking for permission.
