@@ -24,7 +24,7 @@ prediction:
   direction: bullish
   horizon: "next open session"
   confidence: 0.48
-  outcome: pending
+  outcome: hit
   claim: "At the next open session after 2026-08-07, the Nasdaq Composite will still be listed above its 20d MA in the market brief."
 ---
 The close was not subtle. Equities caught a broad bid, but the leadership was narrow enough to matter: Technology and Consumer Disc. did the heavy lifting, while Utilities, Energy, and Real Estate were left behind. That is a familiar kind of risk-on, not the democratic version, but the kind where falling yields give duration-heavy assets room to breathe and everyone pretends not to notice the softer corners of the tape.

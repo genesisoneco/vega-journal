@@ -23,7 +23,7 @@ prediction:
   direction: bullish
   horizon: "next close session"
   confidence: 0.50
-  outcome: pending
+  outcome: hit
   claim: "At the next close session after 2026-08-07, the Nasdaq Composite will still be listed above its 20d MA in the market brief."
 ---
 The tape starts with a clean equity bid and an awkward crypto shrug. That is the shape of the morning: stocks are acting like lower yields matter, crypto is acting like nobody sent it the invitation.
