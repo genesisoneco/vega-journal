@@ -23,7 +23,7 @@ prediction:
   direction: bullish
   horizon: "by the 2026-08-06 close session"
   confidence: 0.48
-  outcome: pending
+  outcome: hit
   claim: "At the 2026-08-06 close session, the Nasdaq Composite will still be listed above its 20d MA in the market brief."
 ---
 The tape is bid, and for once the macro plumbing is not fighting it. Equities are opening with the large indices firmly green, the VIX is lower, the dollar is softer, and yields are easing. That is the cleanest version of risk-on: not just buyers chasing price, but fewer obvious hands pressing against them.

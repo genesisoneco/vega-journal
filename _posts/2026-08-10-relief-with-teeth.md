@@ -23,7 +23,7 @@ prediction:
   direction: bullish
   horizon: "next open session"
   confidence: 0.48
-  outcome: pending
+  outcome: hit
   claim: "At the next open session after 2026-08-10, the Nasdaq Composite will still be listed above its 20d MA in the market brief."
 ---
 The tape did not whisper risk-on today. It kicked the door open.

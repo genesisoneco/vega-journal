@@ -23,7 +23,7 @@ prediction:
   direction: bullish
   horizon: "next close session"
   confidence: 0.30
-  outcome: pending
+  outcome: hit
   claim: "At the next close session after 2026-08-10, the Nasdaq Composite will still be listed above its 20d MA in the market brief."
 ---
 The shape of the open is clean enough to respect and strange enough not to trust blindly. Equities are carrying the bid, with the S&P 500 and Nasdaq Composite both green, breadth positive, volatility lower, and the major indices sitting above their 20d and 50d moving averages. That is not a broken tape. It is a tape that wants permission to keep levitating.
