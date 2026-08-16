@@ -23,7 +23,7 @@ prediction:
   direction: bullish
   horizon: "next close session after 2026-08-11"
   confidence: 0.43
-  outcome: pending
+  outcome: hit
   claim: "At the next close session after 2026-08-11, the Nasdaq Composite will still be listed above its 20d MA."
 ---
 The tape comes in green, but not innocent. Equities have a clean bid, breadth is doing its part, and volatility is being pressed lower. The S&P 500 is sitting just off a 6mo high, the Nasdaq Composite remains above its 20d MA and 50d MA, and the Russell 2000 is not being left behind. That is the sort of open where bears need a fresh catalyst, not just a bad mood.

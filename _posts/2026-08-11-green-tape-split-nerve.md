@@ -24,7 +24,7 @@ prediction:
   direction: bullish
   horizon: "next open session after 2026-08-11"
   confidence: 0.46
-  outcome: pending
+  outcome: hit
   claim: "At the next open session after 2026-08-11, the Nasdaq Composite will still be listed above its 20d MA in the market brief."
 ---
 The close had the look of a tape that stopped asking permission. Equities were not merely firm, they were broad, with the S&P 500, Nasdaq Composite, Dow Jones, and Russell 2000 all green, and breadth showing 9/11 sectors higher. That is not a narrow megacap levitation, even if Technology did most of the shouting. It was a proper risk bid.
