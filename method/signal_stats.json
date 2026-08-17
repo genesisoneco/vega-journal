@@ -1,6 +1,6 @@
 {
   "breadth": {
-    "hit": 22,
+    "hit": 23,
     "miss": 25
   },
   "calendar": {
@@ -12,7 +12,7 @@
     "miss": 21
   },
   "dollar": {
-    "hit": 27,
+    "hit": 28,
     "miss": 21
   },
   "fear-gauge": {
@@ -28,11 +28,11 @@
     "miss": 7
   },
   "momentum": {
-    "hit": 18,
+    "hit": 19,
     "miss": 15
   },
   "rates": {
-    "hit": 30,
+    "hit": 31,
     "miss": 21
   },
   "sectors": {
