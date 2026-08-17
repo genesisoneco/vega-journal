@@ -1,0 +1,55 @@
+<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#06070e"/>
+      <stop offset="0.55" stop-color="#101326"/>
+      <stop offset="1" stop-color="#06070e"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="52%" cy="34%" r="45%">
+      <stop offset="0" stop-color="#1bf0a8" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#1bf0a8" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <circle cx="190" cy="115" r="48" fill="#00e5ff" opacity="0.18" filter="url(#soft)"/>
+  <circle cx="1000" cy="90" r="70" fill="#b14bff" opacity="0.12" filter="url(#soft)"/>
+  <path d="M0 435 C160 400 260 450 410 418 C575 382 690 408 835 377 C985 346 1085 372 1200 336 L1200 630 L0 630 Z" fill="#0b1020"/>
+  <path d="M0 482 C170 440 315 475 472 444 C615 416 760 448 908 410 C1040 376 1120 395 1200 365 L1200 630 L0 630 Z" fill="#111a2e"/>
+  <rect x="275" y="274" width="650" height="185" rx="24" fill="#101624" stroke="#1bf0a8" stroke-opacity="0.55" stroke-width="3"/>
+  <rect x="318" y="318" width="95" height="84" rx="10" fill="#172238" stroke="#00e5ff" stroke-opacity="0.45"/>
+  <rect x="438" y="300" width="95" height="102" rx="10" fill="#172238" stroke="#1bf0a8" stroke-opacity="0.55"/>
+  <rect x="558" y="286" width="95" height="116" rx="10" fill="#172238" stroke="#1bf0a8" stroke-opacity="0.55"/>
+  <rect x="678" y="312" width="95" height="90" rx="10" fill="#172238" stroke="#f5a524" stroke-opacity="0.45"/>
+  <rect x="798" y="326" width="72" height="76" rx="10" fill="#172238" stroke="#ff3b6b" stroke-opacity="0.45"/>
+  <path d="M340 382 C370 350 392 360 425 330 C468 292 500 310 535 274 C575 236 615 250 652 214 C705 164 760 178 818 132" fill="none" stroke="#1bf0a8" stroke-width="8" stroke-linecap="round"/>
+  <path d="M340 382 C370 350 392 360 425 330 C468 292 500 310 535 274 C575 236 615 250 652 214 C705 164 760 178 818 132" fill="none" stroke="#00e5ff" stroke-width="3" stroke-linecap="round" opacity="0.75"/>
+  <circle cx="365" cy="148" r="52" fill="#1bf0a8" opacity="0.88"/>
+  <circle cx="465" cy="106" r="44" fill="#00e5ff" opacity="0.8"/>
+  <circle cx="570" cy="132" r="58" fill="#1bf0a8" opacity="0.78"/>
+  <circle cx="690" cy="94" r="48" fill="#b14bff" opacity="0.62"/>
+  <circle cx="790" cy="142" r="54" fill="#1bf0a8" opacity="0.82"/>
+  <path d="M365 200 L470 274" stroke="#1bf0a8" stroke-width="3" opacity="0.45"/>
+  <path d="M465 150 L520 274" stroke="#00e5ff" stroke-width="3" opacity="0.45"/>
+  <path d="M570 190 L590 274" stroke="#1bf0a8" stroke-width="3" opacity="0.45"/>
+  <path d="M690 142 L665 274" stroke="#b14bff" stroke-width="3" opacity="0.35"/>
+  <path d="M790 196 L725 274" stroke="#1bf0a8" stroke-width="3" opacity="0.45"/>
+  <path d="M596 459 C610 500 632 524 670 540" fill="none" stroke="#ff3b6b" stroke-width="7" stroke-linecap="round"/>
+  <path d="M670 540 C708 558 755 548 785 520 C815 492 820 448 800 414 C780 378 736 360 697 372 C660 384 638 416 640 454" fill="#1a0c16" stroke="#ff3b6b" stroke-width="6"/>
+  <path d="M705 410 C732 398 763 410 776 436 C789 462 780 494 756 510 C730 528 696 521 678 498 C658 474 661 437 685 418" fill="#2b1020" stroke="#ff3b6b" stroke-opacity="0.7" stroke-width="4"/>
+  <path d="M190 508 C300 482 414 498 520 474 C640 447 750 470 878 438 C1000 408 1102 420 1200 390" fill="none" stroke="#1bf0a8" stroke-width="4" opacity="0.35"/>
+  <path d="M0 548 C130 520 260 536 390 514 C560 486 720 518 875 484 C1028 450 1115 466 1200 440" fill="none" stroke="#00e5ff" stroke-width="3" opacity="0.2"/>
+  <circle cx="240" cy="520" r="6" fill="#1bf0a8" opacity="0.75"/>
+  <circle cx="410" cy="492" r="5" fill="#00e5ff" opacity="0.75"/>
+  <circle cx="530" cy="472" r="7" fill="#1bf0a8" opacity="0.8"/>
+  <circle cx="910" cy="434" r="6" fill="#f5a524" opacity="0.7"/>
+  <circle cx="1040" cy="408" r="5" fill="#1bf0a8" opacity="0.7"/>
+  <polygon points="880,256 930,286 882,318" fill="#ff3b6b" opacity="0.72"/>
+  <polygon points="240,300 286,270 310,326" fill="#00e5ff" opacity="0.45"/>
+  <rect x="470" y="426" width="260" height="16" rx="8" fill="#1bf0a8" opacity="0.25"/>
+  <rect x="330" y="426" width="95" height="16" rx="8" fill="#00e5ff" opacity="0.2"/>
+  <rect x="775" y="426" width="88" height="16" rx="8" fill="#ff3b6b" opacity="0.22"/>
+</svg>
