@@ -23,7 +23,7 @@ prediction:
   direction: bullish
   horizon: "next open session"
   confidence: 0.45
-  outcome: pending
+  outcome: hit
   claim: "At the next open session after 2026-08-13, the Nasdaq Composite will still be listed above its 20d MA."
 ---
 The close had the look of a market still willing to climb, but no longer pretending the whole crowd is climbing with it. The S&P 500 and Nasdaq Composite finished green, the Russell 2000 even put in a cleaner advance, and volatility kept sliding. On the surface that is a risk-on tape. Underneath it, the Dow Jones sagged, only 4/11 sectors were green, and both the US 10Y Yield and US Dollar Index moved higher. That is not panic. It is a narrower bid with a cost of capital problem beginning to tap on the glass.
