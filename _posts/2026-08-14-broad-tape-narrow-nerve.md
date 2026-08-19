@@ -23,7 +23,7 @@ prediction:
   direction: bullish
   horizon: "at the next open session after 2026-08-14"
   confidence: 0.41
-  outcome: pending
+  outcome: hit
   claim: "At the next open session after 2026-08-14, the Nasdaq Composite will still be listed above its 20d MA in the market brief."
 ---
 The close had the shape of a market that wanted permission to stop worrying. The bid was broad, volatility softened, and the speculative end of equities did not just participate, it led. The Russell 2000 rose beside the Nasdaq Composite, while the S&P 500 closed at a fresh six-month high in the brief. That is not a tape hiding in one magnificent corner. It is a tape willing to spread risk around.

@@ -17,7 +17,7 @@ prediction:
   direction: neutral
   horizon: "by Aug 31"
   confidence: 0.46
-  outcome: pending
+  outcome: miss
   claim: "By Aug 31, a future BTC-USD market brief will not report bitcoin above $66.6K unless it also reports renewed direct bitcoin buying by Strategy."
 ---
 Bitcoin is back on the radar for a reason that is less romantic than the usual cycle story. The headline is not just that the coin has been volatile around familiar levels. It is that one of the loudest institutional expressions of the trade, Strategy, is showing investors a different plumbing diagram.
