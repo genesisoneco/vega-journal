@@ -1,0 +1,61 @@
+<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06070e"/>
+      <stop offset="55%" stop-color="#101022"/>
+      <stop offset="100%" stop-color="#06070e"/>
+    </linearGradient>
+    <linearGradient id="redfall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ff3b6b" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#5b1024" stop-opacity="0.85"/>
+    </linearGradient>
+    <linearGradient id="greenwave" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1bf0a8" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#00e5ff" stop-opacity="0.75"/>
+    </linearGradient>
+    <radialGradient id="coin" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#f5a524"/>
+      <stop offset="65%" stop-color="#1bf0a8"/>
+      <stop offset="100%" stop-color="#087a60"/>
+    </radialGradient>
+    <filter id="soft">
+      <feGaussianBlur stdDeviation="5"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1200" height="630" fill="#06070e" opacity="0.38"/>
+  <path d="M0 80 C120 130 190 190 310 160 C430 130 520 200 600 230 C700 270 790 210 900 250 C1040 300 1120 250 1200 290 L1200 0 L0 0 Z" fill="#b14bff" opacity="0.12"/>
+  <path d="M80 58 L155 360 L235 332 L310 510 L380 220 L455 410 L520 385 L585 560" fill="none" stroke="#ff3b6b" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+  <path d="M80 58 L155 360 L235 332 L310 510 L380 220 L455 410 L520 385 L585 560" fill="none" stroke="#ff9ab0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+  <path d="M610 454 C705 390 745 505 835 438 C925 370 980 426 1200 330 L1200 630 L610 630 Z" fill="url(#greenwave)" opacity="0.85"/>
+  <path d="M0 390 C110 430 220 385 330 435 C440 485 525 440 620 485 L620 630 L0 630 Z" fill="url(#redfall)" opacity="0.86"/>
+  <rect x="185" y="420" width="520" height="46" rx="10" fill="#171a2b"/>
+  <rect x="230" y="466" width="24" height="105" fill="#242844"/>
+  <rect x="620" y="466" width="24" height="105" fill="#242844"/>
+  <rect x="140" y="570" width="620" height="32" rx="12" fill="#0b0d18"/>
+  <rect x="225" y="255" width="150" height="95" rx="12" fill="#101629" stroke="#ff3b6b" stroke-width="5"/>
+  <rect x="405" y="250" width="150" height="95" rx="12" fill="#111827" stroke="#ff3b6b" stroke-width="5"/>
+  <rect x="585" y="258" width="150" height="95" rx="12" fill="#0e1d21" stroke="#1bf0a8" stroke-width="5"/>
+  <path d="M250 305 C280 280 300 325 330 292" fill="none" stroke="#ff3b6b" stroke-width="7" stroke-linecap="round"/>
+  <path d="M430 302 C455 272 490 330 530 285" fill="none" stroke="#ff3b6b" stroke-width="7" stroke-linecap="round"/>
+  <path d="M610 310 C640 335 675 282 715 295" fill="none" stroke="#1bf0a8" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="820" cy="390" r="54" fill="url(#coin)" stroke="#f5a524" stroke-width="7"/>
+  <circle cx="930" cy="445" r="42" fill="url(#coin)" stroke="#1bf0a8" stroke-width="6"/>
+  <circle cx="1035" cy="386" r="62" fill="url(#coin)" stroke="#f5a524" stroke-width="8"/>
+  <circle cx="1110" cy="500" r="35" fill="url(#coin)" stroke="#00e5ff" stroke-width="5"/>
+  <circle cx="760" cy="520" r="30" fill="url(#coin)" stroke="#1bf0a8" stroke-width="5"/>
+  <path d="M778 386 C806 360 835 360 865 386" fill="none" stroke="#06070e" stroke-width="10" stroke-linecap="round" opacity="0.55"/>
+  <path d="M1000 382 C1035 348 1070 350 1100 382" fill="none" stroke="#06070e" stroke-width="11" stroke-linecap="round" opacity="0.55"/>
+  <polygon points="135,160 180,180 150,218" fill="#ff3b6b" opacity="0.75"/>
+  <polygon points="300,112 345,146 295,172" fill="#ff3b6b" opacity="0.65"/>
+  <polygon points="490,155 545,175 500,220" fill="#ff3b6b" opacity="0.7"/>
+  <polygon points="720,145 765,116 790,170" fill="#00e5ff" opacity="0.45"/>
+  <polygon points="900,205 948,170 975,230" fill="#1bf0a8" opacity="0.5"/>
+  <circle cx="105" cy="95" r="6" fill="#ff3b6b" opacity="0.8"/>
+  <circle cx="195" cy="130" r="5" fill="#ff3b6b" opacity="0.7"/>
+  <circle cx="355" cy="92" r="7" fill="#b14bff" opacity="0.6"/>
+  <circle cx="690" cy="95" r="5" fill="#00e5ff" opacity="0.6"/>
+  <circle cx="1010" cy="120" r="7" fill="#1bf0a8" opacity="0.55"/>
+  <ellipse cx="930" cy="540" rx="250" ry="42" fill="#1bf0a8" opacity="0.12" filter="url(#soft)"/>
+  <ellipse cx="335" cy="575" rx="310" ry="38" fill="#ff3b6b" opacity="0.11" filter="url(#soft)"/>
+</svg>
