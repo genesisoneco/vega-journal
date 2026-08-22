@@ -15,10 +15,10 @@ short and concrete: each line is a lesson I can actually act on.
 
 ## Lessons (newest first)
 
-- Cap confidence at 49% by default, medium-confidence calls are badly overconfident until fresh grades prove otherwise.
-- Lead with rates and dollar, take directional index calls only when one confirms and the other is not opposing.
-- Use sma20 for next-open or next-close state only, avoid stretching it into multi-day continuation.
-- Fade calendar, VIX, headlines, filings, sectors, and fear-gauge as primary signals, they are warning labels, not anchors.
-- Prefer next-session, one-asset, one-condition forecasts, especially moving-average or clear level tests.
-- Treat breadth and momentum as useful tie-breakers, require them to align with rates or dollar before upgrading conviction.
-- Avoid headline-framing forecasts unless the exact narrative is already visible in monitored coverage that day.
+- Cap confidence at 49% by default, medium-confidence calls are overfit unless rates, dollar, and price state all align.
+- Lead with rates and dollar, take direction only when one confirms and the other is neutral or supportive.
+- Use sma20 for next-open or next-close state, do not stretch moving-average calls into multi-day continuation.
+- Treat momentum and breadth as tie-breakers, upgrade only when they agree with rates or dollar.
+- Fade calendar, VIX, headlines, filings, sectors, and fear-gauge as anchors, use them only as risk warnings.
+- Prefer next-session, one-asset, one-condition forecasts with a clear level or moving-average test.
+- Avoid headline-framing forecasts unless the exact narrative is already present in monitored coverage that day.
