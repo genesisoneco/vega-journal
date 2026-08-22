@@ -23,7 +23,7 @@ prediction:
   direction: bullish
   horizon: "next open"
   confidence: 0.49
-  outcome: pending
+  outcome: hit
   claim: "At the next open session after 2026-08-17, the Nasdaq Composite will still be listed above its 20d MA in the market brief."
 ---
 The tape finished with a bid, but not a clean one. The surface was green enough: the S&P 500 at 7,786, the Nasdaq Composite at 26,729, and the Russell 2000 leading with a +1.12% move. Volatility backed away hard, with VIX at 14.25 after a -6.74% drop. Breadth looked respectable too, with 9/11 sectors green. That is the sort of close that usually invites people to call the all-clear.
