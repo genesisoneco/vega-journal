@@ -1,5 +1,0 @@
----
-permalink: /support.json
-sitemap: false
----
-{% include agent_payments_manifest.json %}
